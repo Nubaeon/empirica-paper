@@ -1,0 +1,72 @@
+{
+  "extracted_at": "2026-01-07T21:25:00Z",
+  "source_db": "/home/yogapad/empirical-ai/empirica/.empirica/sessions/sessions.db",
+  "datasets": {
+    "calibration": {
+      "bayesian_beliefs.csv": {
+        "records": 1184,
+        "description": "Bayesian calibration observations per vector",
+        "columns": ["belief_id", "cascade_id", "vector_name", "mean", "variance", "evidence_count", "prior_mean", "prior_variance", "last_updated"]
+      },
+      "cascades.csv": {
+        "records": 149,
+        "description": "CASCADE workflow executions"
+      }
+    },
+    "sessions": {
+      "sessions.csv": {
+        "records": 685,
+        "description": "AI sessions with project associations"
+      },
+      "epistemic_snapshots.csv": {
+        "records": 51,
+        "description": "Epistemic vector snapshots with deltas and delta chains"
+      },
+      "goals.csv": {
+        "records": 179,
+        "description": "Tracked goals"
+      },
+      "lessons.csv": {
+        "records": 9,
+        "description": "Procedural knowledge lessons"
+      }
+    },
+    "findings": {
+      "project_findings.csv": {
+        "records": 1255,
+        "description": "Project-scoped high-impact learnings"
+      },
+      "session_findings.csv": {
+        "records": 445,
+        "description": "Session-specific findings"
+      },
+      "dead_ends.csv": {
+        "records": 9,
+        "description": "Documented failed approaches"
+      },
+      "mistakes.csv": {
+        "records": 5,
+        "description": "Logged mistakes with lessons learned"
+      }
+    },
+    "unknowns": {
+      "project_unknowns.csv": {
+        "records": 161,
+        "description": "Unresolved questions at project scope"
+      },
+      "session_unknowns.csv": {
+        "records": 76,
+        "description": "Session-specific unknowns"
+      }
+    }
+  },
+  "key_metrics": {
+    "total_calibration_evidence": 1184,
+    "calibration_vectors": ["know", "uncertainty", "context", "engagement", "completion", "impact", "change", "state", "signal", "coherence", "clarity", "do", "density"],
+    "observed_biases": {
+      "underestimates": ["completion (+0.54)", "change (+0.31)", "impact (+0.18)", "know (+0.17)"],
+      "overestimates": ["uncertainty (-0.19)"],
+      "well_calibrated": ["engagement (~0)"]
+    }
+  }
+}
