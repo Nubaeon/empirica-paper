@@ -20,55 +20,56 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
-    node distance=1.5cm,
-    phase/.style={rectangle, draw, rounded corners, minimum width=2.4cm, minimum height=0.9cm, fill=blue!10, font=\small\bfseries},
-    decision/.style={diamond, draw, aspect=2.5, fill=yellow!20, font=\small},
-    action/.style={rectangle, draw, minimum width=2cm, minimum height=0.8cm, fill=green!10, font=\small},
-    update/.style={rectangle, draw, rounded corners, minimum width=2.4cm, minimum height=0.9cm, fill=orange!15, font=\small\bfseries},
+    node distance=1.2cm,
+    phase/.style={rectangle, draw, rounded corners, minimum width=2.2cm, minimum height=0.8cm, fill=blue!10, font=\small\bfseries},
+    decision/.style={diamond, draw, aspect=2, fill=yellow!20, font=\small},
+    action/.style={rectangle, draw, minimum width=1.8cm, minimum height=0.7cm, fill=green!10, font=\small},
+    update/.style={rectangle, draw, rounded corners, minimum width=2.2cm, minimum height=0.8cm, fill=orange!15, font=\small\bfseries},
     label/.style={font=\scriptsize, text=gray},
     arrow/.style={-{Stealth[length=2.5mm]}, thick}
 ]
-    % Main phases - top row
+    % Top row: PREFLIGHT - CHECK - POSTFLIGHT
     \node[phase] (preflight) {PREFLIGHT};
-    \node[phase, right=2.5cm of preflight] (check) {CHECK};
-    \node[phase, right=2.5cm of check] (postflight) {POSTFLIGHT};
+    \node[phase, right=2cm of preflight] (check) {CHECK};
+    \node[phase, right=2cm of check] (postflight) {POSTFLIGHT};
 
-    % Labels under phases
-    \node[label, below=0.15cm of preflight] {Baseline};
-    \node[label, below=0.15cm of check] {Sentinel Gate};
-    \node[label, below=0.15cm of postflight] {Learning Delta};
+    \node[label, below=0.1cm of preflight] {Baseline};
+    \node[label, below=0.1cm of check] {Sentinel Gate};
+    \node[label, below=0.1cm of postflight] {Learning Delta};
 
-    % Decision diamond - below CHECK
-    \node[decision, below=2cm of check] (proceed) {PROCEED?};
+    % Second row: PROCEED diamond below CHECK
+    \node[decision, below=1.8cm of check] (proceed) {PROCEED?};
 
-    % Action boxes - side by side below decision
-    \node[action, below left=1.2cm and 1.5cm of proceed] (praxic) {PRAXIC};
-    \node[action, below right=1.2cm and 1.5cm of proceed] (noetic) {NOETIC};
-    \node[label, below=0.15cm of praxic] {(execute)};
-    \node[label, below=0.15cm of noetic] {(investigate)};
+    % Third row: PRAXIC (left) and NOETIC (right)
+    \node[action, below left=1.5cm and 2cm of proceed] (praxic) {PRAXIC};
+    \node[action, below right=1.5cm and 2cm of proceed] (noetic) {NOETIC};
+    \node[label, below=0.1cm of praxic] {(execute)};
+    \node[label, below=0.1cm of noetic] {(investigate)};
 
-    % Bayesian update - bottom center, below the action boxes
-    \node[update, below=4.5cm of check] (bayesian) {Bayesian Update};
+    % Bottom: Bayesian Update
+    \node[update, below=3.5cm of proceed] (bayesian) {Bayesian Update};
 
-    % Arrows - main flow
+    % === ARROWS ===
+
+    % Top flow: PREFLIGHT -> CHECK -> POSTFLIGHT
     \draw[arrow] (preflight) -- (check);
     \draw[arrow] (check) -- (postflight);
 
-    % Arrow from CHECK down to decision
+    % CHECK down to PROCEED
     \draw[arrow] (check) -- (proceed);
 
-    % Decision arrows
+    % PROCEED branches: YES->PRAXIC, NO->NOETIC
     \draw[arrow] (proceed) -- node[above left, font=\scriptsize] {YES} (praxic);
     \draw[arrow] (proceed) -- node[above right, font=\scriptsize] {NO} (noetic);
 
-    % Praxic goes to postflight (curved path going right and up)
-    \draw[arrow] (praxic.east) -- ++(0.5,0) |- ([yshift=-0.3cm]postflight.south) -- (postflight.south);
+    % PRAXIC -> POSTFLIGHT (curve up on left side)
+    \draw[arrow] (praxic.north) -- ++(0,0.5) -| (postflight.south);
 
-    % Noetic loops back to check (wide path around right side, avoiding PROCEED)
-    \draw[arrow, gray!60] (noetic.east) -- ++(1.5,0) |- ([yshift=0.3cm]check.east) -- (check.east);
+    % NOETIC -> CHECK (loop back on far right, outside everything)
+    \draw[arrow, gray!60] (noetic.east) -- ++(2,0) |- (check.east);
 
-    % Postflight to Bayesian
-    \draw[arrow] (postflight.south) -- ++(0,-1) -| (bayesian.north);
+    % PROCEED -> Bayesian Update
+    \draw[arrow] (proceed.south) -- (bayesian.north);
 
 \end{tikzpicture}
 \caption{The CASCADE workflow: epistemic assessment before and after task execution. The noetic loop continues until the Sentinel gate returns PROCEED.}
