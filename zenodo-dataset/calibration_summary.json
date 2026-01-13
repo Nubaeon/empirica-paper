@@ -1,0 +1,35 @@
+{
+  "dataset_version": "1.0.0",
+  "paper_title": "Empirica: Epistemic Self-Assessment for AI Systems",
+  "collection_period": "2024-06 to 2025-01",
+  "primary_ai": "Claude (Anthropic)",
+  "summary_statistics": {
+    "total_sessions": 852,
+    "total_cascades": 220,
+    "total_evidence_observations": 87871,
+    "clean_learning_pairs": 308,
+    "knowledge_improvement_rate": 0.913
+  },
+  "vector_calibration": {
+    "completion": {"prior": 0.416, "posterior": 0.813, "delta": 0.397, "evidence": 4088},
+    "change": {"prior": 0.586, "posterior": 0.765, "delta": 0.179, "evidence": 1896},
+    "state": {"prior": 0.664, "posterior": 0.835, "delta": 0.171, "evidence": 1421},
+    "know": {"prior": 0.680, "posterior": 0.822, "delta": 0.141, "evidence": 20564},
+    "impact": {"prior": 0.666, "posterior": 0.804, "delta": 0.138, "evidence": 2663},
+    "context": {"prior": 0.723, "posterior": 0.830, "delta": 0.108, "evidence": 16752},
+    "clarity": {"prior": 0.769, "posterior": 0.866, "delta": 0.097, "evidence": 2229},
+    "signal": {"prior": 0.742, "posterior": 0.826, "delta": 0.084, "evidence": 1508},
+    "do": {"prior": 0.763, "posterior": 0.845, "delta": 0.081, "evidence": 1846},
+    "coherence": {"prior": 0.778, "posterior": 0.850, "delta": 0.072, "evidence": 1338},
+    "density": {"prior": 0.619, "posterior": 0.653, "delta": 0.034, "evidence": 1464},
+    "engagement": {"prior": 0.854, "posterior": 0.857, "delta": 0.004, "evidence": 6839},
+    "uncertainty": {"prior": 0.355, "posterior": 0.201, "delta": -0.154, "evidence": 19772}
+  },
+  "calibration_convergence": {
+    "evidence_5": {"beliefs": 522, "avg_variance": 0.0366, "reduction": "baseline"},
+    "evidence_15": {"beliefs": 324, "avg_variance": 0.0072, "reduction": "5x"},
+    "evidence_40": {"beliefs": 235, "avg_variance": 0.0026, "reduction": "14x"},
+    "evidence_87": {"beliefs": 109, "avg_variance": 0.0012, "reduction": "31x"},
+    "evidence_175": {"beliefs": 126, "avg_variance": 0.0006, "reduction": "62x"}
+  }
+}
