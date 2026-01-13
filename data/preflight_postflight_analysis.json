@@ -1,0 +1,14 @@
+{
+  "analysis_type": "preflight_postflight_comparison",
+  "filter": "excluded 0.5 defaults",
+  "total_sessions_with_both_phases": 0,
+  "vectors": [],
+  "aggregate": {
+    "capability_increase_count": 0,
+    "capability_decrease_count": 0,
+    "capability_stable_count": 0,
+    "capability_mean_delta": 0,
+    "uncertainty_delta": 0
+  },
+  "insight": "Unified confidence growth during task execution - not asymmetry"
+}

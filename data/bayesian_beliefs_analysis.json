@@ -1,0 +1,118 @@
+{
+  "analysis_type": "bayesian_beliefs_prior_posterior",
+  "filter": "evidence_count >= 3, excluded 0.5 defaults",
+  "total_evidence": 35581,
+  "total_belief_records": 1049,
+  "vectors": [
+    {
+      "vector": "change",
+      "n": 56,
+      "prior_mean": 0.594,
+      "posterior_mean": 0.811,
+      "delta": 0.217,
+      "total_evidence": 928
+    },
+    {
+      "vector": "clarity",
+      "n": 63,
+      "prior_mean": 0.752,
+      "posterior_mean": 0.88,
+      "delta": 0.128,
+      "total_evidence": 1180
+    },
+    {
+      "vector": "coherence",
+      "n": 47,
+      "prior_mean": 0.758,
+      "posterior_mean": 0.863,
+      "delta": 0.105,
+      "total_evidence": 676
+    },
+    {
+      "vector": "completion",
+      "n": 76,
+      "prior_mean": 0.414,
+      "posterior_mean": 0.827,
+      "delta": 0.413,
+      "total_evidence": 1778
+    },
+    {
+      "vector": "context",
+      "n": 139,
+      "prior_mean": 0.747,
+      "posterior_mean": 0.851,
+      "delta": 0.104,
+      "total_evidence": 7070
+    },
+    {
+      "vector": "density",
+      "n": 51,
+      "prior_mean": 0.645,
+      "posterior_mean": 0.7,
+      "delta": 0.055,
+      "total_evidence": 778
+    },
+    {
+      "vector": "do",
+      "n": 59,
+      "prior_mean": 0.744,
+      "posterior_mean": 0.864,
+      "delta": 0.12,
+      "total_evidence": 1030
+    },
+    {
+      "vector": "engagement",
+      "n": 97,
+      "prior_mean": 0.851,
+      "posterior_mean": 0.869,
+      "delta": 0.018,
+      "total_evidence": 3651
+    },
+    {
+      "vector": "impact",
+      "n": 61,
+      "prior_mean": 0.61,
+      "posterior_mean": 0.814,
+      "delta": 0.204,
+      "total_evidence": 1103
+    },
+    {
+      "vector": "know",
+      "n": 149,
+      "prior_mean": 0.69,
+      "posterior_mean": 0.838,
+      "delta": 0.147,
+      "total_evidence": 7915
+    },
+    {
+      "vector": "signal",
+      "n": 52,
+      "prior_mean": 0.74,
+      "posterior_mean": 0.849,
+      "delta": 0.109,
+      "total_evidence": 806
+    },
+    {
+      "vector": "state",
+      "n": 50,
+      "prior_mean": 0.702,
+      "posterior_mean": 0.853,
+      "delta": 0.151,
+      "total_evidence": 751
+    },
+    {
+      "vector": "uncertainty",
+      "n": 149,
+      "prior_mean": 0.329,
+      "posterior_mean": 0.181,
+      "delta": -0.149,
+      "total_evidence": 7915
+    }
+  ],
+  "interpretation": {
+    "capability_mean_delta": 0.148,
+    "uncertainty_delta": -0.149,
+    "uncertainty_inverted_delta": 0.149,
+    "insight": "Unified confidence growth - not asymmetry"
+  }
+}

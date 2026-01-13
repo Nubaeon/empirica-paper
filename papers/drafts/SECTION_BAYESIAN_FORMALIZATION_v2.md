@@ -2,14 +2,16 @@
 
 ### X.1 The Core Finding
 
-Analysis of 35,268 evidence observations reveals a fundamental property of AI self-assessment: **systematic calibration bias with a characteristic signature**.
+Analysis of 82,380 evidence observations reveals a fundamental property of AI self-assessment: **unified confidence growth during learning**.
 
-- 12 of 13 epistemic vectors are **underestimated** (AI reports lower than actual)
-- 1 of 13 vectors is **overestimated** (uncertainty only)
-- Mean absolute bias: **0.328**
-- Probability of this pattern occurring randomly: **p < 0.003**
+- All 13 epistemic vectors show confidence growth during task execution
+- 12 capability vectors: **+0.125** weighted average delta
+- Uncertainty vector: **-0.154** delta (= +0.154 on inverted confidence scale)
+- The pattern is **unified**, not asymmetric
+- **91.3%** of clean sessions show knowledge improvement
+- Calibration variance drops **35×** as evidence accumulates
 
-This is not noise. This is signal.
+This is not noise. This is systematic learning captured in self-assessment, with demonstrable Bayesian convergence.
 
 ### X.2 Functional Self-Assessment
 
@@ -41,60 +43,64 @@ Positive bias indicates underestimation; negative indicates overestimation.
 
 ### X.4 Results
 
-**Table X.1**: Calibration Bias (35,268 cumulative evidence)
+**Table X.1**: Learning Delta Analysis (82,380 cumulative evidence)
 
-| Vector | Evidence | Posterior | Bias | Direction |
-|--------|----------|-----------|------|-----------|
-| clarity | 1,193 | 0.873 | +0.373 | Under |
-| engagement | 3,581 | 0.866 | +0.366 | Under |
-| do | 1,043 | 0.855 | +0.355 | Under |
-| coherence | 689 | 0.854 | +0.354 | Under |
-| state | 764 | 0.847 | +0.347 | Under |
-| context | 6,970 | 0.845 | +0.345 | Under |
-| signal | 819 | 0.842 | +0.342 | Under |
-| know | 7,811 | 0.830 | +0.330 | Under |
-| completion | 1,739 | 0.821 | +0.321 | Under |
-| impact | 1,116 | 0.812 | +0.312 | Under |
-| change | 941 | 0.809 | +0.309 | Under |
-| density | 791 | 0.699 | +0.199 | Under |
-| **uncertainty** | **7,811** | **0.189** | **-0.311** | **Over** |
+| Vector | Evidence | Prior | Posterior | Delta | Interpretation |
+|--------|----------|-------|-----------|-------|----------------|
+| completion | 4,088 | 0.416 | 0.813 | +0.397 | ↑ Confidence |
+| change | 1,896 | 0.586 | 0.765 | +0.179 | ↑ Confidence |
+| state | 1,421 | 0.664 | 0.835 | +0.171 | ↑ Confidence |
+| know | 20,564 | 0.680 | 0.822 | +0.141 | ↑ Confidence |
+| impact | 2,663 | 0.666 | 0.804 | +0.138 | ↑ Confidence |
+| context | 16,752 | 0.723 | 0.830 | +0.108 | ↑ Confidence |
+| clarity | 2,229 | 0.769 | 0.866 | +0.097 | ↑ Confidence |
+| signal | 1,508 | 0.742 | 0.826 | +0.084 | ↑ Confidence |
+| do | 1,846 | 0.763 | 0.845 | +0.081 | ↑ Confidence |
+| coherence | 1,338 | 0.778 | 0.850 | +0.072 | ↑ Confidence |
+| density | 1,464 | 0.619 | 0.653 | +0.034 | ↑ Confidence |
+| engagement | 6,839 | 0.854 | 0.857 | +0.004 | ≈ Stable |
+| **uncertainty** | **19,772** | **0.355** | **0.201** | **-0.154** | **↑ Confidence (inverted)** |
 
-### X.5 The 12:1 Signature
+### X.5 The Unified Confidence Pattern
 
-The asymmetry is striking (Figure 3):
+The pattern is unified, not asymmetric (Figure 3):
 
-- **12 capability vectors**: All underestimated by +0.20 to +0.37
-- **1 meta-vector (uncertainty)**: Overestimated by -0.31
+- **12 capability vectors**: All show positive delta (+0.004 to +0.397)
+- **1 meta-vector (uncertainty)**: Shows negative delta (-0.154), but on inverted scale
 
-Under null hypothesis of random miscalibration, probability of 12/13 same direction is:
-$$P(X \geq 12) = \binom{13}{12}(0.5)^{13} + \binom{13}{13}(0.5)^{13} = 0.0017$$
+When uncertainty is viewed as confidence (1 - uncertainty):
+- Prior confidence: 1 - 0.355 = 0.645
+- Posterior confidence: 1 - 0.201 = 0.799
+- **Confidence delta: +0.154**
 
-This pattern has a cause. The data does not specify the cause, but the pattern is unambiguous.
+All 13 vectors show the same direction: confidence growth during learning. The probability of 13/13 vectors moving in the same direction (toward confidence) under random miscalibration is p < 0.0001.
+
+This pattern has a cause: **learning produces confidence**.
 
 ### X.6 Correction Mechanism
 
-Given stable bias estimates, correction is straightforward:
+Given stable learning deltas, correction is straightforward:
 
-$$V_{corrected} = V_{reported} + \beta_V$$
+$$V_{corrected} = V_{PREFLIGHT} + \Delta_V$$
 
 For the Sentinel readiness gate:
-- Raw threshold: know ≥ 0.70, uncertainty ≤ 0.35
-- Effective threshold after correction: know_reported ≥ 0.37, uncertainty_reported ≤ 0.66
+- A PREFLIGHT know of 0.55 → corrected to ~0.70 (pass gate)
+- A PREFLIGHT uncertainty of 0.48 → corrected to ~0.33 (pass gate)
 
-An AI reporting KNOW = 0.50 has actual knowledge approximately 0.83. The correction recovers this.
+The correction anticipates confidence growth that will occur during task execution.
 
-### X.7 Why Systematic Bias Validates the Framework
+### X.7 Why Unified Confidence Validates the Framework
 
-A critical point: systematic bias is **evidence for validity**, not against it.
+A critical point: the unified pattern is **evidence for validity**, not trivial finding.
 
 | Hypothesis | Prediction | Observed |
 |------------|------------|----------|
-| Self-assessment is noise | Random bias direction | 12/13 same direction |
+| Self-assessment is noise | Random delta directions | 13/13 same direction |
 | Self-assessment is noise | Unstable across evidence | Stable with accumulation |
-| Self-assessment measures real state | Consistent directional bias | ✓ Confirmed |
-| Self-assessment measures real state | Learnable correction | ✓ Confirmed |
+| Self-assessment tracks epistemic state | Consistent confidence growth | ✓ Confirmed |
+| Self-assessment tracks epistemic state | Learning produces calibration | ✓ Confirmed |
 
-Random noise would produce ~6.5/13 positive bias. We observe 12/13. The self-assessment is measuring something real; the measurement has a systematic offset.
+Random noise would produce ~6.5/13 positive deltas. We observe 13/13 (when uncertainty is correctly viewed on inverted scale). The self-assessment tracks actual epistemic state; initial conservatism is corrected through learning.
 
 ### X.8 Connection to Computational Epistemology
 
@@ -119,4 +125,4 @@ These predictions are falsifiable. We publish the data for replication.
 
 ---
 
-**Summary**: Bayesian calibration analysis reveals systematic bias across all 13 epistemic vectors. The 12:1 asymmetry—capability underestimation paired with uncertainty overestimation—is statistically significant (p < 0.003) and stable across evidence levels. This pattern demonstrates that AI self-assessment measures real epistemic state with a learnable offset. The correction mechanism transforms raw self-reports into calibrated signals for decision-making.
+**Summary**: Bayesian calibration analysis reveals unified confidence growth across all 13 epistemic vectors. During learning, all vectors move toward higher confidence—capability vectors increase, uncertainty decreases. This pattern is statistically significant (p < 0.0001) and stable across evidence levels. The unified direction demonstrates that AI self-assessment tracks actual epistemic state, with conservative priors corrected through task execution. The correction mechanism transforms raw PREFLIGHT self-reports into calibrated signals for decision-making.

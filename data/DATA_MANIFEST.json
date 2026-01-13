@@ -1,30 +1,38 @@
 {
-  "extracted_at": "2026-01-07T21:25:00Z",
+  "extracted_at": "2026-01-13T12:00:00Z",
   "source_db": "/home/yogapad/empirical-ai/empirica/.empirica/sessions/sessions.db",
   "datasets": {
     "calibration": {
       "bayesian_beliefs.csv": {
-        "records": 1184,
+        "records": 1838,
         "description": "Bayesian calibration observations per vector",
         "columns": ["belief_id", "cascade_id", "vector_name", "mean", "variance", "evidence_count", "prior_mean", "prior_variance", "last_updated"]
       },
       "cascades.csv": {
-        "records": 149,
+        "records": 216,
         "description": "CASCADE workflow executions"
       }
     },
     "sessions": {
       "sessions.csv": {
-        "records": 685,
+        "records": 849,
         "description": "AI sessions with project associations"
+      },
+      "learning_deltas_clean.csv": {
+        "records": 308,
+        "description": "Clean PREFLIGHT->POSTFLIGHT pairs (filtered: no 50-50-50 defaults, complete workflows only)"
       },
       "epistemic_snapshots.csv": {
         "records": 51,
         "description": "Epistemic vector snapshots with deltas and delta chains"
       },
       "goals.csv": {
-        "records": 179,
+        "records": 278,
         "description": "Tracked goals"
+      },
+      "handoff_reports.csv": {
+        "records": 5478,
+        "description": "Session handoff reports for continuity"
       },
       "lessons.csv": {
         "records": 9,
@@ -33,15 +41,15 @@
     },
     "findings": {
       "project_findings.csv": {
-        "records": 1255,
+        "records": 1374,
         "description": "Project-scoped high-impact learnings"
       },
       "session_findings.csv": {
-        "records": 445,
+        "records": 564,
         "description": "Session-specific findings"
       },
       "dead_ends.csv": {
-        "records": 9,
+        "records": 26,
         "description": "Documented failed approaches"
       },
       "mistakes.csv": {
@@ -51,7 +59,7 @@
     },
     "unknowns": {
       "project_unknowns.csv": {
-        "records": 161,
+        "records": 193,
         "description": "Unresolved questions at project scope"
       },
       "session_unknowns.csv": {
@@ -61,12 +69,35 @@
     }
   },
   "key_metrics": {
-    "total_calibration_evidence": 1184,
+    "clean_learning_sessions": 308,
+    "total_calibration_evidence": 1838,
     "calibration_vectors": ["know", "uncertainty", "context", "engagement", "completion", "impact", "change", "state", "signal", "coherence", "clarity", "do", "density"],
+    "learning_deltas": {
+      "pre_know_mean": 0.686,
+      "post_know_mean": 0.857,
+      "delta_know": 0.171,
+      "pre_uncertainty_mean": 0.387,
+      "post_uncertainty_mean": 0.153,
+      "delta_uncertainty": -0.234,
+      "knowledge_improvement_rate": 0.912,
+      "uncertainty_reduction_rate": 0.951
+    },
     "observed_biases": {
       "underestimates": ["completion (+0.54)", "change (+0.31)", "impact (+0.18)", "know (+0.17)"],
       "overestimates": ["uncertainty (-0.19)"],
       "well_calibrated": ["engagement (~0)"]
+    },
+    "filtering_notes": {
+      "excluded_default_vectors": "Sessions with PREFLIGHT vectors of exactly (0.5, 0.5, 0.5) for know/uncertainty/context",
+      "excluded_incomplete": "Sessions without matching POSTFLIGHT assessment",
+      "polluted_sessions_removed": 232
     }
+  },
+  "growth_since_last_extraction": {
+    "previous_date": "2026-01-07",
+    "sessions": "+164 (685 -> 849)",
+    "bayesian_beliefs": "+654 (1184 -> 1838)",
+    "cascades": "+67 (149 -> 216)",
+    "clean_learning_pairs": "+122 (186 -> 308)"
   }
 }

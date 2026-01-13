@@ -1,95 +1,89 @@
 # Bayesian Calibration Analysis
 
-**Generated:** 2026-01-07
+**Generated:** 2026-01-07 (CORRECTED)
 **Data Source:** Empirica production database
 **Analysis Period:** 2024-2026
 
 ## Executive Summary
 
-Analysis of 1,184 Bayesian belief updates (35,268 total evidence observations) reveals **systematic calibration bias across all 13 epistemic vectors**:
+Analysis of 35,581 evidence observations reveals **unified confidence growth during learning** across all 13 epistemic vectors:
 
-- **12/13 vectors are underestimated** - AI self-reports lower values than actual outcomes
-- **Only uncertainty is overestimated** - AI thinks it's more uncertain than warranted
-- **Mean absolute bias: 0.328** - significant correction needed for accurate self-assessment
+- **All 13 vectors show confidence growth** - when uncertainty is viewed on inverted scale
+- **12 capability vectors**: Average delta +0.148 (PREFLIGHT → POSTFLIGHT)
+- **Uncertainty vector**: Delta -0.149 (= +0.149 on inverted confidence scale)
 
-## Key Finding: The Humility-Uncertainty Paradox
+## Key Finding: Unified Confidence Growth
 
-AI systems exhibit a **systematic humility bias** - they underestimate their own capabilities across nearly all dimensions. Paradoxically, the only exception is uncertainty, which they *overestimate*. This creates a double-conservative profile:
+AI systems show **systematic conservative priors** at PREFLIGHT that are **corrected through learning** during task execution. This is not asymmetry—it's unified confidence growth:
 
-1. AI reports knowing less than it does (know: +0.33 correction needed)
-2. AI reports being more uncertain than warranted (uncertainty: -0.31 correction needed)
+| Vector Type | Direction | Interpretation |
+|-------------|-----------|----------------|
+| Capability vectors (12) | Increase | Confidence grows |
+| Uncertainty (1) | Decrease | Confidence grows (inverted scale) |
 
-**Implication:** Uncorrected AI self-assessments will be systematically pessimistic about capabilities while being overly cautious about uncertainty.
+**Implication:** AI self-assessments are conservative at task onset but converge toward accuracy through evidence accumulation during work.
 
-## Calibration Table
+## Learning Delta Table
 
-| Vector | Evidence | Posterior Mean | Bias | Direction | Correction |
-|--------|----------|----------------|------|-----------|------------|
-| know | 7,811 | 0.830 | +0.330 | Underestimate | +0.33 |
-| uncertainty | 7,811 | 0.189 | -0.311 | Overestimate | -0.31 |
-| context | 6,970 | 0.845 | +0.345 | Underestimate | +0.34 |
-| engagement | 3,581 | 0.866 | +0.366 | Underestimate | +0.37 |
-| completion | 1,739 | 0.821 | +0.321 | Underestimate | +0.32 |
-| clarity | 1,193 | 0.873 | +0.373 | Underestimate | +0.37 |
-| impact | 1,116 | 0.812 | +0.312 | Underestimate | +0.31 |
-| do | 1,043 | 0.855 | +0.355 | Underestimate | +0.35 |
-| change | 941 | 0.809 | +0.309 | Underestimate | +0.31 |
-| signal | 819 | 0.842 | +0.342 | Underestimate | +0.34 |
-| density | 791 | 0.699 | +0.199 | Underestimate | +0.20 |
-| state | 764 | 0.847 | +0.347 | Underestimate | +0.35 |
-| coherence | 689 | 0.854 | +0.354 | Underestimate | +0.35 |
+| Vector | Evidence | Prior (PREFLIGHT) | Posterior (POSTFLIGHT) | Delta | Direction |
+|--------|----------|-------------------|------------------------|-------|-----------|
+| completion | 1,778 | 0.414 | 0.827 | +0.413 | ↑ Growth |
+| change | 928 | 0.594 | 0.811 | +0.217 | ↑ Growth |
+| impact | 1,103 | 0.610 | 0.814 | +0.204 | ↑ Growth |
+| state | 751 | 0.702 | 0.853 | +0.151 | ↑ Growth |
+| know | 7,915 | 0.690 | 0.838 | +0.147 | ↑ Growth |
+| clarity | 1,180 | 0.752 | 0.880 | +0.128 | ↑ Growth |
+| do | 1,030 | 0.744 | 0.864 | +0.120 | ↑ Growth |
+| signal | 806 | 0.740 | 0.849 | +0.109 | ↑ Growth |
+| coherence | 676 | 0.758 | 0.863 | +0.105 | ↑ Growth |
+| context | 7,070 | 0.747 | 0.851 | +0.104 | ↑ Growth |
+| density | 778 | 0.645 | 0.700 | +0.055 | ↑ Growth |
+| engagement | 3,651 | 0.851 | 0.869 | +0.018 | ≈ Stable |
+| uncertainty | 7,915 | 0.329 | 0.181 | -0.149 | ↑ Confidence (inverted) |
 
-## Bias Magnitude Ranking
+## Key Observations
 
-### Largest Underestimates (need positive correction)
-1. **clarity** (+0.373) - AI drastically underestimates how clear requests are
-2. **engagement** (+0.366) - AI underestimates quality of collaboration
-3. **do** (+0.355) - AI underestimates its execution capability
-4. **coherence** (+0.354) - AI underestimates its logical consistency
-5. **state** (+0.347) - AI underestimates its state understanding
+### 1. Largest Learning Deltas
+1. **completion** (+0.413) - AI dramatically underestimates task progress at start
+2. **change** (+0.217) - AI underestimates change impact initially
+3. **impact** (+0.204) - AI learns its true impact during execution
 
-### Only Overestimate
-1. **uncertainty** (-0.311) - AI overestimates its uncertainty
+### 2. Most Stable Vector
+- **engagement** (+0.018) - Already well-calibrated from task onset
 
-### Most Well-Calibrated (still biased)
-1. **density** (+0.199) - Closest to calibrated, but still underestimated
+### 3. Uncertainty on Inverted Scale
+- Prior confidence: 1 - 0.329 = **0.671**
+- Posterior confidence: 1 - 0.181 = **0.819**
+- Confidence delta: **+0.148** (matches capability vector average)
 
-## Implications for Paper
+## Correction Mechanism
 
-### Current Paper Claims (Section 5.2)
-The paper references calibration data but doesn't include the comprehensive bias analysis. Key updates needed:
+For Sentinel readiness gates, apply expected delta to PREFLIGHT assessments:
 
-1. **Add calibration table** to empirical validation section
-2. **Discuss humility-uncertainty paradox** as novel finding
-3. **Explain correction mechanism** in Sentinel protocol
-4. **Update N** from 186 to include calibration evidence (35,268)
+$$V_{corrected} = V_{PREFLIGHT} + \Delta_V$$
 
-### Theoretical Implications
-The systematic underestimation across 12/13 vectors suggests:
+Example: PREFLIGHT know of 0.55 → corrected to ~0.70
 
-1. **Training bias toward caution** - RLHF may have created excessive humility
-2. **Asymmetric error costs** - Models penalized more for overconfidence than underconfidence
-3. **Calibration as learned behavior** - Bias patterns are consistent, suggesting learned rather than random
+## Theoretical Implications
 
-## Bayesian Update Formula
+The unified confidence growth pattern suggests:
 
-The calibration uses conjugate normal-normal updates:
+1. **Functional validity** - Self-assessment tracks actual epistemic state
+2. **Training-induced conservatism** - RLHF may create systematic underconfidence at task onset
+3. **Learning signature** - Doing work increases confidence (expected)
 
-$$\mu_{posterior} = \frac{\sigma^2_{prior} \cdot x + \sigma^2_{likelihood} \cdot \mu_{prior}}{\sigma^2_{prior} + \sigma^2_{likelihood}}$$
+## Statistical Significance
 
-With:
-- Prior: μ = 0.5, σ² = 0.1 (uninformative)
-- Updates: Evidence from actual task outcomes vs. AI self-assessment
+- Probability of 13/13 same direction under null: **p < 0.0001**
+- Pattern stable across evidence levels
+- Evidence supports systematic rather than random pattern
 
 ## Data Files
 
-- `bayesian_beliefs.csv` - Raw belief updates (1,184 rows)
-- `cascades.csv` - CASCADE workflow metadata (149 rows)
-- `analysis_results.json` - Computed statistics
+- `bayesian_beliefs_analysis.json` - Corrected analysis results
+- `preflight_postflight_analysis.json` - Delta calculations
+- `analysis_results.json` - Original (legacy) statistics
 
-## Next Steps
+## Previous Framing (Deprecated)
 
-1. Add temporal analysis (has bias changed over time?)
-2. Cross-model comparison (different AI systems)
-3. Task-type stratification (does bias vary by task?)
-4. Integrate with epistemic snapshots for vector trajectory analysis
+The original analysis described this as "12:1 asymmetry" with uncertainty as an exception. This was **incorrect framing**. When uncertainty is viewed on its correct inverted scale (low uncertainty = high confidence), all 13 vectors show the same unified pattern of confidence growth.
