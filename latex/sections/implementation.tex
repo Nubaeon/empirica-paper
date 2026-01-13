@@ -64,8 +64,10 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
     % Praxic goes to postflight (curved path going right and up)
     \draw[arrow] (praxic.east) -- ++(0.5,0) |- ([yshift=-0.3cm]postflight.south) -- (postflight.south);
 
-    % Noetic loops back to check (curved path going left and up)
-    \draw[arrow] (noetic.west) -- ++(-0.5,0) |- ([yshift=0.5cm]proceed.north) -- (proceed.north);
+    % Noetic loops back to check (curved path behind proceed)
+    \begin{scope}[on background layer]
+        \draw[arrow, gray!60] (noetic.north) -- ++(0,0.5) -| ([xshift=1.5cm]check.south) -- (check.south);
+    \end{scope}
 
     % Postflight to Bayesian
     \draw[arrow] (postflight.south) -- ++(0,-1) -| (bayesian.north);
@@ -79,16 +81,17 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
 
 At task onset, the AI assesses its epistemic state across all 13 vectors. This establishes the baseline against which learning will be measured.
 
-\begin{lstlisting}[language=bash,caption={Example PREFLIGHT submission}]
+\begin{lstlisting}[language=bash,caption={Example PREFLIGHT submission},showspaces=false,showstringspaces=false]
 empirica preflight-submit - << EOF
 {
-  "session_id": "...",
+  "session_id": "abc123",
   "vectors": {
-    "know": 0.55, "uncertainty": 0.40,
-    "context": 0.70, "engagement": 0.85, ...
+    "know": 0.55,
+    "uncertainty": 0.40,
+    "context": 0.70,
+    "engagement": 0.85
   },
-  "reasoning": "Initial assessment: familiar domain
-               but specific codebase unknown"
+  "reasoning": "Familiar domain but codebase unknown"
 }
 EOF
 \end{lstlisting}
