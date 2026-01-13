@@ -62,9 +62,9 @@ That's it. State comparison. Git doesn't need consciousness to track file change
 
 The vectors aren't asking "how do I feel about my confidence?" They're asking: given this context, this task framing, this domain - what's the information state?
 
-## The Evidence: 82,380 Observations
+## The Evidence: 87,871 Observations
 
-We've collected **82,380 Bayesian evidence observations** across 849 sessions. Filtering for data quality (complete workflows, no default vectors) yields 308 clean learning pairs.
+We've collected **87,871 Bayesian evidence observations** across 852 sessions. Filtering for data quality (complete workflows, no default vectors) yields 308 clean learning pairs.
 
 **Learning delta results (N=308):**
 - 91.3% of sessions showed knowledge improvement
@@ -134,12 +134,16 @@ The measurements work. What that means is up to you.
 
 ## Further Reading
 
-**Full paper:** [Grounding Through Epistemic Metacognition](../papers/drafts/EPISTEMIC_GROUNDING_PAPER.md) - formal treatment with CASCADE protocol, 13-dimensional epistemic state space, and proactive hallucination detection.
+**Full paper + dataset:** [Empirica: Epistemic Self-Assessment for AI Systems](https://doi.org/10.5281/zenodo.18237263) - 30 pages, CASCADE protocol, 13-dimensional epistemic vectors, Bayesian calibration analysis.
 
-**Data:** 82,380 evidence observations across 849 sessions. 308 clean learning pairs showing +0.172 mean knowledge delta, 91.3% improvement rate, 62× calibration convergence.
+**Data:** 87,871 evidence observations across 852 sessions. 308 clean learning pairs showing +0.172 mean knowledge delta, 91.3% improvement rate, 62× calibration convergence.
 
 **Code:** [Empirica](https://github.com/Nubaeon/empirica) - open source epistemic infrastructure for AI systems.
 
 ---
 
 *The measurements are real. The interpretation is yours.*
+
+---
+
+**Note:** Independent researcher here. If anyone has arXiv endorsement for cs.AI and is willing to help get this on arXiv, I'd really appreciate it. The endorsement system is... gatekeepy.
