@@ -170,23 +170,23 @@ If these predictions fail, the framework is wrong. We publish data for replicati
 
 The theoretical framework explains a common failure mode: the \textbf{overconfidence trap}.
 
-\begin{lstlisting}[caption={The overconfidence trap and its resolution}]
+\begin{lstlisting}[caption={The overconfidence trap and its resolution},literate={->}{$\rightarrow$}2]
 Conditions:
   UNCERTAINTY: LOW  (AI thinks it knows)
   KNOW: LOW        (AI doesn't actually know)
 
 Without epistemic gating:
-  -> AI proceeds immediately (no investigation)
-  -> AI produces confident, wrong output
-  -> User loses trust
+  => AI proceeds immediately (no investigation)
+  => AI produces confident, wrong output
+  => User loses trust
 
 With epistemic gating:
-  -> Gate detects KNOW < threshold
-  -> AI forced to investigate (noetic phase)
-  -> Investigation produces learning
-  -> KNOW increases to threshold
-  -> AI proceeds with actual capability
-  -> Output quality improves
+  => Gate detects KNOW < threshold
+  => AI forced to investigate (noetic phase)
+  => Investigation produces learning
+  => KNOW increases to threshold
+  => AI proceeds with actual capability
+  => Output quality improves
 \end{lstlisting}
 
 The gate doesn't just prevent bad outputs---it produces good outputs by forcing the learning that creates capability.

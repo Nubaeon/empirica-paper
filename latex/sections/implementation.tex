@@ -20,46 +20,58 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
-    node distance=1.2cm,
-    phase/.style={rectangle, draw, rounded corners, minimum width=2.2cm, minimum height=0.8cm, fill=blue!10},
-    decision/.style={diamond, draw, aspect=2, minimum width=1.5cm, fill=yellow!20},
-    action/.style={rectangle, draw, minimum width=1.8cm, minimum height=0.7cm, fill=green!10},
+    node distance=1.5cm,
+    phase/.style={rectangle, draw, rounded corners, minimum width=2.4cm, minimum height=0.9cm, fill=blue!10, font=\small\bfseries},
+    decision/.style={diamond, draw, aspect=2.5, fill=yellow!20, font=\small},
+    action/.style={rectangle, draw, minimum width=2cm, minimum height=0.8cm, fill=green!10, font=\small},
+    update/.style={rectangle, draw, rounded corners, minimum width=2.4cm, minimum height=0.9cm, fill=orange!15, font=\small\bfseries},
     label/.style={font=\scriptsize, text=gray},
-    arrow/.style={-{Stealth[length=2mm]}, thick}
+    arrow/.style={-{Stealth[length=2.5mm]}, thick}
 ]
-    % Main phases
+    % Main phases - top row
     \node[phase] (preflight) {PREFLIGHT};
-    \node[phase, right=2cm of preflight] (check) {CHECK};
-    \node[phase, right=2cm of check] (postflight) {POSTFLIGHT};
+    \node[phase, right=2.5cm of preflight] (check) {CHECK};
+    \node[phase, right=2.5cm of check] (postflight) {POSTFLIGHT};
 
     % Labels under phases
-    \node[label, below=0.1cm of preflight] {Baseline};
-    \node[label, below=0.1cm of check] {Sentinel Gate};
-    \node[label, below=0.1cm of postflight] {Learning Delta};
+    \node[label, below=0.15cm of preflight] {Baseline};
+    \node[label, below=0.15cm of check] {Sentinel Gate};
+    \node[label, below=0.15cm of postflight] {Learning Delta};
 
-    % Decision diamond
-    \node[decision, below=1.5cm of check] (proceed) {PROCEED?};
+    % Decision diamond - below CHECK
+    \node[decision, below=2cm of check] (proceed) {PROCEED?};
 
-    % Action boxes
-    \node[action, below left=1cm and 0.5cm of proceed] (praxic) {PRAXIC};
-    \node[action, below right=1cm and 0.5cm of proceed] (noetic) {NOETIC};
-    \node[label, below=0.1cm of praxic] {(execute)};
-    \node[label, below=0.1cm of noetic] {(investigate)};
+    % Action boxes - side by side below decision
+    \node[action, below left=1.2cm and 1.5cm of proceed] (praxic) {PRAXIC};
+    \node[action, below right=1.2cm and 1.5cm of proceed] (noetic) {NOETIC};
+    \node[label, below=0.15cm of praxic] {(execute)};
+    \node[label, below=0.15cm of noetic] {(investigate)};
 
-    % Bayesian update
-    \node[phase, below=3.5cm of postflight, fill=orange!10] (bayesian) {Bayesian Update};
+    % Bayesian update - bottom center, below the action boxes
+    \node[update, below=4.5cm of check] (bayesian) {Bayesian Update};
 
-    % Arrows
+    % Arrows - main flow
     \draw[arrow] (preflight) -- (check);
     \draw[arrow] (check) -- (postflight);
+
+    % Arrow from CHECK down to decision
     \draw[arrow] (check) -- (proceed);
-    \draw[arrow] (proceed) -- node[left, font=\scriptsize] {YES} (praxic);
-    \draw[arrow] (proceed) -- node[right, font=\scriptsize] {NO} (noetic);
-    \draw[arrow] (praxic) |- (postflight);
-    \draw[arrow] (noetic) -- ++(0,-0.8) -| (check);
-    \draw[arrow] (postflight) -- (bayesian);
+
+    % Decision arrows
+    \draw[arrow] (proceed) -- node[above left, font=\scriptsize] {YES} (praxic);
+    \draw[arrow] (proceed) -- node[above right, font=\scriptsize] {NO} (noetic);
+
+    % Praxic goes to postflight (curved path going right and up)
+    \draw[arrow] (praxic.east) -- ++(0.5,0) |- ([yshift=-0.3cm]postflight.south) -- (postflight.south);
+
+    % Noetic loops back to check (curved path going left and up)
+    \draw[arrow] (noetic.west) -- ++(-0.5,0) |- ([yshift=0.5cm]proceed.north) -- (proceed.north);
+
+    % Postflight to Bayesian
+    \draw[arrow] (postflight.south) -- ++(0,-1) -| (bayesian.north);
+
 \end{tikzpicture}
-\caption{The CASCADE workflow: epistemic assessment before and after task execution.}
+\caption{The CASCADE workflow: epistemic assessment before and after task execution. The noetic loop continues until the Sentinel gate returns PROCEED.}
 \label{fig:cascade-workflow}
 \end{figure}
 
