@@ -189,6 +189,18 @@ The ENGAGEMENT vector's near-zero delta suggests potential alignment application
     \item How do jailbreak attempts manifest in epistemic vectors?
 \end{itemize}
 
+\paragraph{DENSITY as Safety Signal}
+
+Preliminary observations suggest extreme DENSITY values (approaching 1.0) correlate with AI system freezes or halts. This could indicate:
+
+\begin{itemize}
+    \item \textbf{Cognitive overload}: Information packing exceeds processing capacity
+    \item \textbf{Natural circuit breaker}: A safety mechanism preventing action under information saturation
+    \item \textbf{Adversarial signature}: Prompt injection attacks often maximize information density to overwhelm context windows
+\end{itemize}
+
+The relationship between information density and system stability merits investigation. If high DENSITY reliably predicts system failure or adversarial input, it could serve as an early-warning signal for epistemic gating.
+
 \subsubsection{Real-Time and Streaming Applications}
 
 Production deployment may require lower-latency epistemic assessment:
