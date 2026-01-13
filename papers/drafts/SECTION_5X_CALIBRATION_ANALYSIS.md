@@ -111,16 +111,17 @@ The present contribution is empirical: **systematic confidence growth during lea
 
 A key validation of the Bayesian framework is **calibration convergence**: as evidence accumulates, belief variance should decrease, indicating tighter calibration. We observe exactly this pattern:
 
-**Table 5b**: Calibration Convergence by Evidence Tier
+**Table 5b**: Calibration Convergence by Evidence Level
 
-| Evidence Tier | Beliefs | Avg Variance | Variance Reduction |
-|---------------|---------|--------------|-------------------|
-| Low (<20) | 846 | 0.02534 | baseline |
-| Medium (20-50) | 474 | 0.00336 | 7.5× tighter |
-| High (50-100) | 262 | 0.00145 | 17× tighter |
-| Very High (100+) | 294 | 0.00072 | **35× tighter** |
+| Evidence Level | Beliefs | Avg Variance | Variance Reduction |
+|----------------|---------|--------------|-------------------|
+| 5 | 522 | 0.0366 | baseline |
+| 15 | 324 | 0.0072 | 5× tighter |
+| 40 | 235 | 0.0026 | 14× tighter |
+| 87 | 109 | 0.0012 | 31× tighter |
+| 175 | 126 | 0.0006 | **62× tighter** |
 
-Variance drops **35-fold** from low to high evidence tiers. This proves the self-assessment framework genuinely calibrates over time—more data produces tighter, more reliable confidence estimates. This is the signature of a functional Bayesian system, not measurement noise.
+Variance drops **62-fold** as evidence accumulates. This proves the self-assessment framework genuinely calibrates over time—more data produces tighter, more reliable confidence estimates. This is the signature of a functional Bayesian system, not measurement noise.
 
 **Figure 5**: Calibration Convergence (variance vs evidence count) visualizes this pattern.
 

@@ -18,7 +18,7 @@ An alternative interpretation: capability is fixed, but self-assessment improves
 
 Under this view, PREFLIGHT assessments are systematically conservative (perhaps due to RLHF training), and task engagement provides evidence that corrects this conservatism.
 
-We cannot definitively distinguish these interpretations from self-assessment data alone. External validation—measuring task success against epistemic vectors—would be needed. However, the magnitude of the delta (+0.172 average for KNOW, +0.397 for COMPLETION) and the 91.3% improvement rate across 308 clean sessions suggests more than mere assessment correction. Additionally, the 35× reduction in calibration variance as evidence accumulates (Section 5.X.8) demonstrates genuine Bayesian convergence.
+We cannot definitively distinguish these interpretations from self-assessment data alone. External validation—measuring task success against epistemic vectors—would be needed. However, the magnitude of the delta (+0.172 average for KNOW, +0.397 for COMPLETION) and the 91.3% improvement rate across 308 clean sessions suggests more than mere assessment correction. Additionally, the 62× reduction in calibration variance as evidence accumulates (Section 5.X.8) demonstrates genuine Bayesian convergence.
 
 ### 7.1.3 The Pragmatic View
 

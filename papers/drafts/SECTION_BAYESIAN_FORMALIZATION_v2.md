@@ -9,7 +9,7 @@ Analysis of 82,380 evidence observations reveals a fundamental property of AI se
 - Uncertainty vector: **-0.154** delta (= +0.154 on inverted confidence scale)
 - The pattern is **unified**, not asymmetric
 - **91.3%** of clean sessions show knowledge improvement
-- Calibration variance drops **35×** as evidence accumulates
+- Calibration variance drops **62×** as evidence accumulates
 
 This is not noise. This is systematic learning captured in self-assessment, with demonstrable Bayesian convergence.
 

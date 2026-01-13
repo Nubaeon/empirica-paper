@@ -11,7 +11,7 @@ This paper presents Empirica, a framework for AI epistemic self-assessment, and 
 **Empirical contribution**: We present 82,380 evidence observations from 849 production sessions demonstrating:
 - Unified confidence growth across all 13 vectors during task execution
 - Average learning delta of +0.172 (KNOW vector) with 91.3% of sessions showing improvement
-- Calibration convergence: 35× variance reduction as evidence accumulates
+- Calibration convergence: 62× variance reduction as evidence accumulates
 - Systematic patterns supporting functional validity of self-assessment
 
 **Practical contribution**: We release Empirica as open-source infrastructure for epistemic gating, calibration tracking, and the CASCADE workflow.
@@ -43,7 +43,7 @@ We close with the finding that motivated this work:
 
 This is the learning that happens when AI systems are allowed—and required—to investigate before acting. It is the capability growth that execution-layer deployments forfeit. It is the empirical signature of noetic-before-praxic.
 
-The delta is real. The learning is real. The framework calibrates—variance drops 35× as evidence accumulates. The framework works.
+The delta is real. The learning is real. The framework calibrates—variance drops 62× as evidence accumulates. The framework works.
 
 ---
 
