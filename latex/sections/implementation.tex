@@ -1,0 +1,212 @@
+% Section 4: Implementation
+
+Empirica is an open-source framework implementing the epistemic vector theory. It provides infrastructure for AI self-assessment, epistemic gating, and calibration feedback loops.
+
+\subsection{Architecture Overview}
+
+The framework consists of four core components:
+
+\begin{enumerate}
+    \item \textbf{Sessions Database}: Persistent storage for session state, including AI identity, timestamps, and metadata.
+    \item \textbf{Cascades}: Complete PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT loops that capture epistemic state evolution.
+    \item \textbf{Bayesian Belief Manager}: Maintains calibration state and computes corrections from accumulated evidence.
+    \item \textbf{Sentinel Protocol}: The epistemic gate that enforces noetic-before-praxic.
+\end{enumerate}
+
+\subsection{The CASCADE Workflow}
+
+CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the core epistemic loop:
+
+\begin{figure}[h]
+\centering
+\begin{verbatim}
+    PREFLIGHT -----> CHECK -----> POSTFLIGHT
+        |             |               |
+    Baseline      Sentinel        Learning
+    Assessment      Gate           Delta
+        |             |               |
+        |        +--------+           |
+        |        |PROCEED?|           |
+        |        +---+----+           |
+        |            |                |
+        |      +-----+-----+          |
+        |      v           v          |
+        |    [YES]       [NO]         |
+        |      |           |          |
+        |      v           v          |
+        |   PRAXIC      NOETIC        |
+        |   (act)    (investigate)    |
+        |      |           |          |
+        +------+------->---+----------+
+                           |
+                    Bayesian Update
+                 (calibration learning)
+\end{verbatim}
+\caption{The CASCADE workflow: epistemic assessment before and after task execution.}
+\label{fig:cascade-workflow}
+\end{figure}
+
+\subsubsection{PREFLIGHT Phase}
+
+At task onset, the AI assesses its epistemic state across all 13 vectors. This establishes the baseline against which learning will be measured.
+
+\begin{lstlisting}[language=bash,caption={Example PREFLIGHT submission}]
+empirica preflight-submit - << EOF
+{
+  "session_id": "...",
+  "vectors": {
+    "know": 0.55, "uncertainty": 0.40,
+    "context": 0.70, "engagement": 0.85, ...
+  },
+  "reasoning": "Initial assessment: familiar domain
+               but specific codebase unknown"
+}
+EOF
+\end{lstlisting}
+
+\subsubsection{CHECK Phase (Sentinel Gate)}
+
+The Sentinel protocol evaluates whether the AI has sufficient knowledge to proceed. The gate applies bias corrections learned from historical calibration and returns:
+\begin{itemize}
+    \item \textbf{PROCEED}: Knowledge sufficient, enter praxic phase
+    \item \textbf{INVESTIGATE}: Knowledge insufficient, remain in noetic phase
+\end{itemize}
+
+\subsubsection{POSTFLIGHT Phase}
+
+After task completion (or significant progress), the AI reassesses its epistemic state. The delta between PREFLIGHT and POSTFLIGHT vectors measures learning.
+
+\subsection{The Sentinel Protocol}
+
+Sentinel is the epistemic gate that enforces noetic-before-praxic.
+
+\subsubsection{Gate Logic}
+
+\begin{algorithm}
+\caption{Sentinel Decision}
+\label{alg:sentinel}
+\begin{algorithmic}[1]
+\Procedure{SentinelDecision}{vectors, calibration}
+    \State $\text{know}' \gets \text{vectors.know} + \text{calibration.know}$
+    \State $\text{uncertainty}' \gets \text{vectors.uncertainty} + \text{calibration.uncertainty}$
+    \If{$\text{know}' \geq 0.70$ \textbf{and} $\text{uncertainty}' \leq 0.35$}
+        \State \Return PROCEED
+    \Else
+        \State \Return INVESTIGATE
+    \EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Calibration Integration}
+
+The Sentinel applies corrections learned from historical Bayesian updates. If the AI systematically underestimates KNOW by 0.15, the gate adjusts:
+
+\begin{itemize}
+    \item Raw KNOW: 0.55
+    \item Correction: +0.15
+    \item Effective KNOW: 0.70
+    \item Decision: PROCEED (would have been INVESTIGATE without correction)
+\end{itemize}
+
+This allows the system to compensate for learned biases while maintaining conservative defaults for uncalibrated vectors.
+
+\subsection{Bayesian Belief Management}
+
+The framework maintains Bayesian beliefs about each vector's calibration.
+
+\subsubsection{Update Rule}
+
+For each vector, we track a belief distribution updated via conjugate normal inference:
+
+\begin{equation}
+\mu_{\text{posterior}} = \frac{\sigma^2_{\text{prior}} \cdot x + \sigma^2_{\text{obs}} \cdot \mu_{\text{prior}}}{\sigma^2_{\text{prior}} + \sigma^2_{\text{obs}}}
+\end{equation}
+
+\begin{equation}
+\sigma^2_{\text{posterior}} = \frac{1}{\frac{1}{\sigma^2_{\text{prior}}} + \frac{1}{\sigma^2_{\text{obs}}}}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item \textbf{prior}: Current belief about the AI's typical assessment
+    \item \textbf{observation}: POSTFLIGHT assessment (the ``ground truth'' after learning)
+    \item \textbf{posterior}: Updated belief incorporating new evidence
+\end{itemize}
+
+\subsubsection{Calibration Delta}
+
+The key measurement is the learning delta:
+\begin{equation}
+\Delta = V_{\text{POSTFLIGHT}} - V_{\text{PREFLIGHT}}
+\end{equation}
+
+Positive delta indicates the AI learned during the task (capability grew). The mean delta across sessions becomes the calibration correction.
+
+\subsection{Data Model}
+
+The framework persists state in SQLite with the following schema:
+
+\paragraph{Sessions} Track AI interactions with unique identifiers, timestamps, and status.
+
+\paragraph{Cascades} Complete PREFLIGHT $\rightarrow$ POSTFLIGHT loops with outcome tracking.
+
+\paragraph{Epistemic Snapshots} Vector states at each CASCADE phase, enabling delta computation.
+
+\paragraph{Bayesian Beliefs} Per-vector calibration state including mean, variance, evidence count, and update history.
+
+\subsection{CLI Interface}
+
+Empirica provides a command-line interface for integration:
+
+\begin{lstlisting}[language=bash,caption={Empirica CLI commands}]
+# Session management
+empirica session-create --ai-id claude-code --output json
+empirica session-list --status active
+
+# CASCADE workflow
+empirica preflight-submit -    # Stdin JSON
+empirica check-submit -        # Returns PROCEED or INVESTIGATE
+empirica postflight-submit -   # Captures learning delta
+
+# Knowledge management
+empirica finding-log --session-id ... --finding "..." --impact 0.8
+empirica unknown-log --session-id ... --unknown "..."
+
+# Calibration
+empirica calibration-report --ai-id claude-code
+\end{lstlisting}
+
+\subsection{Integration Patterns}
+
+\subsubsection{IDE Integration}
+
+Empirica integrates with development environments via hooks that trigger CASCADE phases at appropriate points in the development workflow.
+
+\subsubsection{Agent Framework Integration}
+
+For autonomous agents, Empirica provides epistemic checkpoints that gate action based on assessed knowledge state, implementing the noetic-before-praxic principle programmatically.
+
+\subsection{Production Deployment}
+
+The framework has been deployed in production for 6+ months:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Sessions completed & 849 \\
+Evidence observations & 82,380 \\
+Full CASCADE cycles & 217 \\
+Clean learning pairs & 308 \\
+Findings logged & 1,900+ \\
+Primary AI & Claude (Anthropic) \\
+\bottomrule
+\end{tabular}
+\caption{Production deployment statistics.}
+\label{tab:deployment-stats}
+\end{table}
+
+Cross-validation has been performed on GPT, Gemini, and Qwen models. The data presented in \Cref{sec:results} derives from this production deployment.

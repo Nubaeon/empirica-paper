@@ -1,0 +1,240 @@
+% Section 6: The Sentinel Protocol
+
+Sentinel is the epistemic gating mechanism that operationalizes noetic-before-praxic. It evaluates whether an AI system has sufficient knowledge to proceed with action, enforcing investigation when knowledge is insufficient.
+
+\subsection{Design Principles}
+
+\subsubsection{Gate, Don't Filter}
+
+Traditional AI safety mechanisms filter outputs---scanning generated content for harmful patterns. Sentinel operates upstream: it gates \emph{action}, not output. The distinction matters:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Approach} & \textbf{Intervention Point} & \textbf{Failure Mode} \\
+\midrule
+Output filtering & After generation & Confident wrong outputs pass \\
+Epistemic gating & Before action & Insufficient knowledge blocks action \\
+\bottomrule
+\end{tabular}
+\caption{Comparison of safety intervention approaches.}
+\label{tab:safety-approaches}
+\end{table}
+
+An AI that lacks knowledge to solve a problem correctly also lacks knowledge to recognize its solution is wrong. Output filtering cannot catch this. Epistemic gating intervenes earlier---at the knowledge assessment stage.
+
+\subsubsection{Calibration-Aware}
+
+Raw self-assessments are systematically biased (\Cref{sec:results}). Sentinel applies learned corrections before making gate decisions:
+
+\begin{equation}
+\text{know}_{\text{corrected}} = \text{know}_{\text{raw}} + \delta_{\text{know}}
+\end{equation}
+
+This allows the gate to function accurately despite self-assessment biases. As calibration improves with evidence, gate decisions become more precise.
+
+\subsubsection{Conservative by Default}
+
+For vectors without sufficient calibration evidence ($<$ 3 observations), Sentinel applies no correction---defaulting to the conservative raw assessment. This prevents overcorrection early in deployment while allowing learned corrections to take effect as evidence accumulates.
+
+\subsection{Gate Logic}
+
+\subsubsection{Readiness Condition}
+
+The core gate evaluates two primary vectors:
+
+\begin{equation}
+\text{PROCEED} \iff \text{know}_{\text{corrected}} \geq 0.70 \land \text{uncertainty}_{\text{corrected}} \leq 0.35
+\end{equation}
+
+Both conditions must be met. High knowledge with high uncertainty still triggers investigation---the AI knows things but isn't confident in their relevance or completeness.
+
+\subsubsection{Engagement Override}
+
+The ENGAGEMENT vector functions as a meta-gate:
+
+\begin{equation}
+\text{ENGAGEMENT} < 0.60 \implies \text{STOP}
+\end{equation}
+
+Low engagement indicates fundamental communication failure---the AI and human are not aligned on goals or understanding. Neither action nor investigation will be productive until engagement is restored.
+
+\subsubsection{Decision Flow}
+
+The complete decision flow proceeds as:
+
+\begin{enumerate}
+    \item Apply calibration corrections to raw vectors
+    \item Check ENGAGEMENT threshold (STOP if below 0.60)
+    \item Evaluate readiness condition
+    \item Return PROCEED or INVESTIGATE
+\end{enumerate}
+
+\subsection{The Investigation Loop}
+
+When Sentinel returns INVESTIGATE, the AI enters or continues the noetic phase.
+
+\subsubsection{Investigation Actions}
+
+Typical noetic actions include:
+\begin{itemize}
+    \item Reading files, documentation, or context
+    \item Searching codebases or knowledge bases
+    \item Asking clarifying questions
+    \item Forming and testing hypotheses
+    \item Synthesizing information from multiple sources
+\end{itemize}
+
+\subsubsection{Re-CHECK}
+
+After investigation, the AI re-submits to CHECK with updated vectors. The loop continues until PROCEED or a termination condition is met.
+
+\subsubsection{Loop Termination}
+
+The loop terminates when:
+\begin{itemize}
+    \item \textbf{PROCEED}: Knowledge threshold reached
+    \item \textbf{STOP}: Engagement too low (communication failure)
+    \item \textbf{Max iterations}: Safety limit prevents infinite loops (configurable, default 5)
+    \item \textbf{User override}: Human can force proceed or stop
+\end{itemize}
+
+\subsection{Calibration Feedback}
+
+\subsubsection{Learning from Outcomes}
+
+Each CASCADE cycle (PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT) provides calibration evidence:
+
+\begin{equation}
+\delta_{\text{vector}} = V_{\text{POSTFLIGHT}} - V_{\text{PREFLIGHT}}
+\end{equation}
+
+Positive delta indicates the AI underestimated at PREFLIGHT; negative indicates overestimation. These deltas accumulate in the Bayesian belief system.
+
+\subsubsection{Correction Evolution}
+
+As evidence accumulates, corrections become more precise:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Evidence Count} & \textbf{Correction Confidence} \\
+\midrule
+$< 3$ & No correction (too uncertain) \\
+3--10 & Partial correction (weighted by evidence) \\
+$> 10$ & Full correction (stable estimate) \\
+\bottomrule
+\end{tabular}
+\caption{Correction confidence by evidence count.}
+\label{tab:correction-evolution}
+\end{table}
+
+\subsubsection{Per-Vector Calibration}
+
+Each vector has independent calibration. From our data (\Cref{sec:results}):
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Vector} & \textbf{Learned Correction} \\
+\midrule
+know & +0.141 \\
+uncertainty & $-$0.154 \\
+completion & +0.397 \\
+engagement & +0.004 (near-calibrated) \\
+\bottomrule
+\end{tabular}
+\caption{Per-vector calibration corrections.}
+\label{tab:per-vector-calibration}
+\end{table}
+
+The COMPLETION vector shows the largest correction---AI systems dramatically underestimate task progress at PREFLIGHT.
+
+\subsection{Configuration}
+
+\subsubsection{Threshold Tuning}
+
+Gate thresholds can be adjusted for different risk tolerances:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Domain} & \textbf{know\_min} & \textbf{uncertainty\_max} & \textbf{Rationale} \\
+\midrule
+Code review & 0.65 & 0.40 & Lower stakes, can iterate \\
+Production deploy & 0.85 & 0.20 & High stakes, need certainty \\
+Exploration & 0.50 & 0.50 & Learning is the goal \\
+Safety-critical & 0.90 & 0.15 & Cannot afford errors \\
+\bottomrule
+\end{tabular}
+\caption{Domain-specific threshold configurations.}
+\label{tab:domain-thresholds}
+\end{table}
+
+\subsubsection{Override Mechanisms}
+
+For flexibility, Sentinel supports overrides (logged for audit):
+\begin{itemize}
+    \item Force proceed despite gate
+    \item Force investigate despite passing gate
+    \item Disable calibration corrections (use raw vectors)
+\end{itemize}
+
+\subsection{Empirical Performance}
+
+From production deployment (849 sessions):
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+\textbf{Metric} & \textbf{Value} \\
+\midrule
+Total CHECK submissions & 694 \\
+Total cascades & 217 \\
+Clean learning pairs & 308 \\
+Knowledge improvement rate & 91.3\% \\
+Uncertainty reduction rate & 95.1\% \\
+\bottomrule
+\end{tabular}
+\caption{Sentinel gate statistics.}
+\label{tab:gate-stats}
+\end{table}
+
+Comparing outcomes with and without calibration correction:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lrr}
+\toprule
+\textbf{Condition} & \textbf{False PROCEED} & \textbf{False INVESTIGATE} \\
+\midrule
+Raw vectors & 18\% & 34\% \\
+Calibrated vectors & 8\% & 12\% \\
+\bottomrule
+\end{tabular}
+\caption{Error rates with and without calibration.}
+\label{tab:error-rates}
+\end{table}
+
+Calibration correction reduces both error types---fewer premature actions and fewer unnecessary investigations.
+
+\subsection{Summary}
+
+The Sentinel protocol implements epistemic gating:
+
+\begin{enumerate}
+    \item \textbf{Gate, don't filter}: Prevent action when knowledge is insufficient, rather than filtering bad outputs after generation.
+
+    \item \textbf{Calibration-aware}: Apply learned corrections to compensate for systematic self-assessment biases.
+
+    \item \textbf{Investigation loop}: When knowledge is insufficient, enforce exploration until threshold is reached.
+
+    \item \textbf{Configurable}: Thresholds adjustable for different domains and risk tolerances.
+\end{enumerate}
+
+The empirical result: calibrated gating reduces error rates by more than 50\% compared to raw self-assessment. The learning delta (\Cref{sec:results}) shows that investigation produces genuine capability growth---the gate doesn't just prevent bad outputs; it enables good ones.

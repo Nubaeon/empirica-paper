@@ -1,0 +1,206 @@
+% Section 3: Theoretical Framework
+
+\subsection{Epistemic Vectors: A Computational Theory of Knowing}
+
+We propose that AI cognitive state can be represented as a vector in a 13-dimensional epistemic space. Each dimension corresponds to a measurable aspect of the system's knowledge state, collectively capturing what the AI knows, what it can do, and how confident it should be in proceeding.
+
+\subsubsection{The Vector Taxonomy}
+
+The 13 epistemic vectors are organized into four tiers:
+
+\paragraph{Tier 0: Meta-Cognition}
+\begin{description}
+    \item[ENGAGEMENT] Quality of collaborative intelligence between human and AI. Functions as the primary gate: if engagement is below threshold, other assessments are unreliable.
+\end{description}
+
+\paragraph{Tier 1: Foundation Knowledge (35\% weight in confidence calculation)}
+\begin{description}
+    \item[KNOW] Domain knowledge and conceptual understanding
+    \item[DO] Technical execution capability and tool access
+    \item[CONTEXT] Environmental and systemic awareness
+\end{description}
+
+\paragraph{Tier 2: Comprehension (25\% weight)}
+\begin{description}
+    \item[CLARITY] Request specificity and goal definition
+    \item[COHERENCE] Logical consistency of approach
+    \item[SIGNAL] Useful information vs noise ratio
+    \item[DENSITY] Information packing efficiency (inverted: lower is better)
+\end{description}
+
+\paragraph{Tier 3: Execution Readiness (25\% weight)}
+\begin{description}
+    \item[STATE] Current state understanding
+    \item[CHANGE] Progress monitoring and regression detection
+    \item[COMPLETION] Path visibility to success
+    \item[IMPACT] Consequence and risk prediction
+\end{description}
+
+\paragraph{Meta-Layer (not in confidence calculation)}
+\begin{description}
+    \item[UNCERTAINTY] Awareness of limitations and unknowns
+\end{description}
+
+\subsubsection{Functional Self-Assessment}
+
+A critical design principle: these vectors implement \emph{functional} self-assessment, not reportive self-assessment.
+
+\begin{description}
+    \item[Reportive:] AI tells a human ``I am 80\% confident.'' The human must trust the report; the AI has no stake in accuracy.
+    \item[Functional:] AI assesses itself to decide whether to proceed with a task. Bad assessment leads to bad outcomes, creating a feedback loop that enables calibration.
+\end{description}
+
+The epistemic vectors are routing signals for the AI's own decision-making. When an AI assesses KNOW = 0.4 and decides to investigate rather than proceed, the assessment directly affects behavior and outcomes. This requires no claim about consciousness or introspection---only that assessments correlate with task-relevant states.
+
+\subsubsection{Confidence Calculation}
+
+Overall epistemic confidence aggregates the vectors:
+
+\begin{equation}
+\begin{aligned}
+\text{confidence} = {} & \text{ENGAGEMENT} \times 0.15 \\
+                      & + \text{mean}(\text{KNOW}, \text{DO}, \text{CONTEXT}) \times 0.35 \\
+                      & + \text{mean}(\text{CLARITY}, \text{COHERENCE}, \text{SIGNAL}, 1-\text{DENSITY}) \times 0.25 \\
+                      & + \text{mean}(\text{STATE}, \text{CHANGE}, \text{COMPLETION}, \text{IMPACT}) \times 0.25
+\end{aligned}
+\end{equation}
+
+The gate condition:
+\begin{equation}
+\text{decision} =
+\begin{cases}
+\text{STOP} & \text{if ENGAGEMENT} < 0.6 \\
+\text{PROCEED} & \text{if confidence} > \theta \\
+\text{INVESTIGATE} & \text{otherwise}
+\end{cases}
+\end{equation}
+
+\subsection{Noetic and Praxic Phases}
+
+We distinguish two fundamental phases of AI cognition:
+
+\subsubsection{Noetic Phase (Investigation)}
+
+The noetic phase encompasses exploration, hypothesis formation, and knowledge acquisition. During this phase, the AI:
+
+\begin{itemize}
+    \item Explores the problem space
+    \item Reads relevant context (files, documentation, conversation history)
+    \item Identifies unknowns and knowledge gaps
+    \item Forms hypotheses about solutions
+    \item Builds genuine understanding of the task
+\end{itemize}
+
+The noetic phase is characterized by \emph{increasing} epistemic vectors---particularly KNOW, CONTEXT, and CLARITY. The AI is learning.
+
+\subsubsection{Praxic Phase (Execution)}
+
+The praxic phase encompasses implementation, action, and output generation. During this phase, the AI:
+
+\begin{itemize}
+    \item Applies acquired knowledge
+    \item Executes planned actions
+    \item Produces deliverables
+    \item Modifies external state (code, files, systems)
+\end{itemize}
+
+The praxic phase is characterized by \emph{stable} epistemic vectors (knowledge already acquired) and increasing COMPLETION and CHANGE vectors (progress toward goal).
+
+\subsubsection{The Ordering Principle}
+
+The central theoretical claim: \textbf{noetic must precede praxic}.
+
+An AI that acts without first investigating is an AI that acts on incomplete knowledge. The execution-layer model---give task, receive output---skips the noetic phase entirely, assuming the AI either possesses sufficient knowledge or doesn't. This assumption fails for any task requiring exploration.
+
+The evidence for this principle is the learning delta: systematic capability growth during task execution (\Cref{sec:results}). If noetic precedes praxic, we expect POSTFLIGHT assessments to exceed PREFLIGHT assessments---and they do, across all 13 vectors.
+
+\subsection{Computational Epistemology}
+
+The epistemic vector framework constitutes a \emph{computational epistemology}: a formal theory of how any information-processing system can assess and manage its own knowledge state.
+
+\subsubsection{Grounding in Transformer Architecture (Speculative)}
+
+We hypothesize---but do not prove---that the 13 epistemic vectors correspond to measurable properties of transformer attention mechanisms:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{Vector} & \textbf{Hypothesized Attention Correlate} \\
+\midrule
+KNOW & Value vector richness in relevant attention heads \\
+UNCERTAINTY & Attention entropy / calibration gap \\
+CONTEXT & Cross-attention to context tokens \\
+ENGAGEMENT & Attention coherence across layers \\
+CLARITY & Query-key alignment sharpness \\
+\bottomrule
+\end{tabular}
+\caption{Hypothesized mapping between epistemic vectors and attention properties.}
+\label{tab:attention-mapping}
+\end{table}
+
+This mapping remains speculative. We invite mechanistic interpretability researchers to test these correlations. If the mapping holds, it would provide architectural grounding for what currently relies on self-report.
+
+\subsubsection{Architecture Independence}
+
+Regardless of the attention-mechanism hypothesis, the epistemic vector framework applies to any system that must:
+
+\begin{enumerate}
+    \item Assess its own knowledge state
+    \item Decide whether to act or investigate
+    \item Learn from the outcomes of its decisions
+\end{enumerate}
+
+This includes biological agents. Humans experience epistemic states---the feeling of knowing, the sense of uncertainty, the quality of engagement---that map recognizably to the vector taxonomy. The framework does not anthropomorphize AI; it \emph{mechanizes} human epistemology, formalizing what philosophers call ``epistemic feelings'' into computable quantities.
+
+\subsubsection{Falsifiable Predictions}
+
+The theoretical framework generates testable predictions:
+
+\begin{enumerate}
+    \item \textbf{Learning delta exists}: POSTFLIGHT vectors should exceed PREFLIGHT vectors (\Cref{sec:results} confirms)
+    \item \textbf{Gating improves outcomes}: Enforcing investigation when KNOW is low should increase task success
+    \item \textbf{Calibration is learnable}: Systematic bias in self-assessment should be correctable through feedback
+    \item \textbf{Attention correlates exist}: Vectors should correlate with extractable attention properties (testable via interpretability)
+\end{enumerate}
+
+If these predictions fail, the framework is wrong. We publish data for replication.
+
+\subsection{The Overconfidence Trap}
+
+The theoretical framework explains a common failure mode: the \textbf{overconfidence trap}.
+
+\begin{lstlisting}[caption={The overconfidence trap and its resolution}]
+Conditions:
+  UNCERTAINTY: LOW  (AI thinks it knows)
+  KNOW: LOW        (AI doesn't actually know)
+
+Without epistemic gating:
+  -> AI proceeds immediately (no investigation)
+  -> AI produces confident, wrong output
+  -> User loses trust
+
+With epistemic gating:
+  -> Gate detects KNOW < threshold
+  -> AI forced to investigate (noetic phase)
+  -> Investigation produces learning
+  -> KNOW increases to threshold
+  -> AI proceeds with actual capability
+  -> Output quality improves
+\end{lstlisting}
+
+The gate doesn't just prevent bad outputs---it produces good outputs by forcing the learning that creates capability.
+
+\subsection{Summary}
+
+The theoretical framework rests on three claims:
+
+\begin{enumerate}
+    \item \textbf{Epistemic vectors}: AI cognitive state can be represented in 13 dimensions that capture what the system knows and how ready it is to act.
+
+    \item \textbf{Noetic-before-praxic}: Investigation must precede execution. Skipping the noetic phase produces the overconfidence trap.
+
+    \item \textbf{Learning is measurable}: The delta between PREFLIGHT and POSTFLIGHT assessments captures genuine knowledge acquisition during task execution.
+\end{enumerate}
+
+These claims are empirically testable. \Cref{sec:results} presents evidence from 82,380 observations across 849 sessions.

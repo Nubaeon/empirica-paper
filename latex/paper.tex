@@ -1,0 +1,104 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{natbib}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\geometry{margin=1in}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    citecolor=blue,
+}
+
+% Code listing style
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!10},
+}
+
+% Title and authors
+\title{Empirica: Epistemic Self-Assessment for AI Systems\\
+\large Measuring Knowledge State Through Functional Metacognition}
+
+\author{
+    [Authors]\\
+    \texttt{[email]}
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We present Empirica, a framework for AI epistemic self-assessment that operationalizes the principle that AI systems must investigate before acting. Through 82,380 evidence observations across 849 sessions, we demonstrate that AI capability genuinely increases during task execution---the learning delta is real, not an artifact of assessment correction. Filtering to 308 clean sessions (excluding default assessments and incomplete workflows), 91.3\% showed knowledge improvement with a mean capability growth of +0.172. We introduce a 13-dimensional epistemic vector representation capturing what AI systems know, what they can do, and how ready they are to act. Bayesian calibration analysis reveals unified confidence growth across all vectors during learning, with calibration variance dropping 62$\times$ as evidence accumulates. The framework implements epistemic gates that enforce investigation when knowledge is insufficient, preventing the ``overconfidence trap'' where AI systems act on incomplete knowledge. We release Empirica as open-source infrastructure for epistemic gating, calibration tracking, and structured AI workflows.
+\end{abstract}
+
+\textbf{Keywords:} AI self-assessment, epistemic vectors, metacognition, calibration, uncertainty quantification
+
+%------------------------------------------------------------------------------
+\section{Introduction}
+\label{sec:introduction}
+\input{sections/introduction}
+
+%------------------------------------------------------------------------------
+\section{Related Work}
+\label{sec:related-work}
+\input{sections/related_work}
+
+%------------------------------------------------------------------------------
+\section{Theoretical Framework}
+\label{sec:theory}
+\input{sections/theory}
+
+%------------------------------------------------------------------------------
+\section{Implementation}
+\label{sec:implementation}
+\input{sections/implementation}
+
+%------------------------------------------------------------------------------
+\section{Empirical Results}
+\label{sec:results}
+\input{sections/calibration}
+
+%------------------------------------------------------------------------------
+\section{The Sentinel Protocol}
+\label{sec:sentinel}
+\input{sections/sentinel}
+
+%------------------------------------------------------------------------------
+\section{Discussion}
+\label{sec:discussion}
+\input{sections/discussion}
+
+%------------------------------------------------------------------------------
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/conclusion}
+
+%------------------------------------------------------------------------------
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
