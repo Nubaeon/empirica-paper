@@ -50,7 +50,9 @@ Our contribution is to make this pattern explicit and measurable. The CASCADE wo
 
 ## 2.7 Self-Assessment Without Introspection
 
-A philosophical objection to AI self-assessment is that it requires introspection—direct access to internal states—which AI systems arguably lack. Recent work on "emergent introspective awareness" (Anthropic, 2025) finds that models possess "a limited, functional form of introspective awareness" but that "abilities observed are highly unreliable, and failures of introspection remain the norm."
+A philosophical objection to AI self-assessment is that it requires introspection—direct access to internal states—which AI systems arguably lack. Recent work on emergent introspective awareness (Bricken et al., 2025)[^1] finds that models possess "a limited, functional form of introspective awareness" but that "abilities observed are highly unreliable, and failures of introspection remain the norm."
+
+[^1]: https://transformer-circuits.pub/2025/introspection/index.html
 
 We sidestep the consciousness debate entirely by defining self-assessment **functionally**. The AI need not "experience" its epistemic state; it need only produce assessments that correlate with task-relevant outcomes. A thermostat "assesses" temperature without experiencing heat. Similarly, an AI can produce useful epistemic vectors without introspective access, as long as those vectors predict behavior and outcomes.
 
@@ -62,7 +64,9 @@ We sidestep the consciousness debate entirely by defining self-assessment **func
 
 This is measurement, not philosophy. The systematic calibration patterns we observe (Section 5)—unified confidence growth across all 13 vectors—demonstrate that assessments track something real about the system's epistemic state. Whether the AI "experiences" this state is orthogonal to whether the measurement is useful.
 
-Recent work on metacognitive limitations (2025) notes that LLM metacognitive abilities are "limited in resolution, emerge in context-dependent manners, and seem qualitatively different from humans." Our calibration correction mechanism explicitly compensates for these limitations—we don't assume perfect self-assessment, we measure systematic biases and correct for them.
+Recent work on metacognitive limitations (Steyvers & Peters, 2025)[^2] notes that LLM metacognitive abilities are "limited in resolution, emerge in context-dependent manners, and seem qualitatively different from humans." Our calibration correction mechanism explicitly compensates for these limitations—we don't assume perfect self-assessment, we measure systematic biases and correct for them.
+
+[^2]: https://journals.sagepub.com/doi/10.1177/09637214251391158
 
 ## 2.8 Summary
 
