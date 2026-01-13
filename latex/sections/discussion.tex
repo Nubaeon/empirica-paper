@@ -88,27 +88,117 @@ Data collection spanned active framework development. Calibration patterns may p
 
 \subsection{Future Work}
 
+The epistemic vector framework opens numerous research directions across validation, architecture, and application domains.
+
 \subsubsection{External Validation}
 
 The critical next step is external validation: measuring task success against epistemic vectors without relying on self-report. This could involve:
 
 \begin{itemize}
-    \item Human evaluation of output quality
-    \item Automated test suites for code tasks
-    \item Downstream task performance metrics
+    \item Human evaluation of output quality correlated with epistemic assessments
+    \item Automated test suites measuring code correctness against KNOW vectors
+    \item Downstream task performance metrics linked to gate decisions
+    \item A/B testing of gated vs ungated workflows on equivalent tasks
 \end{itemize}
 
 \subsubsection{Mechanistic Interpretability}
 
-The hypothesized mapping between epistemic vectors and attention mechanisms remains untested. Collaboration with interpretability researchers could ground the framework in model internals.
+The hypothesized mapping between epistemic vectors and attention mechanisms (\Cref{tab:attention-mapping}) remains untested. Collaboration with interpretability researchers could:
+
+\begin{itemize}
+    \item Identify attention patterns that correlate with high/low KNOW assessments
+    \item Ground UNCERTAINTY in measurable entropy or calibration properties
+    \item Discover whether vectors emerge from specific circuit families
+    \item Enable direct measurement rather than prompted self-assessment
+\end{itemize}
+
+\subsubsection{Adaptive Threshold Learning}
+
+The current threshold configuration (\Cref{tab:domain-thresholds}) relies on human judgment. Future work could:
+
+\begin{itemize}
+    \item Learn optimal thresholds from outcome data per domain
+    \item Implement human-in-the-loop threshold adjustment with feedback
+    \item Develop adaptive thresholds that tighten/loosen based on error patterns
+    \item Study threshold sensitivity---how much do outcomes vary with threshold changes?
+\end{itemize}
 
 \subsubsection{Learning Capability Benchmarks}
 
-The learning delta suggests a novel benchmark paradigm: measuring not what AI knows, but how well it learns. A ``learning capability benchmark'' would assess epistemic velocity---the rate of capability growth through investigation.
+The learning delta suggests a novel benchmark paradigm: measuring not what AI knows, but how well it learns. A ``learning capability benchmark'' would assess:
+
+\begin{itemize}
+    \item Epistemic velocity---rate of capability growth through investigation
+    \item Learning efficiency---knowledge gained per token of investigation
+    \item Calibration speed---how quickly self-assessment converges to accuracy
+    \item Transfer learning---whether epistemic gains in one domain transfer to others
+\end{itemize}
 
 \subsubsection{Cross-Model Studies}
 
-Systematic comparison across model families could reveal whether calibration patterns are universal or training-specific. This would inform whether a single correction mechanism suffices or whether model-specific calibration is required.
+Systematic comparison across model families could reveal whether calibration patterns are universal or training-specific:
+
+\begin{itemize}
+    \item Do all RLHF-trained models show similar conservatism patterns?
+    \item How do base models vs instruction-tuned models differ in calibration?
+    \item Can calibration learned on one model transfer to another?
+    \item Do different architectures (dense vs MoE) show different epistemic signatures?
+\end{itemize}
+
+\subsubsection{Multi-Agent Epistemic Coordination}
+
+Extending the framework to multi-agent systems raises coordination questions:
+
+\begin{itemize}
+    \item How should epistemic state propagate between collaborating agents?
+    \item Can one agent's high KNOW compensate for another's low KNOW?
+    \item What trust mechanisms allow agents to rely on each other's assessments?
+    \item How do epistemic conflicts between agents get resolved?
+\end{itemize}
+
+\subsubsection{Long-Term Epistemic Memory}
+
+Current CASCADE cycles are session-scoped. Longer-term memory could enable:
+
+\begin{itemize}
+    \item Cross-session learning persistence---remembering what was learned
+    \item Epistemic decay modeling---how does knowledge fade without reinforcement?
+    \item Episodic vs semantic memory---task-specific vs general knowledge
+    \item Memory-informed PREFLIGHT---starting from remembered rather than default state
+\end{itemize}
+
+\subsubsection{Domain Expansion}
+
+Our data derives from software engineering tasks. Validation in other domains would test generality:
+
+\begin{itemize}
+    \item Creative tasks (writing, design)---do epistemic vectors apply?
+    \item Conversational agents---real-time epistemic assessment during dialogue
+    \item Reasoning and analysis---mathematical proof, scientific hypothesis
+    \item Embodied AI---epistemic gating for physical actions with real-world consequences
+\end{itemize}
+
+\subsubsection{Alignment Applications}
+
+The ENGAGEMENT vector's near-zero delta suggests potential alignment applications:
+
+\begin{itemize}
+    \item Can engagement patterns distinguish aligned from misaligned interactions?
+    \item Does low engagement correlate with adversarial or confused users?
+    \item Can epistemic gating prevent harmful outputs by detecting low-engagement contexts?
+    \item How do jailbreak attempts manifest in epistemic vectors?
+\end{itemize}
+
+\subsubsection{Real-Time and Streaming Applications}
+
+Production deployment may require lower-latency epistemic assessment:
+
+\begin{itemize}
+    \item Streaming epistemic updates during generation
+    \item Latency-aware gating that balances thoroughness with responsiveness
+    \item Incremental calibration without full CASCADE cycles
+    \item Edge deployment with limited computational resources
+\end{itemize}
 
 \subsection{Summary}
 
