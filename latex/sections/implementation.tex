@@ -64,10 +64,8 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
     % Praxic goes to postflight (curved path going right and up)
     \draw[arrow] (praxic.east) -- ++(0.5,0) |- ([yshift=-0.3cm]postflight.south) -- (postflight.south);
 
-    % Noetic loops back to check (curved path behind proceed)
-    \begin{scope}[on background layer]
-        \draw[arrow, gray!60] (noetic.north) -- ++(0,0.5) -| ([xshift=1.5cm]check.south) -- (check.south);
-    \end{scope}
+    % Noetic loops back to check (wide path around right side, avoiding PROCEED)
+    \draw[arrow, gray!60] (noetic.east) -- ++(1.5,0) |- ([yshift=0.3cm]check.east) -- (check.east);
 
     % Postflight to Bayesian
     \draw[arrow] (postflight.south) -- ++(0,-1) -| (bayesian.north);
