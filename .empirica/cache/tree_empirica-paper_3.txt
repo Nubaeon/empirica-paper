@@ -1,0 +1,67 @@
+/home/yogapad/empirical-ai/empirica-paper
+├── analysis
+│   ├── anticipated_criticisms.md
+│   ├── calibration_analysis.md
+│   ├── interaction_mode_taxonomy.md
+│   └── suppressed_emergence_hypothesis.md
+├── archive
+│   ├── legacy_docs
+│   │   ├── SECTION_BAYESIAN_FORMALIZATION.md
+│   │   └── UNIFIED_EPISTEMIC_THEORY.md
+│   └── legacy_figures
+│       ├── fig1_calibration_bias.png
+│       ├── fig1_calibration_bias.svg
+│       ├── fig3_asymmetry.png
+│       ├── fig3_asymmetry.svg
+│       ├── fig4_bayesian_update.png
+│       └── fig4_bayesian_update.svg
+├── data
+│   ├── calibration
+│   │   ├── bayesian_beliefs.csv
+│   │   └── cascades.csv
+│   ├── findings
+│   │   ├── dead_ends.csv
+│   │   ├── mistakes.csv
+│   │   ├── project_findings.csv
+│   │   └── session_findings.csv
+│   ├── sessions
+│   │   ├── epistemic_snapshots.csv
+│   │   ├── goals.csv
+│   │   ├── lessons.csv
+│   │   └── sessions.csv
+│   ├── unknowns
+│   │   ├── project_unknowns.csv
+│   │   └── session_unknowns.csv
+│   ├── analysis_results.json
+│   ├── bayesian_beliefs_analysis.json
+│   ├── DATA_MANIFEST.json
+│   └── preflight_postflight_analysis.json
+├── figures
+│   ├── fig1_unified_confidence.png
+│   ├── fig1_unified_confidence.svg
+│   ├── fig2_evidence_distribution.png
+│   ├── fig2_evidence_distribution.svg
+│   ├── fig3_learning_delta.png
+│   ├── fig3_learning_delta.svg
+│   ├── fig4_reframing.png
+│   └── fig4_reframing.svg
+├── papers
+│   ├── drafts
+│   │   ├── AIs_Epistemic_Blueprint.pdf
+│   │   ├── EPISTEMIC_GROUNDING_PAPER.md
+│   │   ├── HUMAN_AI_SYMBIOSIS.md
+│   │   ├── SECTION_1_INTRODUCTION.md
+│   │   ├── SECTION_2_RELATED_WORK.md
+│   │   ├── SECTION_3_THEORY.md
+│   │   ├── SECTION_4_IMPLEMENTATION.md
+│   │   ├── SECTION_5X_CALIBRATION_ANALYSIS.md
+│   │   ├── SECTION_6_SENTINEL.md
+│   │   ├── SECTION_7_DISCUSSION.md
+│   │   ├── SECTION_8_CONCLUSION.md
+│   │   ├── SECTION_BAYESIAN_FORMALIZATION_v2.md
+│   │   └── UNIFIED_EPISTEMIC_VECTORS.md
+│   └── published
+├── scripts
+└── README.md
+
+15 directories, 50 files
