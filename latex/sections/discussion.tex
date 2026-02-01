@@ -232,26 +232,30 @@ Systematic comparison across model families could reveal whether calibration pat
     \item Do different architectures (dense vs MoE) show different epistemic signatures?
 \end{itemize}
 
-\subsubsection{Multi-Agent Epistemic Coordination}
+\subsubsection{Multi-Agent Epistemic Coordination (Implemented, Open Research)}
 
-Extending the framework to multi-agent systems raises coordination questions:
+The framework includes multi-agent coordination primitives: goal discovery via git notes (agents can find and resume goals created by other agents), inter-agent messaging, and a parallel orchestrator that spawns domain-specific agents (security, architecture, performance, UX). Goal lineage tracking records which agents touched a goal and when.
+
+However, these primitives expose unresolved research questions about epistemic coordination:
 
 \begin{itemize}
-    \item How should epistemic state propagate between collaborating agents?
-    \item Can one agent's high KNOW compensate for another's low KNOW?
-    \item What trust mechanisms allow agents to rely on each other's assessments?
-    \item How do epistemic conflicts between agents get resolved?
+    \item How should epistemic state propagate between collaborating agents? Current goal handoff transfers context but not calibration state.
+    \item Can one agent's high KNOW compensate for another's low KNOW? The current model treats each agent's epistemic state independently.
+    \item What trust mechanisms allow agents to rely on each other's assessments? Goal lineage provides attribution but not trust scoring.
+    \item How do epistemic conflicts between agents get resolved? When two agents produce contradictory findings, no automated resolution exists.
 \end{itemize}
 
-\subsubsection{Long-Term Epistemic Memory}
+\subsubsection{Long-Term Epistemic Memory (Implemented, Open Research)}
 
-Current CASCADE cycles are session-scoped. Longer-term memory could enable:
+CASCADE cycles are no longer session-scoped. The framework implements a four-layer memory architecture: HOT (in-context, nanosecond access), WARM (SQLite, microsecond queries), SEARCH (Qdrant semantic retrieval, millisecond), and COLD (git notes and YAML, versioned and portable). Cross-session learning persists through epistemic handoff reports that compress session state for continuation. A cognitive immune system decays lessons when new findings contradict them, with domain-scoping to prevent autoimmune attacks. Memory-informed PREFLIGHT retrieves relevant patterns (lessons, dead-ends, calibration warnings) from Qdrant at task start.
+
+Open research questions remain:
 
 \begin{itemize}
-    \item Cross-session learning persistence---remembering what was learned
-    \item Epistemic decay modeling---how does knowledge fade without reinforcement?
-    \item Episodic vs semantic memory---task-specific vs general knowledge
-    \item Memory-informed PREFLIGHT---starting from remembered rather than default state
+    \item Optimal decay rates---current decay is keyword-triggered with fixed decay amount (0.05 per contradiction). Reinforcement-based decay modeling could improve accuracy.
+    \item Memory transfer across domains---whether epistemic gains in one domain (e.g., security patterns) transfer meaningfully to adjacent domains (e.g., architecture review).
+    \item Compaction fidelity---handoff reports achieve $\sim$90\% token reduction but some context is inevitably lost. Measuring the epistemic cost of compaction remains informal.
+    \item Memory capacity scaling---as projects accumulate thousands of findings and lessons, retrieval quality and storage efficiency need systematic evaluation.
 \end{itemize}
 
 \subsubsection{Domain Expansion: Legal as Grounded Verification Case Study}
