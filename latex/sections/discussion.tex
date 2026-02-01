@@ -268,6 +268,56 @@ Beyond legal, other domains offer varying levels of grounding potential:
     \item Embodied AI---high, physical actions produce measurable outcomes
 \end{itemize}
 
+\subsubsection{Verification Schema Evolution: From Stochastic to Deterministic}
+
+A fundamental distinction underlies the grounded verification architecture: the AI's work and self-assessment are \emph{stochastic inputs}---probabilistic, shaped by the model's epistemic state---while the verification logic is \emph{deterministic output}---defined rules that produce pass/fail signals independent of the AI.
+
+The path to reducing human oversight is systematically expanding the deterministic verification surface. We identify three tiers of verification quality:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Tier} & \textbf{What decides what to check} & \textbf{Example} & \textbf{Trust} \\
+\midrule
+1. Fully automated & System (predefined) & Artifact ratios, pytest, git & Highest \\
+2. Schema-driven & Domain template & ``Check all citations'' & High \\
+3. AI-selected & AI judgment & ``I should verify X'' & Medium \\
+\bottomrule
+\end{tabular}
+\caption{Verification tiers by who determines check coverage.}
+\label{tab:verification-tiers}
+\end{table}
+
+Tier~1 checks are already implemented in the POST-TEST phase. Tier~3 is inherently bounded by the AI's own epistemic state---blindspots in the work become blindspots in verification. The critical lever is Tier~2: \textbf{domain-specific verification schemas} that define what must be checked, independent of the AI's judgment.
+
+\paragraph{Schema Evolution Through Trajectory Analysis}
+
+Verification schemas need not be static. As epistemic trajectories accumulate, patterns emerge:
+
+\begin{enumerate}
+    \item Blindspot detection (via trajectory analysis) identifies recurring gaps in AI output
+    \item Each detected blindspot becomes a candidate for a new deterministic check
+    \item The check is added to the domain verification schema
+    \item Future sessions apply the check automatically (Tier~2, not Tier~3)
+    \item The stochastic surface area---where human verification is still needed---shrinks
+\end{enumerate}
+
+This creates a measurable quantity: the \textbf{epistemic entropy} of a domain's verification state, defined as the gap between what the verification schema covers and what the full output space requires. As schemas expand through trajectory iteration, entropy decreases and the need for human verification diminishes proportionally.
+
+\paragraph{Open Questions}
+
+Several questions remain for this research direction:
+
+\begin{itemize}
+    \item \textbf{Entropy formalization}: How to formally measure the entropy state of an epistemic trajectory---as a ratio, a distribution, or requiring domain-specific formalization?
+    \item \textbf{Convergence rate}: How many trajectory iterations are needed to achieve target coverage in a given domain? Is there a diminishing returns curve?
+    \item \textbf{Cold-start problem}: How to bootstrap verification schemas for new domains with no trajectory history. Can cross-domain transfer help (e.g., legal citation patterns informing medical literature verification)?
+    \item \textbf{Schema completeness}: Can we prove that a verification schema is ``complete'' for a given domain, or is the output space inherently open-ended?
+\end{itemize}
+
+This direction connects the earned agency model (\Cref{sec:sentinel}) to a concrete mechanism: autonomy increases not because we trust the AI's self-report, but because the deterministic verification layer expands to cover more of the output space. Trust follows coverage, not confidence.
+
 \subsubsection{Alignment Applications}
 
 The ENGAGEMENT vector's near-zero delta suggests potential alignment applications:
