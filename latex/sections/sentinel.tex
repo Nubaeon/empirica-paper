@@ -251,6 +251,44 @@ Calibrated vectors & 8\% & 12\% \\
 
 Calibration correction reduces both error types---fewer premature actions and fewer unnecessary investigations.
 
+\subsection{Capability-Based Access Control}
+
+The Sentinel gate does more than return a binary proceed/investigate decision---it functions as a \textbf{capability-based access control layer} that determines which tools and actions are available in each epistemic phase.
+
+\subsubsection{Phase-Dependent Capabilities}
+
+Via hooks that intercept tool invocations before execution, the framework enforces different capability sets for noetic and praxic phases:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Phase} & \textbf{Allowed Actions} & \textbf{Blocked Actions} \\
+\midrule
+Noetic (investigating) & Read, search, explore, ask & Write, edit, commit, deploy \\
+Praxic (executing) & All actions (full capability set) & --- \\
+No session (ungated) & Read-only & All mutations \\
+\bottomrule
+\end{tabular}
+\caption{Capability sets by epistemic phase.}
+\label{tab:capability-acl}
+\end{table}
+
+This is analogous to a Linux Security Module (LSM): the Sentinel gate evaluates the epistemic state at each tool invocation and grants or denies capabilities accordingly. The AI cannot write code during the noetic phase---not because a filter catches bad output, but because the capability to write is not available until the gate confirms sufficient knowledge.
+
+\subsubsection{Hook-Based Enforcement}
+
+The access control is enforced through pre-tool-use hooks that execute before each action:
+
+\begin{enumerate}
+    \item The AI invokes a tool (e.g., file edit, bash command)
+    \item The hook checks the current epistemic phase and session state
+    \item If the action exceeds the phase's capability set, it is blocked with an explanation
+    \item The AI must either investigate further (noetic) or submit to CHECK (gate transition)
+\end{enumerate}
+
+This creates a security boundary between knowing and doing. The AI's epistemic state determines its permissions, and permissions determine what outcomes are possible. Miscalibrated self-assessment can still occur, but it cannot bypass the capability gate---the AI must convince the Sentinel, not just itself.
+
 \subsection{Earned Agency}
 
 The Sentinel gate enables a model of AI autonomy where agency is \emph{earned through demonstrated calibration}, not granted by default or permanently restricted.

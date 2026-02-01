@@ -111,6 +111,41 @@ The ENGAGEMENT vector---capturing collaborative quality---emerges as potentially
 
 This raises an intriguing possibility: engagement could serve as an alignment signal. High engagement correlates with productive human-AI collaboration; low engagement may indicate misalignment, confusion, or adversarial interaction. Further research could explore whether engagement patterns distinguish aligned from misaligned interactions.
 
+\subsection{Toward a Cognitive Operating System}
+
+The subsystems described in this paper---epistemic gating, calibration management, context storage, agent scheduling, capability-based access control---are not independent tools. They form an integrated system with a recognizable architectural pattern: an \textbf{operating system for AI cognition}.
+
+The mapping to POSIX/Linux is structural, not metaphorical:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{ll}
+\toprule
+\textbf{OS Subsystem} & \textbf{Empirica Equivalent} \\
+\midrule
+Kernel & Sentinel + CASCADE engine \\
+System call interface & MCP tools (the API surface) \\
+Security module (LSM) & Sentinel gate (capability-based ACL) \\
+Scheduler & Goal/subtask manager (priority, dependencies) \\
+Memory manager & Context budget (HOT/WARM/SEARCH/COLD layers) \\
+Interrupt handler & Hook system (PreToolUse, PostToolUse, etc.) \\
+Process model & Agent sessions (isolated context, lifecycle) \\
+IPC & Agent-to-agent protocol, shared findings \\
+Filesystem & Storage layers (SQLite, Qdrant, git notes, YAML) \\
+Boot sequence & SessionStart $\rightarrow$ bootstrap $\rightarrow$ PREFLIGHT \\
+sysctl & Human-tunable thresholds (know\_min, uncertainty\_max) \\
+\bottomrule
+\end{tabular}
+\caption{Structural mapping between POSIX and Empirica subsystems.}
+\label{tab:os-mapping}
+\end{table}
+
+This framing explains why all the subsystems must be coherent. An operating system without a memory manager runs until it crashes. An AI framework without context management runs until it hallucinates. An operating system without a security module lets any process access any resource. An AI framework without epistemic gating lets any confidence level trigger any action.
+
+The implication for the broader AI ecosystem is that emerging agent frameworks (tool-use APIs, agent-to-agent protocols, orchestration layers) are building the equivalent of device drivers, network protocols, and hardware abstraction layers---but without a kernel. They assume the AI's cognitive resources are self-managing. Our data suggests otherwise: unmanaged AI cognition produces the overconfidence trap, calibration drift, and epistemic dark matter (unmeasured work).
+
+A cognitive operating system does not make AI ``conscious'' or ``self-aware'' any more than Linux makes a CPU conscious. It manages computational resources---in this case, epistemic resources---so that the system operates within its knowledge bounds. The contribution is infrastructure, not philosophy.
+
 \subsection{Limitations}
 
 \subsubsection{Functional Measurement, Not Introspection}
