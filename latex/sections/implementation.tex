@@ -138,14 +138,20 @@ After POSTFLIGHT, the framework automatically collects objective evidence to gro
 \textbf{Evidence Source} & \textbf{Quality} & \textbf{Vectors Grounded} \\
 \midrule
 Test results (pytest) & Objective & know, do, clarity \\
-Git metrics (commits, diffs) & Objective & do, change, state \\
+Git commit count \& diff stats & Objective & do, change, state \\
+Git reflog (resets, abandoned branches) & Objective & uncertainty, signal \\
+Git file churn (repeated edits) & Objective & uncertainty, coherence \\
+Git diff granularity (word-diff) & Objective & know, clarity \\
+Git commit timing patterns & Objective & do, state \\
+Git diff-filter (add/modify/delete ratio) & Objective & state, completion \\
 Goal/subtask completion & Semi-objective & completion, do, know \\
-Artifact ratios & Semi-objective & know, uncertainty, signal \\
+Artifact ratios (findings/dead-ends) & Semi-objective & know, uncertainty, signal \\
 Issue resolution & Semi-objective & impact, signal \\
 Sentinel decisions & Semi-objective & context, uncertainty \\
+Commit message vs diff semantics & Semi-objective & clarity, signal \\
 \bottomrule
 \end{tabular}
-\caption{Post-test evidence sources and the vectors they ground.}
+\caption{Post-test evidence sources and the vectors they ground. Git-derived sources (6 of 12) provide Tier~1 objective evidence that the AI cannot influence.}
 \label{tab:posttest-evidence}
 \end{table}
 
@@ -157,7 +163,22 @@ The POST-TEST phase computes a calibration gap between self-assessed POSTFLIGHT 
 
 Positive gaps indicate overestimation; negative gaps indicate underestimation relative to objective outcomes. This feeds the grounded calibration track (Track~2), which provides more trustworthy corrections because it anchors in what actually happened rather than another self-report.
 
-Not all vectors can be grounded---ENGAGEMENT, COHERENCE, and DENSITY lack objective correlates. For these, self-referential calibration remains the only available signal.
+Not all vectors can be grounded---ENGAGEMENT and DENSITY lack objective correlates. For these, self-referential calibration remains the only available signal.
+
+\paragraph{Git as Epistemic Trajectory Store}
+
+A significant fraction of post-test evidence derives from git, which passively records an epistemic trajectory parallel to the AI's self-report. Git's directed acyclic graph structure maps naturally to epistemic concepts: commits are discrete state transitions, branches are divergent investigations, merges are knowledge synthesis, and the reflog captures the true history including course corrections the AI may not self-report.
+
+Six git-derived evidence sources are currently implemented. Of particular note:
+
+\begin{itemize}
+    \item \textbf{Reflog analysis}: The reflog captures every \texttt{reset}, \texttt{rebase}, and abandoned branch---objective evidence of dead-ends and backtracking that the AI has no mechanism to omit or distort. This is the strongest Tier~1 signal for UNCERTAINTY grounding.
+    \item \textbf{File churn}: When the same file is edited $N$ times within a session, this indicates iteration and uncertainty about that component, regardless of what the AI's UNCERTAINTY self-assessment reports.
+    \item \textbf{Commit timing}: Gaps between commits encode noetic-to-praxic transitions. Long gaps followed by rapid commits indicate investigation followed by execution---the workflow rhythm is detectable from timestamps alone.
+    \item \textbf{Diff granularity}: Word-level diffs distinguish surgical edits (indicating understanding) from wholesale rewrites (indicating exploration), grounding KNOW without self-report.
+\end{itemize}
+
+Because git records accumulate passively during normal development, these evidence sources require no additional instrumentation---the epistemic trajectory is already being recorded.
 
 \subsection{The Sentinel Protocol}
 

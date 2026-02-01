@@ -114,6 +114,38 @@ An AI that acts without first investigating is an AI that acts on incomplete kno
 
 The evidence for this principle is the learning delta: systematic capability growth during task execution (\Cref{sec:results}). If noetic precedes praxic, we expect POSTFLIGHT assessments to exceed PREFLIGHT assessments---and they do, across all 13 vectors.
 
+\subsection{Artifact Taxonomy}
+
+The noetic-praxic distinction extends beyond phases of cognition to the \emph{artifacts} each phase produces. We identify five artifact layers, organized by their role in the epistemic lifecycle:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Layer} & \textbf{Term} & \textbf{Contents} \\
+\midrule
+Investigation outputs & Noetic artifacts & findings, unknowns, dead-ends, mistakes \\
+Action outputs & Praxic artifacts & goals, subtasks, commits \\
+State measurements & Epistemic state & vectors, calibration, drift, snapshots, deltas \\
+Verification outputs & Grounded evidence & test results, git metrics, artifact ratios \\
+Inputs / reference & Context & sources, documentation, prior knowledge \\
+\bottomrule
+\end{tabular}
+\caption{Artifact taxonomy: five layers organized by role in the epistemic lifecycle.}
+\label{tab:artifact-taxonomy}
+\end{table}
+
+This taxonomy matters because different artifacts serve different epistemic functions:
+
+\begin{itemize}
+    \item \textbf{Noetic artifacts} are breadcrumbs left during investigation. They capture what was learned (findings), what remains unclear (unknowns), what failed (dead-ends), and what went wrong (mistakes). These persist across sessions and accumulate into institutional memory.
+    \item \textbf{Praxic artifacts} are the products of action---code committed, goals completed, subtasks resolved. They serve as objective evidence for grounded verification.
+    \item \textbf{Epistemic state} is the measurement layer---vectors captured at PREFLIGHT and POSTFLIGHT, calibration corrections, drift detection. These are transient snapshots that enable delta computation.
+    \item \textbf{Grounded evidence} is collected automatically at POST-TEST. It anchors self-assessment in objective outcomes, providing the calibration signal that closes the feedback loop.
+\end{itemize}
+
+The complete measurement cycle---an \textbf{epistemic transaction}---produces artifacts from all layers: PREFLIGHT captures epistemic state, investigation produces noetic artifacts, execution produces praxic artifacts, POSTFLIGHT captures updated state, and POST-TEST collects grounded evidence. The transaction is the atomic unit of calibration.
+
 \subsection{Computational Epistemology}
 
 The epistemic vector framework constitutes a \emph{computational epistemology}: a formal theory of how any information-processing system can assess and manage its own knowledge state.
