@@ -5477,3 +5477,309 @@ CRM module is feature-complete but needs hardening: (1) Split cli/commands.py in
 **Generated:** 2026-01-07T16:55:43.660228  
 **Format:** Epistemic Handoff Report v1.0
 ",1767801343.66806,"[""N/A""]"
+bf846b4d-b7e6-436f-9b07-019b0f7fabfb,claude-code,2026-01-14T14:46:39.579332,"Identified goal lifecycle management gap in Empirica. Goals lag/duplicate across compactions. Need lightweight Sentinel oversight that flags without blocking.",0.0,"{""know"": 0.15, ""do"": 0.2, ""context"": 0.13, ""clarity"": 0.2, ""coherence"": 0.17, ""signal"": 0.13, ""density"": 0.25, ""state"": 0.2, ""change"": 0.4, ""completion"": 0.8, ""impact"": -0.05, ""engagement"": 0.05, ""uncertainty"": -0.15, ""overall_confidence"": 0.15}","[""Goals dont auto-close or carry-forward across compaction"", ""Duplicate goals can be created without warning"", ""Strict workflow adherence conflicts with creative latitude"", ""Sentinel should observe and flag, not control""]","[{""gap"": ""Domain knowledge"", ""before"": ""KNOW: 0.70"", ""after"": ""KNOW: 0.85"", ""confidence_change"": 0.15}]",[],,"Implement goal lifecycle hooks: (1) on-compact: mark stale goals, (2) on-resume: surface incomplete goals, (3) on-create: detect duplicate objectives with fuzzy match. Consider EMPIRICA_SENTINEL_MODE=observer|controller env var.","[""Ready for execution - strong epistemic foundation"", ""Task appears complete - consider POSTFLIGHT review""]",[],good,0.15,"{""s"":""bf846b4d"",""ai"":""claude-code"",""ts"":""2026-01-14T14:46:39.579332"",""task"":""Identified goal lifecycle management gap in Empirica. Goals lag/duplicate across compactions. Need lightweight Sentinel oversight that flags without blocking."",""dur"":0.0,""deltas"":{""know"":0.15,""do"":0.2,""context"":0.13,""clarity"":0.2,""coherence"":0.17,""signal"":0.13,""density"":0.25,""state"":0.2,""change"":0.4,""completion"":0.8,""uncertainty"":-0.15,""overall_confidence"":0.15},""findings"":[""Goals dont auto-close or carry-forward across compaction"",""Duplicate goals can be created without warning"",""Strict workflow adherence conflicts with creative latitude"",""Sentinel should observe and flag, not control""],""gaps"":[{""g"":""Domain knowledge"",""b"":""KNOW: 0.70"",""a"":""KNOW: 0.85"",""c"":0.15}],""unknowns"":[],""next"":""Implement goal lifecycle hooks: (1) on-compact: mark stale goals, (2) on-resume: surface incomplete goals, (3) on-create: detect duplicate objectives with fuzzy match. Consider EMPIRICA_SENTINEL_MODE=observer|controller env var."",""recommend"":[""Ready for execution - strong epistemic foundation"",""Task appears complete - consider POSTFLIGHT review""],""artifacts"":[],""tools"":[""N/A""],""cal"":""good""}","# Epistemic Handoff Report
+
+**Session:** `bf846b4d-b7e...`  
+**AI Agent:** claude-code  
+**Date:** 2026-01-14T14:46:39.579332  
+**Duration:** 0.0 min  
+**Task:** Identified goal lifecycle management gap in Empirica. Goals lag/duplicate across compactions. Need lightweight Sentinel oversight that flags without blocking.
+
+---
+
+## Epistemic Trajectory
+
+| Vector | Before | After | Delta | Status |
+|--------|--------|-------|-------|--------|
+| **Foundation** | | | | |
+| KNOW | 0.70 | 0.85 | +0.15 | ✅ Improved |
+| DO | 0.75 | 0.95 | +0.20 | ✅ Improved |
+| CONTEXT | 0.72 | 0.85 | +0.13 | ✅ Improved |
+| **Comprehension** | | | | |
+| CLARITY | 0.70 | 0.90 | +0.20 | ✅ Improved |
+| COHERENCE | 0.68 | 0.85 | +0.17 | ✅ Improved |
+| SIGNAL | 0.72 | 0.85 | +0.13 | ✅ Improved |
+| DENSITY | 0.55 | 0.80 | +0.25 | ✅ Improved |
+| **Execution** | | | | |
+| STATE | 0.70 | 0.90 | +0.20 | ✅ Improved |
+| CHANGE | 0.35 | 0.75 | +0.40 | ✅ Improved |
+| COMPLETION | 0.15 | 0.95 | +0.80 | ✅ Improved |
+| IMPACT | 0.75 | 0.70 | -0.05 | ⚠️ Decreased |
+| **Meta** | | | | |
+| ENGAGEMENT | 0.85 | 0.90 | +0.05 | ✅ Improved |
+| UNCERTAINTY | 0.30 | 0.15 | -0.15 | ✅ Reduced |
+
+**Overall Confidence Change:** +0.150  
+**Calibration Status:** ⚠️ **Good** (introspection)
+
+> Note: Heuristic suggests 'well_calibrated' but AI assessed 'good' - trusting introspection
+
+---
+
+## What I Accomplished
+
+- Goals dont auto-close or carry-forward across compaction
+- Duplicate goals can be created without warning
+- Strict workflow adherence conflicts with creative latitude
+- Sentinel should observe and flag, not control
+
+---
+
+## What I Learned
+
+### Knowledge Gaps Filled
+
+- **Domain knowledge** (+0.15)
+  - Before: KNOW: 0.70
+  - After: KNOW: 0.85
+
+### Key Insights
+
+- Goals dont auto-close or carry-forward across compaction
+- Duplicate goals can be created without warning
+- Strict workflow adherence conflicts with creative latitude
+- Sentinel should observe and flag, not control
+
+---
+
+## Remaining Unknowns
+
+- None
+
+---
+
+## Investigation Tools Used
+
+N/A
+
+---
+
+## Context for Next Session
+
+Implement goal lifecycle hooks: (1) on-compact: mark stale goals, (2) on-resume: surface incomplete goals, (3) on-create: detect duplicate objectives with fuzzy match. Consider EMPIRICA_SENTINEL_MODE=observer|controller env var.
+
+---
+
+## Recommended Next Steps
+
+- Ready for execution - strong epistemic foundation
+- Task appears complete - consider POSTFLIGHT review
+
+---
+
+## Artifacts Created
+
+- None tracked
+
+---
+
+**Generated:** 2026-01-14T14:46:39.579363  
+**Format:** Epistemic Handoff Report v1.0
+",1768398399.58682,"[""N/A""]"
+c6a3b9c1-e762-456b-bf0d-c16dd54f2b91,claude-code,2026-01-15T20:29:21.993398,"Completed Phase 2 of epistemic prediction (concept co-occurrence graphs). Implemented ConceptExtractor, ConceptGraph with SQLite storage, 4 CLI commands. Built graph from 237 sources → 1791 concepts, 417K edges.",0.0,"{""know"": 0.03, ""do"": 0.0, ""context"": 0.02, ""clarity"": -0.03, ""coherence"": 0.0, ""signal"": 0.0, ""density"": 0.0, ""state"": 0.0, ""change"": 0.0, ""completion"": 0.2, ""impact"": 0.2, ""engagement"": -0.4, ""uncertainty"": 0.05, ""overall_confidence"": -0.05}","[""Phase 2 complete: 1791 concepts, 417K co-occurrence edges from 237 breadcrumbs"", ""Architectural issue: prediction code too embedded in core empirica - needs extraction"", ""Missing global CHANGE vector - only computed per-session, not cross-session/goal""]",[],"[""How to track cumulative epistemic CHANGE across sessions/goals"", ""Schema changes needed for global change vector"", ""Best approach for extracting prediction code to separate package""]",,"Creating empirica-prediction as separate package. Need to: (1) Create new repo/project, (2) Move experimental/epistemic_prediction code, (3) Extract relevant epistemic data, (4) Set up proper plugin boundaries with core empirica.","[""Address 3 remaining unknown(s)""]","[""empirica/data/schema/concept_graph_schema.py"", ""empirica/experimental/epistemic_prediction/concept_graph.py"", ""empirica/cli/parsers/concept_graph_parsers.py"", ""empirica/cli/command_handlers/concept_graph_commands.py""]",investigation-only,-0.05,"{""s"":""c6a3b9c1"",""ai"":""claude-code"",""ts"":""2026-01-15T20:29:21.993398"",""task"":""Completed Phase 2 of epistemic prediction (concept co-occurrence graphs). Implemented ConceptExtractor, ConceptGraph with SQLite storage, 4 CLI commands. Built graph from 237 sources \u2192 1791 concepts, "",""dur"":0.0,""deltas"":{""completion"":0.2,""impact"":0.2,""engagement"":-0.4},""findings"":[""Phase 2 complete: 1791 concepts, 417K co-occurrence edges from 237 breadcrumbs"",""Architectural issue: prediction code too embedded in core empirica - needs extraction"",""Missing global CHANGE vector - only computed per-session, not cross-session/goal""],""gaps"":[],""unknowns"":[""How to track cumulative epistemic CHANGE across sessions/goals"",""Schema changes needed for global change vector"",""Best approach for extracting prediction code to separate package""],""next"":""Creating empirica-prediction as separate package. Need to: (1) Create new repo/project, (2) Move experimental/epistemic_prediction code, (3) Extract relevant epistemic data, (4) Set up proper plugin boundaries with core empirica."",""recommend"":[""Address 3 remaining unknown(s)""],""artifacts"":[""empirica/data/schema/concept_graph_schema.py"",""empirica/experimental/epistemic_prediction/concept_graph.py"",""empirica/cli/parsers/concept_graph_parsers.py"",""empirica/cli/command_handlers/concept_graph_commands.py""],""tools"":[""N/A""],""cal"":""investigation-only""}","# Epistemic Handoff Report
+
+**Session:** `c6a3b9c1-e76...`  
+**AI Agent:** claude-code  
+**Date:** 2026-01-15T20:29:21.993398  
+**Duration:** 0.0 min  
+**Task:** Completed Phase 2 of epistemic prediction (concept co-occurrence graphs). Implemented ConceptExtractor, ConceptGraph with SQLite storage, 4 CLI commands. Built graph from 237 sources → 1791 concepts, 417K edges.
+
+---
+
+## Epistemic Trajectory
+
+| Vector | Before | After | Delta | Status |
+|--------|--------|-------|-------|--------|
+| **Foundation** | | | | |
+| KNOW | 0.75 | 0.78 | +0.03 | → Stable |
+| DO | 0.50 | 0.50 | +0.00 | → Stable |
+| CONTEXT | 0.80 | 0.82 | +0.02 | → Stable |
+| **Comprehension** | | | | |
+| CLARITY | 0.78 | 0.75 | -0.03 | → Stable |
+| COHERENCE | 0.50 | 0.50 | +0.00 | → Stable |
+| SIGNAL | 0.50 | 0.50 | +0.00 | → Stable |
+| DENSITY | 0.50 | 0.50 | +0.00 | → Stable |
+| **Execution** | | | | |
+| STATE | 0.50 | 0.50 | +0.00 | → Stable |
+| CHANGE | 0.50 | 0.50 | +0.00 | → Stable |
+| COMPLETION | 0.00 | 0.20 | +0.20 | ✅ Improved |
+| IMPACT | 0.50 | 0.70 | +0.20 | ✅ Improved |
+| **Meta** | | | | |
+| ENGAGEMENT | 0.90 | 0.50 | -0.40 | ⚠️ Decreased |
+| UNCERTAINTY | 0.25 | 0.30 | +0.05 | ⚠️ Increased |
+
+**Overall Confidence Change:** -0.050  
+**Calibration Status:** ⚠️ **Investigation-Only** (n/a)
+
+---
+
+## What I Accomplished
+
+- Phase 2 complete: 1791 concepts, 417K co-occurrence edges from 237 breadcrumbs
+- Architectural issue: prediction code too embedded in core empirica - needs extraction
+- Missing global CHANGE vector - only computed per-session, not cross-session/goal
+
+---
+
+## What I Learned
+
+### Knowledge Gaps Filled
+
+- No significant knowledge gaps tracked
+
+### Key Insights
+
+- Phase 2 complete: 1791 concepts, 417K co-occurrence edges from 237 breadcrumbs
+- Architectural issue: prediction code too embedded in core empirica - needs extraction
+- Missing global CHANGE vector - only computed per-session, not cross-session/goal
+
+---
+
+## Remaining Unknowns
+
+- How to track cumulative epistemic CHANGE across sessions/goals
+- Schema changes needed for global change vector
+- Best approach for extracting prediction code to separate package
+
+---
+
+## Investigation Tools Used
+
+N/A
+
+---
+
+## Context for Next Session
+
+Creating empirica-prediction as separate package. Need to: (1) Create new repo/project, (2) Move experimental/epistemic_prediction code, (3) Extract relevant epistemic data, (4) Set up proper plugin boundaries with core empirica.
+
+---
+
+## Recommended Next Steps
+
+- Address 3 remaining unknown(s)
+
+---
+
+## Artifacts Created
+
+- `empirica/data/schema/concept_graph_schema.py`
+- `empirica/experimental/epistemic_prediction/concept_graph.py`
+- `empirica/cli/parsers/concept_graph_parsers.py`
+- `empirica/cli/command_handlers/concept_graph_commands.py`
+
+---
+
+**Generated:** 2026-01-15T20:29:21.993441  
+**Format:** Epistemic Handoff Report v1.0
+",1768505362.0011,"[""N/A""]"
+42e4dd29-e882-484d-9e40-c2cb7dedb0de,claude-code,2026-01-25T17:58:39.535375,"Implemented Phase 1 multi-project workspace management in empirica core and set up empirica-workspace as a separate project for Phase 2 development with dashboards and non-developer interfaces.",0.0,"{""know"": 0.2, ""do"": 0.28, ""context"": 0.12, ""clarity"": 0.35, ""coherence"": 0.38, ""signal"": 0.3, ""density"": 0.25, ""state"": 0.4, ""change"": 0.35, ""completion"": 0.85, ""impact"": 0.3, ""engagement"": 0.4, ""uncertainty"": -0.23, ""overall_confidence"": 0.23}","[""Database migrations 017-019 add project_type, project_tags, parent_project_id, project_relationships, cross_project_finding_links"", ""7 project types defined: product, application, feature, research, documentation, infrastructure, operations"", ""workspace-list command filters by type/tags with tree view for hierarchy"", ""empirica-workspace repo initialized at /home/yogapad/empirical-ai/empirica-workspace with CLI stub"", ""Dual licensing model: MIT for core CLI, commercial for enterprise dashboards""]","[{""gap"": ""Domain knowledge"", ""before"": ""KNOW: 0.65"", ""after"": ""KNOW: 0.85"", ""confidence_change"": 0.2}, {""gap"": ""Task uncertainty"", ""before"": ""UNCERTAINTY: 0.35"", ""after"": ""UNCERTAINTY: 0.12"", ""confidence_change"": 0.23}]","[""UI framework choice for TUI dashboard (textual vs rich)"", ""Web dashboard implementation (FastAPI + Jinja2 vs separate SPA)"", ""Non-git repo support for knowledge-only projects (markdown, images)"", ""Integration with empirica-crm for client relationship linking""]",,"Continue in empirica-workspace repo. Phase 2 goals: (1) TUI dashboard with textual, (2) portfolio list from empirica core, (3) relationship visualization, (4) non-developer onboarding flow. Use empirica project-bootstrap --project-id 9a755202-1e7f-4acf-a1a9-9f338bcff9d1 to load context.","[""Address 4 remaining unknown(s)"", ""Ready for execution - strong epistemic foundation"", ""Task appears complete - consider POSTFLIGHT review""]","[""/home/yogapad/empirical-ai/empirica-workspace/README.md"", ""/home/yogapad/empirical-ai/empirica-workspace/pyproject.toml"", ""/home/yogapad/empirical-ai/empirica-workspace/empirica_workspace/cli.py""]",good,0.23,"{""s"":""42e4dd29"",""ai"":""claude-code"",""ts"":""2026-01-25T17:58:39.535375"",""task"":""Implemented Phase 1 multi-project workspace management in empirica core and set up empirica-workspace as a separate project for Phase 2 development with dashboards and non-developer interfaces."",""dur"":0.0,""deltas"":{""know"":0.2,""do"":0.28,""context"":0.12,""clarity"":0.35,""coherence"":0.38,""signal"":0.3,""density"":0.25,""state"":0.4,""change"":0.35,""completion"":0.85,""impact"":0.3,""engagement"":0.4,""uncertainty"":-0.23,""overall_confidence"":0.23},""findings"":[""Database migrations 017-019 add project_type, project_tags, parent_project_id, project_relationships, cross_project_finding_links"",""7 project types defined: product, application, feature, research, documentation, infrastructure, operations"",""workspace-list command filters by type/tags with tree view for hierarchy"",""empirica-workspace repo initialized at /home/yogapad/empirical-ai/empirica-workspace with CLI stub"",""Dual licensing model: MIT for core CLI, commercial for enterprise dashboards""],""gaps"":[{""g"":""Domain knowledge"",""b"":""KNOW: 0.65"",""a"":""KNOW: 0.85"",""c"":0.2},{""g"":""Task uncertainty"",""b"":""UNCERTAINTY: 0.35"",""a"":""UNCERTAINTY: 0.12"",""c"":0.23}],""unknowns"":[""UI framework choice for TUI dashboard (textual vs rich)"",""Web dashboard implementation (FastAPI + Jinja2 vs separate SPA)"",""Non-git repo support for knowledge-only projects (markdown, images)"",""Integration with empirica-crm for client relationship linking""],""next"":""Continue in empirica-workspace repo. Phase 2 goals: (1) TUI dashboard with textual, (2) portfolio list from empirica core, (3) relationship visualization, (4) non-developer onboarding flow. Use empirica project-bootstrap --project-id 9a755202-1e7f-4acf-a1a9-9f338bcff9d1 to load context."",""recommend"":[""Address 4 remaining unknown(s)"",""Ready for execution - strong epistemic foundation"",""Task appears complete - consider POSTFLIGHT review""],""artifacts"":[""/home/yogapad/empirical-ai/empirica-workspace/README.md"",""/home/yogapad/empirical-ai/empirica-workspace/pyproject.toml"",""/home/yogapad/empirical-ai/empirica-workspace/empirica_workspace/cli.py""],""tools"":[""N/A""],""cal"":""good""}","# Epistemic Handoff Report
+
+**Session:** `42e4dd29-e88...`  
+**AI Agent:** claude-code  
+**Date:** 2026-01-25T17:58:39.535375  
+**Duration:** 0.0 min  
+**Task:** Implemented Phase 1 multi-project workspace management in empirica core and set up empirica-workspace as a separate project for Phase 2 development with dashboards and non-developer interfaces.
+
+---
+
+## Epistemic Trajectory
+
+| Vector | Before | After | Delta | Status |
+|--------|--------|-------|-------|--------|
+| **Foundation** | | | | |
+| KNOW | 0.65 | 0.85 | +0.20 | ✅ Improved |
+| DO | 0.60 | 0.88 | +0.28 | ✅ Improved |
+| CONTEXT | 0.70 | 0.82 | +0.12 | ✅ Improved |
+| **Comprehension** | | | | |
+| CLARITY | 0.50 | 0.85 | +0.35 | ✅ Improved |
+| COHERENCE | 0.50 | 0.88 | +0.38 | ✅ Improved |
+| SIGNAL | 0.50 | 0.80 | +0.30 | ✅ Improved |
+| DENSITY | 0.50 | 0.75 | +0.25 | ✅ Improved |
+| **Execution** | | | | |
+| STATE | 0.50 | 0.90 | +0.40 | ✅ Improved |
+| CHANGE | 0.50 | 0.85 | +0.35 | ✅ Improved |
+| COMPLETION | 0.10 | 0.95 | +0.85 | ✅ Improved |
+| IMPACT | 0.50 | 0.80 | +0.30 | ✅ Improved |
+| **Meta** | | | | |
+| ENGAGEMENT | 0.50 | 0.90 | +0.40 | ✅ Improved |
+| UNCERTAINTY | 0.35 | 0.12 | -0.23 | ✅ Reduced |
+
+**Overall Confidence Change:** +0.230  
+**Calibration Status:** ⚠️ **Good** (introspection)
+
+> Note: Heuristic suggests 'well_calibrated' but AI assessed 'good' - trusting introspection
+
+---
+
+## What I Accomplished
+
+- Database migrations 017-019 add project_type, project_tags, parent_project_id, project_relationships, cross_project_finding_links
+- 7 project types defined: product, application, feature, research, documentation, infrastructure, operations
+- workspace-list command filters by type/tags with tree view for hierarchy
+- empirica-workspace repo initialized at /home/yogapad/empirical-ai/empirica-workspace with CLI stub
+- Dual licensing model: MIT for core CLI, commercial for enterprise dashboards
+
+---
+
+## What I Learned
+
+### Knowledge Gaps Filled
+
+- **Domain knowledge** (+0.20)
+  - Before: KNOW: 0.65
+  - After: KNOW: 0.85
+- **Task uncertainty** (+0.23)
+  - Before: UNCERTAINTY: 0.35
+  - After: UNCERTAINTY: 0.12
+
+### Key Insights
+
+- Database migrations 017-019 add project_type, project_tags, parent_project_id, project_relationships, cross_project_finding_links
+- 7 project types defined: product, application, feature, research, documentation, infrastructure, operations
+- workspace-list command filters by type/tags with tree view for hierarchy
+- empirica-workspace repo initialized at /home/yogapad/empirical-ai/empirica-workspace with CLI stub
+- Dual licensing model: MIT for core CLI, commercial for enterprise dashboards
+
+---
+
+## Remaining Unknowns
+
+- UI framework choice for TUI dashboard (textual vs rich)
+- Web dashboard implementation (FastAPI + Jinja2 vs separate SPA)
+- Non-git repo support for knowledge-only projects (markdown, images)
+- Integration with empirica-crm for client relationship linking
+
+---
+
+## Investigation Tools Used
+
+N/A
+
+---
+
+## Context for Next Session
+
+Continue in empirica-workspace repo. Phase 2 goals: (1) TUI dashboard with textual, (2) portfolio list from empirica core, (3) relationship visualization, (4) non-developer onboarding flow. Use empirica project-bootstrap --project-id 9a755202-1e7f-4acf-a1a9-9f338bcff9d1 to load context.
+
+---
+
+## Recommended Next Steps
+
+- Address 4 remaining unknown(s)
+- Ready for execution - strong epistemic foundation
+- Task appears complete - consider POSTFLIGHT review
+
+---
+
+## Artifacts Created
+
+- `/home/yogapad/empirical-ai/empirica-workspace/README.md`
+- `/home/yogapad/empirical-ai/empirica-workspace/pyproject.toml`
+- `/home/yogapad/empirical-ai/empirica-workspace/empirica_workspace/cli.py`
+
+---
+
+**Generated:** 2026-01-25T17:58:39.535417  
+**Format:** Epistemic Handoff Report v1.0
+",1769360319.54421,"[""N/A""]"

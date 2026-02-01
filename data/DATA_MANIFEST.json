@@ -1,103 +1,159 @@
 {
-  "extracted_at": "2026-01-13T12:00:00Z",
+  "extracted_at": "2026-02-01T13:00:00Z",
   "source_db": "/home/yogapad/empirical-ai/empirica/.empirica/sessions/sessions.db",
+  "empirica_version": "1.5.0",
   "datasets": {
     "calibration": {
       "bayesian_beliefs.csv": {
-        "records": 1838,
-        "description": "Bayesian calibration observations per vector",
+        "records": 4184,
+        "description": "Bayesian calibration observations per vector (self-referential track)",
         "columns": ["belief_id", "cascade_id", "vector_name", "mean", "variance", "evidence_count", "prior_mean", "prior_variance", "last_updated"]
       },
       "cascades.csv": {
-        "records": 216,
+        "records": 392,
         "description": "CASCADE workflow executions"
+      },
+      "calibration_convergence.csv": {
+        "records": 4184,
+        "description": "Calibration convergence data sorted by vector and evidence count"
+      },
+      "calibration_convergence_summary.csv": {
+        "records": 13,
+        "description": "Summary statistics per vector (count, avg mean, avg variance, max evidence)"
       }
     },
     "sessions": {
       "sessions.csv": {
-        "records": 849,
+        "records": 638,
         "description": "AI sessions with project associations"
       },
       "learning_deltas_clean.csv": {
-        "records": 308,
-        "description": "Clean PREFLIGHT->POSTFLIGHT pairs (filtered: no 50-50-50 defaults, complete workflows only)"
+        "records": 266,
+        "description": "Clean PREFLIGHT→POSTFLIGHT learning deltas derived from POSTFLIGHT snapshots with non-null deltas"
       },
       "epistemic_snapshots.csv": {
-        "records": 51,
-        "description": "Epistemic vector snapshots with deltas and delta chains"
+        "records": 381,
+        "description": "Epistemic vector snapshots (CHECK + POSTFLIGHT phases) with deltas"
       },
       "goals.csv": {
-        "records": 278,
-        "description": "Tracked goals"
+        "records": 331,
+        "description": "Tracked goals with scope, status, and completion"
+      },
+      "subtasks.csv": {
+        "records": 1026,
+        "description": "Goal subtasks with dependencies and importance"
       },
       "handoff_reports.csv": {
-        "records": 5478,
-        "description": "Session handoff reports for continuity"
+        "records": 5784,
+        "description": "Session handoff reports for epistemic continuity"
       },
       "lessons.csv": {
         "records": 9,
-        "description": "Procedural knowledge lessons"
+        "description": "Procedural knowledge lessons (cognitive immune system)"
       }
     },
     "findings": {
       "project_findings.csv": {
-        "records": 1374,
+        "records": 1949,
         "description": "Project-scoped high-impact learnings"
       },
       "session_findings.csv": {
-        "records": 564,
+        "records": 747,
         "description": "Session-specific findings"
       },
       "dead_ends.csv": {
-        "records": 26,
+        "records": 56,
         "description": "Documented failed approaches"
       },
       "mistakes.csv": {
-        "records": 5,
-        "description": "Logged mistakes with lessons learned"
+        "records": 39,
+        "description": "Logged mistakes with root cause vectors and prevention strategies"
+      },
+      "session_mistakes.csv": {
+        "records": 7,
+        "description": "Session-scoped mistakes"
+      },
+      "reflexes.csv": {
+        "records": 1957,
+        "description": "Reflexive learning patterns (edit confidence, tool patterns)"
       }
     },
     "unknowns": {
       "project_unknowns.csv": {
-        "records": 193,
+        "records": 285,
         "description": "Unresolved questions at project scope"
       },
       "session_unknowns.csv": {
-        "records": 76,
+        "records": 143,
         "description": "Session-specific unknowns"
+      }
+    },
+    "grounded": {
+      "grounded_beliefs.csv": {
+        "records": 16,
+        "description": "Grounded calibration beliefs (Track 2: objective evidence-based)"
+      },
+      "grounded_verifications.csv": {
+        "records": 5,
+        "description": "Post-test grounded verification records"
+      },
+      "verification_evidence.csv": {
+        "records": 16,
+        "description": "Objective evidence items (pytest, git metrics, goal completion)"
+      },
+      "calibration_trajectory.csv": {
+        "records": 50,
+        "description": "POSTFLIGHT-to-POSTFLIGHT calibration evolution (closing/widening/stable)"
       }
     }
   },
   "key_metrics": {
-    "clean_learning_sessions": 308,
-    "total_calibration_evidence": 1838,
+    "clean_learning_sessions": 266,
+    "total_calibration_evidence": 4184,
+    "total_grounded_evidence": 16,
     "calibration_vectors": ["know", "uncertainty", "context", "engagement", "completion", "impact", "change", "state", "signal", "coherence", "clarity", "do", "density"],
-    "learning_deltas": {
-      "pre_know_mean": 0.686,
-      "post_know_mean": 0.857,
-      "delta_know": 0.171,
-      "pre_uncertainty_mean": 0.387,
-      "post_uncertainty_mean": 0.153,
-      "delta_uncertainty": -0.234,
-      "knowledge_improvement_rate": 0.912,
-      "uncertainty_reduction_rate": 0.951
+    "converged_calibration_per_vector": {
+      "know": {"mean": 0.822, "variance": 0.000252, "evidence": 396},
+      "uncertainty": {"mean": 0.186, "variance": 0.000255, "evidence": 392},
+      "context": {"mean": 0.834, "variance": 0.000269, "evidence": 371},
+      "engagement": {"mean": 0.874, "variance": 0.000357, "evidence": 280},
+      "completion": {"mean": 0.823, "variance": 0.000392, "evidence": 255},
+      "clarity": {"mean": 0.851, "variance": 0.000446, "evidence": 224},
+      "impact": {"mean": 0.790, "variance": 0.000466, "evidence": 214},
+      "change": {"mean": 0.697, "variance": 0.000512, "evidence": 195},
+      "do": {"mean": 0.819, "variance": 0.000517, "evidence": 193},
+      "coherence": {"mean": 0.850, "variance": 0.000534, "evidence": 187},
+      "signal": {"mean": 0.814, "variance": 0.000539, "evidence": 185},
+      "density": {"mean": 0.728, "variance": 0.000542, "evidence": 184},
+      "state": {"mean": 0.836, "variance": 0.000545, "evidence": 183}
     },
     "observed_biases": {
-      "underestimates": ["completion (+0.54)", "change (+0.31)", "impact (+0.18)", "know (+0.17)"],
-      "overestimates": ["uncertainty (-0.19)"],
-      "well_calibrated": ["engagement (~0)"]
+      "underestimates": ["completion (+0.77)", "change (+0.40)", "density (+0.23)", "do (+0.12)", "know (+0.07)"],
+      "overestimates": ["uncertainty (-0.06)"],
+      "well_calibrated": ["engagement (~0)", "coherence (~0)", "clarity (~0.05)", "context (~0.03)"]
     },
-    "filtering_notes": {
-      "excluded_default_vectors": "Sessions with PREFLIGHT vectors of exactly (0.5, 0.5, 0.5) for know/uncertainty/context",
-      "excluded_incomplete": "Sessions without matching POSTFLIGHT assessment",
-      "polluted_sessions_removed": 232
+    "noetic_artifact_totals": {
+      "findings": 2696,
+      "unknowns": 428,
+      "dead_ends": 56,
+      "mistakes": 46,
+      "lessons": 9,
+      "reflexes": 1957
     }
   },
   "growth_since_last_extraction": {
-    "previous_date": "2026-01-07",
-    "sessions": "+164 (685 -> 849)",
-    "bayesian_beliefs": "+654 (1184 -> 1838)",
-    "cascades": "+67 (149 -> 216)",
-    "clean_learning_pairs": "+122 (186 -> 308)"
+    "previous_date": "2026-01-13",
+    "bayesian_beliefs": "+2346 (1838 → 4184, +128%)",
+    "cascades": "+176 (216 → 392, +81%)",
+    "epistemic_snapshots": "+330 (51 → 381, +647%)",
+    "project_findings": "+575 (1374 → 1949, +42%)",
+    "goals": "+53 (278 → 331)",
+    "new_tables": ["subtasks (1026)", "reflexes (1957)", "grounded_beliefs (16)", "grounded_verifications (5)", "verification_evidence (16)", "calibration_trajectory (50)", "session_mistakes (7)"],
+    "note": "Session count decreased (849→638) likely due to DB cleanup of orphaned/test sessions"
+  },
+  "dual_track_calibration": {
+    "track1_self_referential": "bayesian_beliefs (4184 observations) — PREFLIGHT→POSTFLIGHT learning trajectory",
+    "track2_grounded": "grounded_beliefs (16 observations) — POSTFLIGHT vs objective post-test evidence",
+    "note": "Track 2 is new in v1.5.0 and has limited data so far"
   }
 }

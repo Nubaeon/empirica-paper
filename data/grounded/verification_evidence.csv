@@ -1,0 +1,17 @@
+evidence_id,session_id,source,metric_name,raw_value,normalized_value,quality,supports_vectors,collected_at,metadata
+d5752ee4-877f-498d-bf43-9f8e618bda6a,1d5e5d98-db51-44af-b647-46cb07561384,artifacts,productive_exploration_ratio,"{""findings"": 2, ""dead_ends"": 0}",1.0,semi_objective,"[""signal"", ""know""]",1769883070.28581,
+dbe54a79-ff45-4568-a6b8-34623be821e1,1d5e5d98-db51-44af-b647-46cb07561384,artifacts,dead_end_ratio,"{""dead_ends"": 0, ""total"": 2}",0.0,semi_objective,"[""uncertainty""]",1769883070.28581,
+f437af96-c630-49ee-ac2e-f2d00cabc74f,1d5e5d98-db51-44af-b647-46cb07561384,artifacts,mistake_ratio,"{""mistakes"": 0, ""findings"": 2}",1.0,inferred,"[""signal""]",1769883070.28581,
+9aaabcf9-b00d-4764-be3d-81bd103ac8e6,1d5e5d98-db51-44af-b647-46cb07561384,sentinel,check_proceed_ratio,"{""proceed"": 1, ""investigate"": 0}",1.0,semi_objective,"[""context""]",1769883070.28581,
+ed9bfcb8-5660-40ef-90ed-1e2cb6a6e17e,a02f6d2a-b534-4966-ab84-ce7bc41f454f,artifacts,productive_exploration_ratio,"{""findings"": 1, ""dead_ends"": 0}",1.0,semi_objective,"[""signal"", ""know""]",1769939618.6783,
+8462cffa-0174-4bee-9e0a-205861e33577,a02f6d2a-b534-4966-ab84-ce7bc41f454f,artifacts,dead_end_ratio,"{""dead_ends"": 0, ""total"": 1}",0.0,semi_objective,"[""uncertainty""]",1769939618.6783,
+62b99b4b-b097-4a58-9423-a10317d82aeb,a02f6d2a-b534-4966-ab84-ce7bc41f454f,artifacts,mistake_ratio,"{""mistakes"": 0, ""findings"": 1}",1.0,inferred,"[""signal""]",1769939618.6783,
+3c9fbad4-dcba-4f1e-ba13-de8ad98ae404,a46e16f8-5f07-4571-95f0-2ba416264a5d,goals,subtask_completion_ratio,"{""completed"": 5, ""total"": 5}",1.0,semi_objective,"[""completion"", ""do""]",1769943775.82298,"{""session_id"": ""a46e16f8-5f07-4571-95f0-2ba416264a5d""}"
+7edeb28e-a7d6-48a3-a74f-cc20b175d430,a46e16f8-5f07-4571-95f0-2ba416264a5d,artifacts,unknown_resolution_ratio,"{""resolved"": 0, ""total"": 3}",0.0,semi_objective,"[""know""]",1769943775.82298,
+70367903-34a7-49a9-b924-5b049b5218fd,a46e16f8-5f07-4571-95f0-2ba416264a5d,artifacts,productive_exploration_ratio,"{""findings"": 14, ""dead_ends"": 0}",1.0,semi_objective,"[""signal"", ""know""]",1769943775.82298,
+fbb6be7a-7f36-44d0-bffa-a018ec4111a4,a46e16f8-5f07-4571-95f0-2ba416264a5d,artifacts,dead_end_ratio,"{""dead_ends"": 0, ""total"": 14}",0.0,semi_objective,"[""uncertainty""]",1769943775.82298,
+3f3bdc43-59cc-43f5-a251-5d592ce654ff,a46e16f8-5f07-4571-95f0-2ba416264a5d,artifacts,mistake_ratio,"{""mistakes"": 0, ""findings"": 14}",1.0,inferred,"[""signal""]",1769943775.82298,
+0efef3c1-675b-4805-8a1e-057da0cf12f3,a46e16f8-5f07-4571-95f0-2ba416264a5d,sentinel,check_proceed_ratio,"{""proceed"": 2, ""investigate"": 0}",1.0,semi_objective,"[""context""]",1769943775.82298,
+cb52b1a9-9290-4c2e-97f7-37fcc39f8ba3,a46e16f8-5f07-4571-95f0-2ba416264a5d,sentinel,investigation_efficiency,"{""check_rounds"": 2}",0.75,inferred,"[""uncertainty""]",1769943775.82298,
+797b642e-73fc-4382-9fcf-cc592f99c2b6,bdc94bf1-274e-413c-b6f4-cc8b970b97f9,sentinel,check_proceed_ratio,"{""proceed"": 1, ""investigate"": 0}",1.0,semi_objective,"[""context""]",1769945929.76612,
+cf7260f6-6106-40d2-a8de-6bbf8f0ff4f0,95fb76e8-d82b-46f0-8c49-69a33a7495db,goals,subtask_completion_ratio,"{""completed"": 0, ""total"": 5}",0.0,semi_objective,"[""completion"", ""do""]",1769948860.28147,"{""session_id"": ""95fb76e8-d82b-46f0-8c49-69a33a7495db""}"
