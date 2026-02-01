@@ -39,7 +39,7 @@ If noetic precedes praxic---if investigation precedes action---then a measurable
 
 An AI that begins a task with partial knowledge, investigates, and builds understanding will assess its own epistemic state differently at task-end than at task-start. The difference between these assessments---the \emph{learning delta}---measures genuine knowledge acquisition.
 
-We present evidence from 82,380 observations across 849 sessions showing exactly this pattern. Across all 13 epistemic dimensions we track, AI systems show systematic confidence growth during task execution:
+We present evidence from 479,686 observations across 638 sessions showing exactly this pattern. Across all 13 epistemic dimensions we track, AI systems show systematic confidence growth during task execution:
 
 \begin{table}[h]
 \centering
@@ -47,16 +47,16 @@ We present evidence from 82,380 observations across 849 sessions showing exactly
 \toprule
 \textbf{Phase} & \textbf{Mean Capability Assessment} \\
 \midrule
-Pre-task (PREFLIGHT) & 0.685 \\
-Post-task (POSTFLIGHT) & 0.857 \\
-\textbf{Learning Delta} & \textbf{+0.172} \\
+Pre-task (PREFLIGHT) & 0.663 \\
+Post-task (POSTFLIGHT) & 0.863 \\
+\textbf{Learning Delta} & \textbf{+0.200} \\
 \bottomrule
 \end{tabular}
-\caption{Learning delta across 308 clean sessions.}
+\caption{Learning delta across 267 clean sessions.}
 \label{tab:learning-delta-intro}
 \end{table}
 
-Filtering to 308 clean sessions (excluding default assessments and incomplete workflows), \textbf{91.3\% showed knowledge improvement}. This is not calibration error being corrected. This is learning being measured.
+Filtering to 267 clean sessions (excluding default assessments and incomplete workflows), \textbf{93.6\% showed knowledge improvement}. This is not calibration error being corrected. This is learning being measured.
 
 \subsection{Empirica: Epistemic Infrastructure for AI}
 
@@ -79,9 +79,9 @@ This paper makes the following contributions:
 \begin{enumerate}
     \item \textbf{Conceptual}: We articulate the noetic-before-praxic principle and argue that treating AI as an execution layer is a category error that produces systematic failures.
 
-    \item \textbf{Empirical}: We present 82,380 observations demonstrating that AI capability genuinely increases during task execution through investigation---the learning delta is real, not an artifact of assessment correction. 91.3\% of clean sessions show knowledge improvement.
+    \item \textbf{Empirical}: We present 479,686 observations demonstrating that AI capability genuinely increases during task execution through investigation---the learning delta is real, not an artifact of assessment correction. 93.6\% of clean sessions show knowledge improvement.
 
-    \item \textbf{Practical}: We introduce Empirica, an open-source framework implementing epistemic gates, self-assessment vectors, and calibration loops. The framework is production-tested across 849 sessions.
+    \item \textbf{Practical}: We introduce Empirica, an open-source framework implementing epistemic gates, self-assessment vectors, and calibration loops. The framework is production-tested across 638 sessions.
 
     \item \textbf{Theoretical}: We develop a computational epistemology for AI systems---a formal theory of how information-processing agents can assess and manage their own knowledge state.
 \end{enumerate}

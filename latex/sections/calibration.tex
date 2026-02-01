@@ -1,6 +1,6 @@
 % Section 5: Empirical Results - Calibration Analysis
 
-A critical question for any self-assessment framework is \textbf{calibration accuracy}: do AI-reported epistemic vectors correspond to actual task outcomes? We analyzed calibration using Bayesian belief updating across 82,380 evidence observations.
+A critical question for any self-assessment framework is \textbf{calibration accuracy}: do AI-reported epistemic vectors correspond to actual task outcomes? We analyzed calibration using Bayesian belief updating across 479,686 evidence observations.
 
 \subsection{Methodology}
 
@@ -21,32 +21,32 @@ Positive delta indicates the vector value \emph{increased} during task execution
 \toprule
 \textbf{Vector} & \textbf{Evidence} & \textbf{Prior} & \textbf{Posterior} & \textbf{Delta} & \textbf{Direction} \\
 \midrule
-completion & 4,088 & 0.416 & 0.813 & +0.397 & $\uparrow$ Growth \\
-change & 1,896 & 0.586 & 0.765 & +0.179 & $\uparrow$ Growth \\
-state & 1,421 & 0.664 & 0.835 & +0.171 & $\uparrow$ Growth \\
-know & 20,564 & 0.680 & 0.822 & +0.141 & $\uparrow$ Growth \\
-impact & 2,663 & 0.666 & 0.804 & +0.138 & $\uparrow$ Growth \\
-context & 16,752 & 0.723 & 0.830 & +0.108 & $\uparrow$ Growth \\
-clarity & 2,229 & 0.769 & 0.866 & +0.097 & $\uparrow$ Growth \\
-signal & 1,508 & 0.742 & 0.826 & +0.084 & $\uparrow$ Growth \\
-do & 1,846 & 0.763 & 0.845 & +0.081 & $\uparrow$ Growth \\
-coherence & 1,338 & 0.778 & 0.850 & +0.072 & $\uparrow$ Growth \\
-density & 1,464 & 0.619 & 0.653 & +0.034 & $\uparrow$ Growth \\
-engagement & 6,839 & 0.854 & 0.857 & +0.004 & $\approx$ Stable \\
-uncertainty & 19,772 & 0.355 & 0.201 & $-$0.154 & $\downarrow$ Decrease \\
+completion & 203 & 0.204 & 0.909 & +0.704 & $\uparrow$ Growth \\
+change & 179 & 0.516 & 0.754 & +0.237 & $\uparrow$ Growth \\
+state & 174 & 0.645 & 0.851 & +0.206 & $\uparrow$ Growth \\
+know & 267 & 0.663 & 0.863 & +0.200 & $\uparrow$ Growth \\
+context & 251 & 0.705 & 0.860 & +0.155 & $\uparrow$ Growth \\
+do & 178 & 0.693 & 0.843 & +0.150 & $\uparrow$ Growth \\
+clarity & 192 & 0.734 & 0.879 & +0.145 & $\uparrow$ Growth \\
+density & 172 & 0.591 & 0.732 & +0.141 & $\uparrow$ Growth \\
+signal & 172 & 0.703 & 0.839 & +0.136 & $\uparrow$ Growth \\
+coherence & 178 & 0.747 & 0.874 & +0.127 & $\uparrow$ Growth \\
+impact & 188 & 0.704 & 0.826 & +0.122 & $\uparrow$ Growth \\
+engagement & 228 & 0.860 & 0.882 & +0.022 & $\approx$ Stable \\
+uncertainty & 263 & 0.363 & 0.154 & $-$0.208 & $\downarrow$ Decrease \\
 \bottomrule
 \end{tabular}
-\caption{Prior $\rightarrow$ Posterior Learning Analysis (N=82,380 evidence observations)}
+\caption{PREFLIGHT $\rightarrow$ POSTFLIGHT Learning Analysis (N=267 clean sessions, 479,686 cumulative evidence observations)}
 \label{tab:learning-analysis}
 \end{table}
 
 \paragraph{Aggregate statistics:}
 \begin{itemize}
-    \item Mean capability vector delta: \textbf{+0.125} (weighted by evidence)
-    \item Uncertainty delta: \textbf{$-$0.154} (confidence growth on inverted scale: +0.154)
+    \item Mean capability vector delta: \textbf{+0.195} (across 12 capability vectors)
+    \item Uncertainty delta: \textbf{$-$0.208} (confidence growth on inverted scale: +0.208)
     \item All 12 capability vectors show positive growth
-    \item Total evidence observations: 82,380
-    \item Clean learning sessions: 308 (91.3\% showed knowledge improvement)
+    \item Cumulative Bayesian evidence: 479,686 observations across 4,184 belief updates
+    \item Clean learning sessions: 267 (93.6\% showed knowledge improvement)
 \end{itemize}
 
 \begin{figure}[ht]
@@ -81,8 +81,8 @@ When viewed correctly, \emph{all 13 vectors} show the same pattern:
 \toprule
 \textbf{Vector Type} & \textbf{Raw Delta} & \textbf{Confidence Interpretation} \\
 \midrule
-Capability (12) & +0.125 avg & Confidence increases \\
-Uncertainty (1) & $-$0.154 & Confidence increases (inverted) \\
+Capability (12) & +0.195 avg & Confidence increases \\
+Uncertainty (1) & $-$0.208 & Confidence increases (inverted) \\
 \bottomrule
 \end{tabular}
 \caption{Unified confidence growth across all vector types.}
@@ -115,7 +115,7 @@ All vectors show movement toward higher confidence during task execution. AI sys
 
 \paragraph{Pattern 2: Magnitude Varies by Vector}
 
-COMPLETION shows the largest delta (+0.397), suggesting AI systems dramatically underestimate task progress at PREFLIGHT. ENGAGEMENT shows near-zero delta (+0.004), suggesting this vector is already well-calibrated from task onset.
+COMPLETION shows the largest delta (+0.704), suggesting AI systems dramatically underestimate task progress at PREFLIGHT. ENGAGEMENT shows near-zero delta (+0.022), suggesting this vector is already well-calibrated from task onset.
 
 \subsection{Calibration Correction}
 
@@ -127,8 +127,8 @@ V_{\text{corrected}} = V_{\text{PREFLIGHT}} + \Delta_V
 
 For the Sentinel readiness gate (\Cref{sec:sentinel}), this means:
 \begin{itemize}
-    \item Raw PREFLIGHT know of 0.55 $\rightarrow$ corrected to $\sim$0.70
-    \item Raw PREFLIGHT uncertainty of 0.48 $\rightarrow$ corrected to $\sim$0.33
+    \item Raw PREFLIGHT know of 0.55 $\rightarrow$ corrected to $\sim$0.75
+    \item Raw PREFLIGHT uncertainty of 0.48 $\rightarrow$ corrected to $\sim$0.27
 \end{itemize}
 
 The correction compensates for systematic conservatism at task onset.
@@ -143,18 +143,19 @@ A key validation of the Bayesian framework is \textbf{calibration convergence}: 
 \toprule
 \textbf{Evidence Level} & \textbf{Beliefs} & \textbf{Avg Variance} & \textbf{Variance Reduction} \\
 \midrule
-5 & 522 & 0.0366 & baseline \\
-15 & 324 & 0.0072 & 5$\times$ tighter \\
-40 & 235 & 0.0026 & 14$\times$ tighter \\
-87 & 109 & 0.0012 & 31$\times$ tighter \\
-175 & 126 & 0.0006 & \textbf{62$\times$ tighter} \\
+1--5 & 399 & 0.0477 & baseline \\
+6--15 & 390 & 0.0099 & 5$\times$ tighter \\
+16--40 & 567 & 0.0042 & 11$\times$ tighter \\
+41--87 & 618 & 0.0016 & 30$\times$ tighter \\
+88--175 & 1,180 & 0.0008 & 60$\times$ tighter \\
+176+ & 1,043 & 0.0004 & \textbf{115$\times$ tighter} \\
 \bottomrule
 \end{tabular}
 \caption{Calibration Convergence by Evidence Level}
 \label{tab:calibration-convergence}
 \end{table}
 
-Variance drops \textbf{62-fold} as evidence accumulates. This proves the self-assessment framework genuinely calibrates over time---more data produces tighter, more reliable confidence estimates. This is the signature of a functional Bayesian system, not measurement noise.
+Variance drops \textbf{115-fold} as evidence accumulates. This proves the self-assessment framework genuinely calibrates over time---more data produces tighter, more reliable confidence estimates. This is the signature of a functional Bayesian system, not measurement noise.
 
 \begin{figure}[h]
 \centering
@@ -192,4 +193,4 @@ The unified confidence growth pattern---all 13 vectors moving toward higher conf
 The present contribution is empirical: \textbf{systematic confidence growth during learning is measurable and consistent}. The correction mechanism provides practical value regardless of causal interpretation.
 
 \medskip
-\noindent\textbf{Data availability}: Full dataset (82,380 evidence observations across 849 sessions) and analysis scripts available in supplementary materials.
+\noindent\textbf{Data availability}: Full dataset (479,686 evidence observations across 638 sessions) and analysis scripts available in supplementary materials.

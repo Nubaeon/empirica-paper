@@ -169,10 +169,10 @@ Each vector has independent calibration. From our data (\Cref{sec:results}):
 \toprule
 \textbf{Vector} & \textbf{Learned Correction} \\
 \midrule
-know & +0.141 \\
-uncertainty & $-$0.154 \\
-completion & +0.397 \\
-engagement & +0.004 (near-calibrated) \\
+know & +0.200 \\
+uncertainty & $-$0.208 \\
+completion & +0.704 \\
+engagement & +0.022 (near-calibrated) \\
 \bottomrule
 \end{tabular}
 \caption{Per-vector calibration corrections.}
@@ -214,7 +214,7 @@ For flexibility, Sentinel supports overrides (logged for audit):
 
 \subsection{Empirical Performance}
 
-From production deployment (849 sessions):
+From production deployment (638 sessions):
 
 \begin{table}[h]
 \centering
@@ -222,11 +222,11 @@ From production deployment (849 sessions):
 \toprule
 \textbf{Metric} & \textbf{Value} \\
 \midrule
-Total CHECK submissions & 694 \\
-Total cascades & 217 \\
-Clean learning pairs & 308 \\
-Knowledge improvement rate & 91.3\% \\
-Uncertainty reduction rate & 95.1\% \\
+Total CHECK submissions & 381 \\
+Total cascades & 392 \\
+Clean learning pairs & 267 \\
+Knowledge improvement rate & 93.6\% \\
+Uncertainty reduction rate & 94.3\% \\
 \bottomrule
 \end{tabular}
 \caption{Sentinel gate statistics.}
