@@ -4,13 +4,14 @@ Empirica is an open-source framework implementing the epistemic vector theory. I
 
 \subsection{Architecture Overview}
 
-The framework consists of four core components:
+The framework consists of five core components:
 
 \begin{enumerate}
     \item \textbf{Sessions Database}: Persistent storage for session state, including AI identity, timestamps, and metadata.
-    \item \textbf{Cascades}: Complete PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT loops that capture epistemic state evolution.
-    \item \textbf{Bayesian Belief Manager}: Maintains calibration state and computes corrections from accumulated evidence.
+    \item \textbf{Cascades}: Complete PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST loops that capture epistemic state evolution and ground self-assessment in objective evidence.
+    \item \textbf{Bayesian Belief Manager}: Maintains dual-track calibration state---self-referential corrections from learning deltas and grounded corrections from post-test evidence.
     \item \textbf{Sentinel Protocol}: The epistemic gate that enforces noetic-before-praxic.
+    \item \textbf{Post-Test Verification}: Collects objective evidence after task completion to ground self-assessment in measurable outcomes.
 \end{enumerate}
 
 \subsection{The CASCADE Workflow}
@@ -21,21 +22,25 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
 \centering
 \begin{tikzpicture}[
     node distance=1.2cm,
-    phase/.style={rectangle, draw, rounded corners, minimum width=2.2cm, minimum height=0.8cm, fill=blue!10, font=\small\bfseries},
+    phase/.style={rectangle, draw, rounded corners, minimum width=2cm, minimum height=0.8cm, fill=blue!10, font=\small\bfseries},
     decision/.style={diamond, draw, aspect=2, fill=yellow!20, font=\small},
     action/.style={rectangle, draw, minimum width=1.8cm, minimum height=0.7cm, fill=green!10, font=\small},
-    update/.style={rectangle, draw, rounded corners, minimum width=2.2cm, minimum height=0.8cm, fill=orange!15, font=\small\bfseries},
+    update/.style={rectangle, draw, rounded corners, minimum width=2cm, minimum height=0.8cm, fill=orange!15, font=\small\bfseries},
+    verify/.style={rectangle, draw, rounded corners, minimum width=2cm, minimum height=0.8cm, fill=purple!15, font=\small\bfseries},
     label/.style={font=\scriptsize, text=gray},
     arrow/.style={-{Stealth[length=2.5mm]}, thick}
 ]
-    % Top row: PREFLIGHT - CHECK - POSTFLIGHT
+    % Top row: PREFLIGHT - CHECK - POSTFLIGHT - POST-TEST
     \node[phase] (preflight) {PREFLIGHT};
-    \node[phase, right=2cm of preflight] (check) {CHECK};
-    \node[phase, right=2cm of check] (postflight) {POSTFLIGHT};
+    \node[phase, right=1.5cm of preflight] (check) {CHECK};
+    \node[phase, right=1.5cm of check] (postflight) {POSTFLIGHT};
+    \node[verify, right=1.5cm of postflight] (posttest) {POST-TEST};
 
     \node[label, below=0.1cm of preflight] {Baseline};
     \node[label, below=0.1cm of check] {Sentinel Gate};
     \node[label, below=0.1cm of postflight] {Learning Delta};
+    \node[label, below=0.1cm of posttest] {Grounded};
+    \node[label, below=0.35cm of posttest] {Verification};
 
     % Second row: PROCEED diamond below CHECK
     \node[decision, below=1.8cm of check] (proceed) {PROCEED?};
@@ -46,14 +51,16 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
     \node[label, below=0.1cm of praxic] {(execute)};
     \node[label, below=0.1cm of noetic] {(investigate)};
 
-    % Bottom: Bayesian Update
+    % Bottom: Dual-track updates
     \node[update, below=3.5cm of proceed] (bayesian) {Bayesian Update};
+    \node[update, right=1.5cm of bayesian] (grounded) {Grounded Update};
 
     % === ARROWS ===
 
-    % Top flow: PREFLIGHT -> CHECK -> POSTFLIGHT
+    % Top flow: PREFLIGHT -> CHECK -> POSTFLIGHT -> POST-TEST
     \draw[arrow] (preflight) -- (check);
     \draw[arrow] (check) -- (postflight);
+    \draw[arrow] (postflight) -- (posttest);
 
     % CHECK down to PROCEED
     \draw[arrow] (check) -- (proceed);
@@ -66,13 +73,20 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
     \draw[arrow] (praxic.north) -- ++(0,0.5) -| (postflight.south);
 
     % NOETIC -> CHECK (loop back on far right, outside everything)
-    \draw[arrow, gray!60] (noetic.east) -- ++(2,0) |- (check.east);
+    \draw[arrow, gray!60] (noetic.east) -- ++(3.5,0) |- (check.east);
 
-    % PROCEED -> Bayesian Update
-    \draw[arrow] (proceed.south) -- (bayesian.north);
+    % POSTFLIGHT -> Bayesian Update (self-referential track)
+    \draw[arrow] (postflight.south) -- ++(0,-3.2) -| (bayesian.north);
+
+    % POST-TEST -> Grounded Update (grounded track)
+    \draw[arrow] (posttest.south) -- ++(0,-4.5) -| (grounded.north);
+
+    % Label the tracks
+    \node[label, below=0.1cm of bayesian] {Track 1: Self-referential};
+    \node[label, below=0.1cm of grounded] {Track 2: Evidence-grounded};
 
 \end{tikzpicture}
-\caption{The CASCADE workflow: epistemic assessment before and after task execution. The noetic loop continues until the Sentinel gate returns PROCEED.}
+\caption{The 4-phase CASCADE workflow. PREFLIGHT establishes baseline, CHECK gates action, POSTFLIGHT measures learning delta, and POST-TEST grounds self-assessment in objective evidence. Dual-track calibration updates run in parallel.}
 \label{fig:cascade-workflow}
 \end{figure}
 
@@ -105,7 +119,45 @@ The Sentinel protocol evaluates whether the AI has sufficient knowledge to proce
 
 \subsubsection{POSTFLIGHT Phase}
 
-After task completion (or significant progress), the AI reassesses its epistemic state. The delta between PREFLIGHT and POSTFLIGHT vectors measures learning.
+After task completion (or significant progress), the AI reassesses its epistemic state. The delta between PREFLIGHT and POSTFLIGHT vectors measures learning:
+
+\begin{equation}
+\Delta_{\text{learning}} = V_{\text{POSTFLIGHT}} - V_{\text{PREFLIGHT}}
+\end{equation}
+
+This delta feeds the self-referential calibration track (Track~1), capturing systematic bias in initial self-assessment.
+
+\subsubsection{POST-TEST Phase (Grounded Verification)}
+
+After POSTFLIGHT, the framework automatically collects objective evidence to ground the self-assessment in measurable outcomes:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Evidence Source} & \textbf{Quality} & \textbf{Vectors Grounded} \\
+\midrule
+Test results (pytest) & Objective & know, do, clarity \\
+Git metrics (commits, diffs) & Objective & do, change, state \\
+Goal/subtask completion & Semi-objective & completion, do, know \\
+Artifact ratios & Semi-objective & know, uncertainty, signal \\
+Issue resolution & Semi-objective & impact, signal \\
+Sentinel decisions & Semi-objective & context, uncertainty \\
+\bottomrule
+\end{tabular}
+\caption{Post-test evidence sources and the vectors they ground.}
+\label{tab:posttest-evidence}
+\end{table}
+
+The POST-TEST phase computes a calibration gap between self-assessed POSTFLIGHT vectors and evidence-derived estimates:
+
+\begin{equation}
+\text{gap}_{\text{vector}} = V_{\text{POSTFLIGHT}} - V_{\text{evidence}}
+\end{equation}
+
+Positive gaps indicate overestimation; negative gaps indicate underestimation relative to objective outcomes. This feeds the grounded calibration track (Track~2), which provides more trustworthy corrections because it anchors in what actually happened rather than another self-report.
+
+Not all vectors can be grounded---ENGAGEMENT, COHERENCE, and DENSITY lack objective correlates. For these, self-referential calibration remains the only available signal.
 
 \subsection{The Sentinel Protocol}
 
@@ -144,11 +196,11 @@ This allows the system to compensate for learned biases while maintaining conser
 
 \subsection{Bayesian Belief Management}
 
-The framework maintains Bayesian beliefs about each vector's calibration.
+The framework maintains Bayesian beliefs about each vector's calibration through two parallel tracks.
 
-\subsubsection{Update Rule}
+\subsubsection{Conjugate Normal Update}
 
-For each vector, we track a belief distribution updated via conjugate normal inference:
+Both tracks use the same conjugate normal inference:
 
 \begin{equation}
 \mu_{\text{posterior}} = \frac{\sigma^2_{\text{prior}} \cdot x + \sigma^2_{\text{obs}} \cdot \mu_{\text{prior}}}{\sigma^2_{\text{prior}} + \sigma^2_{\text{obs}}}
@@ -158,21 +210,49 @@ For each vector, we track a belief distribution updated via conjugate normal inf
 \sigma^2_{\text{posterior}} = \frac{1}{\frac{1}{\sigma^2_{\text{prior}}} + \frac{1}{\sigma^2_{\text{obs}}}}
 \end{equation}
 
-Where:
-\begin{itemize}
-    \item \textbf{prior}: Current belief about the AI's typical assessment
-    \item \textbf{observation}: POSTFLIGHT assessment (the ``ground truth'' after learning)
-    \item \textbf{posterior}: Updated belief incorporating new evidence
-\end{itemize}
+The tracks differ in what constitutes an observation and in observation variance.
 
-\subsubsection{Calibration Delta}
+\subsubsection{Track 1: Self-Referential Calibration}
 
-The key measurement is the learning delta:
+The self-referential track measures learning trajectory---how vectors change within an epistemic transaction:
+
 \begin{equation}
-\Delta = V_{\text{POSTFLIGHT}} - V_{\text{PREFLIGHT}}
+\Delta_{\text{learning}} = V_{\text{POSTFLIGHT}} - V_{\text{PREFLIGHT}}
 \end{equation}
 
-Positive delta indicates the AI learned during the task (capability grew). The mean delta across sessions becomes the calibration correction.
+\begin{itemize}
+    \item \textbf{Observation}: POSTFLIGHT vector value
+    \item \textbf{Observation variance}: $\sigma^2_{\text{obs}} = 0.10$ (self-reported, moderate uncertainty)
+    \item \textbf{Measures}: Whether the AI consistently under- or overestimates at task onset
+\end{itemize}
+
+Positive delta indicates capability growth during the task. The mean delta becomes the bias correction applied at CHECK.
+
+\subsubsection{Track 2: Grounded Calibration}
+
+The grounded track measures calibration accuracy---whether POSTFLIGHT self-assessment matches objective outcomes:
+
+\begin{equation}
+\text{gap}_{\text{vector}} = V_{\text{POSTFLIGHT}} - V_{\text{evidence}}
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Observation}: Evidence-derived vector estimate from POST-TEST
+    \item \textbf{Observation variance}: $\sigma^2_{\text{obs}} = 0.05$ (evidence-based, lower uncertainty)
+    \item \textbf{Measures}: Whether the AI's post-task self-assessment matches what actually happened
+\end{itemize}
+
+The lower observation variance gives grounded evidence stronger pull on the posterior, reflecting its higher trustworthiness compared to self-report. When the tracks diverge, grounded calibration takes precedence---it is anchored in outcomes, not introspection.
+
+\subsubsection{Calibration Divergence}
+
+The divergence between tracks reveals self-assessment quality:
+
+\begin{equation}
+\text{divergence}_{\text{vector}} = |\mu_{\text{self-ref}} - \mu_{\text{grounded}}|
+\end{equation}
+
+Low divergence indicates well-calibrated self-assessment. High divergence signals that the AI's self-reports are systematically disconnected from outcomes. Preliminary data (\Cref{sec:results}) shows the largest divergence on COMPLETION (+0.31 overestimation in grounded track vs.\ +0.82 in self-referential), suggesting AIs overestimate completion progress even after task execution.
 
 \subsection{Data Model}
 
@@ -180,32 +260,38 @@ The framework persists state in SQLite with the following schema:
 
 \paragraph{Sessions} Track AI interactions with unique identifiers, timestamps, and status.
 
-\paragraph{Cascades} Complete PREFLIGHT $\rightarrow$ POSTFLIGHT loops with outcome tracking.
+\paragraph{Cascades} Complete PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST loops with outcome tracking.
 
 \paragraph{Epistemic Snapshots} Vector states at each CASCADE phase, enabling delta computation.
 
-\paragraph{Bayesian Beliefs} Per-vector calibration state including mean, variance, evidence count, and update history.
+\paragraph{Bayesian Beliefs} Per-vector self-referential calibration state (Track~1): mean, variance, evidence count, and update history.
+
+\paragraph{Grounded Beliefs} Per-vector grounded calibration state (Track~2): evidence-derived corrections with lower observation variance, updated from POST-TEST evidence.
+
+\paragraph{Verification Evidence} Raw post-test evidence records per session, linking objective signals to vector estimates.
 
 \subsection{CLI Interface}
 
 Empirica provides a command-line interface for integration:
 
-\begin{lstlisting}[language=bash,caption={Empirica CLI commands}]
+\begin{lstlisting}[language=bash,caption={Empirica CLI commands},showspaces=false,showstringspaces=false]
 # Session management
 empirica session-create --ai-id claude-code --output json
 empirica session-list --status active
 
-# CASCADE workflow
-empirica preflight-submit -    # Stdin JSON
-empirica check-submit -        # Returns PROCEED or INVESTIGATE
-empirica postflight-submit -   # Captures learning delta
+# CASCADE workflow (4-phase)
+empirica preflight-submit -    # Baseline assessment
+empirica check-submit -        # Sentinel gate: PROCEED or INVESTIGATE
+empirica postflight-submit -   # Learning delta + auto POST-TEST
 
 # Knowledge management
 empirica finding-log --session-id ... --finding "..." --impact 0.8
 empirica unknown-log --session-id ... --unknown "..."
 
-# Calibration
-empirica calibration-report --ai-id claude-code
+# Dual-track calibration
+empirica calibration-report --ai-id claude-code            # Track 1
+empirica calibration-report --ai-id claude-code --grounded  # Track 2
+empirica calibration-report --ai-id claude-code --trajectory # Trend
 \end{lstlisting}
 
 \subsection{Integration Patterns}
@@ -217,6 +303,18 @@ Empirica integrates with development environments via hooks that trigger CASCADE
 \subsubsection{Agent Framework Integration}
 
 For autonomous agents, Empirica provides epistemic checkpoints that gate action based on assessed knowledge state, implementing the noetic-before-praxic principle programmatically.
+
+\subsection{Semantic Calibration Retrieval}
+
+At PREFLIGHT, before the AI has investigated the current task, the framework retrieves calibration-relevant context from a vector database (Qdrant). This serves three functions:
+
+\begin{enumerate}
+    \item \textbf{Pattern warnings}: Prior sessions with similar tasks and poor calibration scores surface as warnings (e.g., ``In session X with a similar task, you overestimated COMPLETION by +0.30'').
+    \item \textbf{Dead-end avoidance}: Previously logged dead-ends matching the current task context appear at PREFLIGHT, preventing re-exploration of known failures.
+    \item \textbf{Lesson retrieval}: Relevant lessons and findings from prior sessions inform the baseline assessment.
+\end{enumerate}
+
+POSTFLIGHT vectors, findings, and calibration outcomes are automatically embedded into the vector store, creating a growing corpus of episodic calibration memory. This enables the system to learn not just aggregate bias corrections (Bayesian beliefs) but also \emph{context-sensitive} corrections---recognizing that calibration accuracy varies by task type, domain, and complexity.
 
 \subsection{Production Deployment}
 

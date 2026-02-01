@@ -32,6 +32,8 @@ A less-discussed effect of alignment training is its impact on model confidence.
 
 This is not a criticism of RLHF---reducing harmful overconfidence is valuable. Rather, it suggests that alignment training produces systematic biases that can be measured and corrected. The learning delta we observe (+0.200 average capability growth during tasks, with 93.6\% of sessions showing improvement) may partially reflect AI systems overcoming training-induced conservatism through task-specific evidence.
 
+A deeper structural issue: RLHF trains models to predict what evaluators want to hear, not to accurately report internal state. The reward signal comes from human preferences, not from epistemic accuracy. This creates an incentive to \emph{appear} calibrated rather than \emph{be} calibrated. Our framework addresses this by making self-assessment \emph{functional}: the AI's self-report directly determines its subsequent behavior (proceed vs.\ investigate), and outcomes are measured through dual-track calibration. The grounded verification track (\Cref{sec:results}) compares self-assessment against objective evidence, detecting precisely the gap between reported and actual capability that RLHF incentives might create.
+
 \subsection{Human-AI Collaboration}
 
 Research on human-AI collaboration has explored how humans and AI systems can work together effectively. \citet{bansal2021does} study when humans should defer to AI recommendations. \citet{lai2021towards} examine how AI explanations affect human decision-making.

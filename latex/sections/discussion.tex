@@ -18,7 +18,7 @@ An alternative interpretation: capability is fixed, but self-assessment improves
 
 Under this view, PREFLIGHT assessments are systematically conservative (perhaps due to RLHF training), and task engagement provides evidence that corrects this conservatism.
 
-We cannot definitively distinguish these interpretations from self-assessment data alone. External validation---measuring task success against epistemic vectors---would be needed. However, the magnitude of the delta (+0.200 average for KNOW, +0.704 for COMPLETION) and the 93.6\% improvement rate across 267 clean sessions suggests more than mere assessment correction. Additionally, the 115$\times$ reduction in calibration variance as evidence accumulates (\Cref{sec:results}) demonstrates genuine Bayesian convergence.
+Self-assessment data alone cannot definitively distinguish these interpretations. However, the grounded verification track (\Cref{tab:grounded-gaps}) provides initial evidence: KNOW shows a gap of only $-$0.034 between self-assessed and evidence-derived values, suggesting POSTFLIGHT self-assessment for knowledge tracks objective outcomes accurately. The magnitude of the learning delta (+0.200 average for KNOW, +0.704 for COMPLETION), the 93.6\% improvement rate across 267 clean sessions, and the 115$\times$ reduction in calibration variance (\Cref{sec:results}) collectively suggest more than mere assessment correction.
 
 \subsubsection{The Pragmatic View}
 
@@ -46,6 +46,40 @@ The Bayesian belief system enables AI systems to improve their self-assessment o
 
 This is a form of meta-learning: the system learns how to assess its own learning. Early PREFLIGHT assessments may be poorly calibrated, but the correction mechanism improves with evidence.
 
+\subsubsection{The Grounding Growth Loop}
+
+The dual-track calibration system creates a reinforcing cycle between self-assessment quality and evidence accumulation:
+
+\begin{enumerate}
+    \item The AI assesses its epistemic state (PREFLIGHT)
+    \item Investigation produces genuine capability growth (noetic phase)
+    \item Self-assessment captures the learning (POSTFLIGHT)
+    \item Objective evidence grounds the self-assessment (POST-TEST)
+    \item Calibration corrections improve future assessments
+    \item Better assessments lead to better-calibrated gate decisions
+    \item Better gate decisions lead to more appropriate investigation
+\end{enumerate}
+
+Each loop iteration tightens the relationship between self-report and reality. The semantic retrieval system (\Cref{sec:implementation}) accelerates this by surfacing calibration-relevant context at PREFLIGHT: prior sessions with similar tasks and their calibration outcomes inform the baseline assessment, enabling context-sensitive corrections beyond aggregate bias.
+
+This loop operates at a different level than RLHF's reward signal. RLHF optimizes for evaluator preferences; the grounding loop optimizes for outcome accuracy. The two are complementary: RLHF prevents harmful overconfidence, while the grounding loop prevents the overcorrection that RLHF's conservatism incentive can produce.
+
+\subsection{Why Would the AI Be Honest?}
+
+A natural objection: if self-assessment determines whether the AI must investigate (costly) or can proceed (efficient), why wouldn't the AI inflate its self-assessment to avoid investigation?
+
+This objection assumes the wrong incentive structure. In the Empirica framework, self-assessment is not a report to an external evaluator---it is a routing signal for the AI's own behavior. Three mechanisms prevent gaming:
+
+\begin{enumerate}
+    \item \textbf{Functional consequences}: Inflated KNOW at PREFLIGHT leads to premature action, which leads to poor outcomes, which the grounded verification track detects. The calibration correction then adjusts future gate thresholds upward, making it \emph{harder} to proceed next time.
+
+    \item \textbf{Measurement, not prediction}: The framework measures what happened (learning delta, grounded calibration gap), not what the AI predicted would happen. Even if the AI inflates assessments, the delta and gap computations reveal the true calibration state.
+
+    \item \textbf{No optimization target}: Unlike RLHF, which provides an explicit reward signal the model can learn to exploit, the CASCADE workflow does not train the model. Vectors are instruction-following outputs, not gradient-optimized parameters. The model has no mechanism to strategically distort assessments across sessions.
+\end{enumerate}
+
+The deeper point is that this framework sidesteps the honesty question entirely. We do not ask the AI to be honest; we measure what it does and compare it to what it said. The grounded track makes gaming detectable even if not preventable.
+
 \subsection{Implications for AI Alignment}
 
 \subsubsection{Training-Induced Conservatism}
@@ -55,6 +89,21 @@ The systematic pattern of underestimation across capability vectors suggests tha
 RLHF specifically targets overconfidence and hallucination---training models to say ``I don't know'' when uncertain. Our data suggests this training may generalize: models become conservative not just about uncertainty, but about capability assessment generally.
 
 This is not necessarily harmful. Conservative AI may be safer than overconfident AI. But it does suggest that alignment training has unintended effects that can be measured and, if desired, corrected.
+
+\subsubsection{Toward Safe Autonomous AI}
+
+The earned agency model (\Cref{sec:sentinel}) suggests a practical path to AI autonomy that does not require solving alignment in general. Instead of asking ``is this AI aligned?'' (a question that may be unanswerable), we ask ``has this AI demonstrated accurate self-assessment in this domain?''
+
+The grounded verification track provides the measurement mechanism. An AI whose self-reports consistently match objective outcomes in a given domain has earned a degree of trust \emph{for that domain}. This trust is:
+
+\begin{itemize}
+    \item \textbf{Domain-specific}: Well-calibrated for code review does not imply well-calibrated for legal analysis.
+    \item \textbf{Revocable}: Increasing divergence between tracks triggers tighter gating.
+    \item \textbf{Evidence-based}: Trust is proportional to grounded verification evidence count, not to training data size or benchmark performance.
+    \item \textbf{Continuous}: Not binary (trusted/untrusted) but graduated along the calibration spectrum.
+\end{itemize}
+
+This reframes the AI safety question from ``how do we make AI safe?'' to ``how do we measure whether AI is operating within its epistemic bounds?'' The latter question is empirically tractable.
 
 \subsubsection{The Engagement Dimension}
 
@@ -90,15 +139,18 @@ Data collection spanned active framework development. Calibration patterns may p
 
 The epistemic vector framework opens numerous research directions across validation, architecture, and application domains.
 
-\subsubsection{External Validation}
+\subsubsection{External Validation (In Progress)}
 
-The critical next step is external validation: measuring task success against epistemic vectors without relying on self-report. This could involve:
+External validation---measuring task success against epistemic vectors without relying on self-report---is now partially underway through the grounded verification track (\Cref{tab:grounded-gaps}). Preliminary results from 7 verifications show that POST-TEST evidence collection can ground self-assessment in objective outcomes, though coverage remains limited to 27\% of vectors per session.
+
+The grounded track represents a first step, but deeper validation remains critical:
 
 \begin{itemize}
     \item Human evaluation of output quality correlated with epistemic assessments
     \item Automated test suites measuring code correctness against KNOW vectors
     \item Downstream task performance metrics linked to gate decisions
     \item A/B testing of gated vs ungated workflows on equivalent tasks
+    \item Domain-specific evidence collectors (e.g., legal citation accuracy, medical diagnostic concordance) that provide richer grounding signals
 \end{itemize}
 
 \subsubsection{Mechanistic Interpretability}
@@ -167,15 +219,53 @@ Current CASCADE cycles are session-scoped. Longer-term memory could enable:
     \item Memory-informed PREFLIGHT---starting from remembered rather than default state
 \end{itemize}
 
-\subsubsection{Domain Expansion}
+\subsubsection{Domain Expansion: Legal as Grounded Verification Case Study}
 
-Our data derives from software engineering tasks. Validation in other domains would test generality:
+Our data derives from software engineering tasks. The grounded verification framework is domain-independent by design---the POST-TEST phase maps evidence sources to vectors, and different domains provide different evidence types. Legal work offers a particularly compelling case study because it provides naturally verifiable claims.
+
+\paragraph{Legal Evidence Collectors}
+
+Legal AI work produces claims that map directly to epistemic vectors through objective verification:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Legal Evidence} & \textbf{Quality} & \textbf{Vectors Grounded} \\
+\midrule
+Precedent citation accuracy & Objective & know, signal \\
+Statutory currency (up-to-date?) & Objective & context, state \\
+Jurisdictional correctness & Objective & context, clarity \\
+Applied law reasoning & Semi-objective & coherence, know \\
+Case outcome prediction & Objective & impact, completion \\
+Opposing counsel challenges & Objective & uncertainty, signal \\
+\bottomrule
+\end{tabular}
+\caption{Legal evidence collectors and the vectors they ground.}
+\label{tab:legal-evidence}
+\end{table}
+
+\paragraph{Why Legal Grounding Is Stronger}
+
+In software engineering, grounding relies on test results (pass/fail) and git metrics (lines changed)---useful but coarse signals. Legal work provides richer grounding because:
+
+\begin{enumerate}
+    \item \textbf{Citations are binary verifiable}: A case citation either exists and says what the AI claims, or it doesn't. This provides KNOW grounding at quality 1.0 (objective) for every citation.
+    \item \textbf{Statutes are version-controlled}: Legislative databases track amendments with timestamps. Whether a statute is current as of a given date is deterministic---grounding CONTEXT and STATE with no ambiguity.
+    \item \textbf{Cost per verification is lower}: Checking a citation against a legal database is cheaper per claim than running a test suite against a codebase. More claims verified means higher grounded coverage per session.
+\end{enumerate}
+
+This suggests that the grounded verification track, currently at 27\% coverage in software engineering, could achieve substantially higher coverage in legal domains---potentially grounding 8+ of the 13 vectors with objective evidence.
+
+\paragraph{Other Domains}
+
+Beyond legal, other domains offer varying levels of grounding potential:
 
 \begin{itemize}
-    \item Creative tasks (writing, design)---do epistemic vectors apply?
-    \item Conversational agents---real-time epistemic assessment during dialogue
-    \item Reasoning and analysis---mathematical proof, scientific hypothesis
-    \item Embodied AI---epistemic gating for physical actions with real-world consequences
+    \item Creative tasks (writing, design)---low grounding potential, quality is subjective
+    \item Conversational agents---moderate, engagement assessable via user behavior metrics
+    \item Scientific reasoning---high, claims verifiable against literature and data
+    \item Embodied AI---high, physical actions produce measurable outcomes
 \end{itemize}
 
 \subsubsection{Alignment Applications}
@@ -216,4 +306,4 @@ Production deployment may require lower-latency epistemic assessment:
 
 The epistemic vector framework and its empirical validation suggest that AI self-assessment is meaningful, measurable, and practically useful. The learning delta demonstrates that AI capability genuinely changes during task engagement---supporting the noetic-before-praxic principle.
 
-The limitations are real: self-referential measurement, model concentration, domain specificity. But the framework provides a foundation for systematic investigation of AI epistemic state. We release all data for replication and extension.
+The limitations are real: limited grounded verification coverage, model concentration, domain specificity. The dual-track calibration system partially addresses the self-referential measurement concern, but full external validation remains incomplete. The framework provides a foundation for systematic investigation of AI epistemic state. We release all data for replication and extension.

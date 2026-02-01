@@ -60,14 +60,16 @@ Filtering to 267 clean sessions (excluding default assessments and incomplete wo
 
 \subsection{Empirica: Epistemic Infrastructure for AI}
 
-We introduce \textbf{Empirica}, a framework that operationalizes noetic-before-praxic through three mechanisms:
+We introduce \textbf{Empirica}, a framework that operationalizes noetic-before-praxic through four mechanisms:
 
 \begin{enumerate}
     \item \textbf{Epistemic Vectors}: A 13-dimensional representation of AI self-assessed cognitive state, covering knowledge (KNOW), uncertainty (UNCERTAINTY), engagement (ENGAGEMENT), and 10 additional dimensions derived from computational epistemology.
 
     \item \textbf{Epistemic Gates}: Decision points that evaluate whether the AI has sufficient knowledge to proceed. Gates enforce investigation when knowledge is low, preventing premature action.
 
-    \item \textbf{The CASCADE Workflow}: A structured loop---PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT---that captures epistemic state before and after task execution, measures learning, and calibrates future assessments.
+    \item \textbf{The CASCADE Workflow}: A 4-phase loop---PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST---that captures epistemic state before and after task execution, measures learning, and calibrates future assessments through dual-track Bayesian updates.
+
+    \item \textbf{Grounded Verification}: Post-test evidence collection that compares self-assessed epistemic state against objective outcomes (test results, git metrics, goal completion), anchoring calibration in what actually happened rather than further self-report.
 \end{enumerate}
 
 Together, these mechanisms transform AI from an execution layer into a \textbf{learning system}---one that investigates before acting, measures its own knowledge acquisition, and improves through epistemic feedback.

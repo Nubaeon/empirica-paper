@@ -132,7 +132,7 @@ The loop terminates when:
 
 \subsubsection{Learning from Outcomes}
 
-Each CASCADE cycle (PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT) provides calibration evidence:
+Each CASCADE cycle (PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST) provides calibration evidence:
 
 \begin{equation}
 \delta_{\text{vector}} = V_{\text{POSTFLIGHT}} - V_{\text{PREFLIGHT}}
@@ -250,6 +250,43 @@ Calibrated vectors & 8\% & 12\% \\
 \end{table}
 
 Calibration correction reduces both error types---fewer premature actions and fewer unnecessary investigations.
+
+\subsection{Earned Agency}
+
+The Sentinel gate enables a model of AI autonomy where agency is \emph{earned through demonstrated calibration}, not granted by default or permanently restricted.
+
+\subsubsection{The Agency Spectrum}
+
+Current AI deployment assumes a binary: either the AI acts autonomously (with all attendant risks) or a human reviews every action (with all attendant overhead). Epistemic gating enables a middle path:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Calibration State} & \textbf{Agency Level} & \textbf{Gate Behavior} \\
+\midrule
+Uncalibrated ($<$ 3 evidence) & Conservative & Raw vectors, tight thresholds \\
+Partially calibrated (3--10) & Standard & Weighted corrections applied \\
+Well-calibrated ($>$ 10) & Extended & Full corrections, relaxed thresholds \\
+\bottomrule
+\end{tabular}
+\caption{Agency levels earned through calibration evidence.}
+\label{tab:earned-agency}
+\end{table}
+
+An AI system that consistently demonstrates accurate self-assessment---where grounded verification confirms that self-reports match outcomes---earns the right to more autonomous operation. An AI whose self-reports diverge from evidence has its autonomy tightened.
+
+\subsubsection{Auto-POSTFLIGHT}
+
+In the current workflow, POSTFLIGHT is explicitly triggered. As the system matures, automatic triggers become possible: when COMPLETION and IMPACT vectors exceed thresholds (indicating the AI judges its work complete and significant), the system can auto-trigger POSTFLIGHT without human intervention. The grounded verification track then validates whether this self-assessed completion matches objective evidence.
+
+This creates a path toward safe autonomous operation: the AI manages its own epistemic lifecycle (PREFLIGHT $\rightarrow$ work $\rightarrow$ auto-POSTFLIGHT $\rightarrow$ POST-TEST), with the grounded track serving as an automated supervisor that detects miscalibration.
+
+\subsubsection{Bootstrap-Before-CHECK}
+
+A prerequisite for earned agency is that the AI enters each transaction with adequate context. The framework enforces bootstrap-before-CHECK: before submitting to the Sentinel gate, the AI must load project context (historical findings, dead-ends, goals). This ensures gate decisions incorporate institutional memory, not just the AI's in-context knowledge.
+
+This enforcement prevents a subtle failure mode: an AI that has been compacted (context summarized) may assess high KNOW based on its summary, but the summary may omit critical context. Bootstrap loading recovers this context before the gate evaluates readiness.
 
 \subsection{Summary}
 
