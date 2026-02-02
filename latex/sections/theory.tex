@@ -124,7 +124,7 @@ The noetic-praxic distinction extends beyond phases of cognition to the \emph{ar
 \toprule
 \textbf{Layer} & \textbf{Term} & \textbf{Contents} \\
 \midrule
-Investigation outputs & Noetic artifacts & findings, unknowns, dead-ends, mistakes \\
+Investigation outputs & Noetic artifacts & findings, unknowns, dead-ends, mistakes, blindspots, lessons \\
 Action outputs & Praxic artifacts & goals, subtasks, commits \\
 State measurements & Epistemic state & vectors, calibration, drift, snapshots, deltas \\
 Verification outputs & Grounded evidence & test results, git metrics, artifact ratios \\
@@ -138,8 +138,8 @@ Inputs / reference & Context & sources, documentation, prior knowledge \\
 This taxonomy matters because different artifacts serve different epistemic functions:
 
 \begin{itemize}
-    \item \textbf{Noetic artifacts} are breadcrumbs left during investigation. They capture what was learned (findings), what remains unclear (unknowns), what failed (dead-ends), and what went wrong (mistakes). These persist across sessions and accumulate into institutional memory.
-    \item \textbf{Praxic artifacts} are the products of action---code committed, goals completed, subtasks resolved. They serve as objective evidence for grounded verification.
+    \item \textbf{Noetic artifacts} are breadcrumbs left during investigation. Six types capture the full investigation record: what was learned (findings), what remains unclear (unknowns), what failed (dead-ends), what went wrong (mistakes), what was consistently missed (blindspots, identified through grounded verification gaps), and what endures across sessions (lessons, durable insights subject to decay when contradicted by new evidence). These persist across sessions and accumulate into institutional memory.
+    \item \textbf{Praxic artifacts} are the products of action---code committed, goals completed, subtasks resolved. They serve dual purposes: as task deliverables and as objective evidence for grounded verification. The separation from noetic artifacts is deliberate: noetic artifacts record the process of understanding, praxic artifacts record the products of action. This enables the framework to measure learning independently of output.
     \item \textbf{Epistemic state} is the measurement layer---vectors captured at PREFLIGHT and POSTFLIGHT, calibration corrections, drift detection. These are transient snapshots that enable delta computation.
     \item \textbf{Grounded evidence} is collected automatically at POST-TEST. It anchors self-assessment in objective outcomes, providing the calibration signal that closes the feedback loop.
 \end{itemize}

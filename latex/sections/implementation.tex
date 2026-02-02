@@ -21,72 +21,69 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
-    node distance=1.2cm,
-    phase/.style={rectangle, draw, rounded corners, minimum width=2cm, minimum height=0.8cm, fill=blue!10, font=\small\bfseries},
-    decision/.style={diamond, draw, aspect=2, fill=yellow!20, font=\small},
-    action/.style={rectangle, draw, minimum width=1.8cm, minimum height=0.7cm, fill=green!10, font=\small},
-    update/.style={rectangle, draw, rounded corners, minimum width=2cm, minimum height=0.8cm, fill=orange!15, font=\small\bfseries},
-    verify/.style={rectangle, draw, rounded corners, minimum width=2cm, minimum height=0.8cm, fill=purple!15, font=\small\bfseries},
+    node distance=1cm,
+    phase/.style={rectangle, draw, rounded corners, minimum width=2.8cm, minimum height=0.8cm, fill=blue!10, font=\small\bfseries},
+    decision/.style={diamond, draw, aspect=2.5, fill=yellow!20, font=\small},
+    action/.style={rectangle, draw, rounded corners, minimum width=2.2cm, minimum height=0.7cm, font=\small},
+    update/.style={rectangle, draw, rounded corners, minimum width=2.5cm, minimum height=0.8cm, fill=orange!15, font=\small\bfseries},
+    verify/.style={rectangle, draw, rounded corners, minimum width=2.8cm, minimum height=0.8cm, fill=purple!15, font=\small\bfseries},
     label/.style={font=\scriptsize, text=gray},
-    arrow/.style={-{Stealth[length=2.5mm]}, thick}
+    arrow/.style={-{Stealth[length=2.5mm]}, thick},
+    feedback/.style={-{Stealth[length=2mm]}, thick, gray!50}
 ]
-    % Top row: PREFLIGHT - CHECK - POSTFLIGHT - POST-TEST
+    % === MAIN VERTICAL FLOW (center column) ===
     \node[phase] (preflight) {PREFLIGHT};
-    \node[phase, right=1.5cm of preflight] (check) {CHECK};
-    \node[phase, right=1.5cm of check] (postflight) {POSTFLIGHT};
-    \node[verify, right=1.5cm of postflight] (posttest) {POST-TEST};
+    \node[label, right=0.3cm of preflight] {Baseline assessment};
 
-    \node[label, below=0.1cm of preflight] {Baseline};
-    \node[label, below=0.1cm of check] {Sentinel Gate};
-    \node[label, below=0.1cm of postflight] {Learning Delta};
-    \node[label, below=0.1cm of posttest] {Grounded};
-    \node[label, below=0.35cm of posttest] {Verification};
+    \node[phase, below=1.2cm of preflight] (check) {CHECK};
+    \node[label, right=0.3cm of check] {Sentinel gate};
 
-    % Second row: PROCEED diamond below CHECK
-    \node[decision, below=1.8cm of check] (proceed) {PROCEED?};
+    \node[decision, below=1.2cm of check] (proceed) {PROCEED?};
 
-    % Third row: PRAXIC (left) and NOETIC (right)
-    \node[action, below left=1.5cm and 2cm of proceed] (praxic) {PRAXIC};
-    \node[action, below right=1.5cm and 2cm of proceed] (noetic) {NOETIC};
-    \node[label, below=0.1cm of praxic] {(execute)};
-    \node[label, below=0.1cm of noetic] {(investigate)};
+    % === BRANCHES ===
+    \node[action, below left=1.2cm and 2cm of proceed, fill=green!10] (praxic) {PRAXIC};
+    \node[label, below=0.05cm of praxic] {(execute)};
 
-    % Bottom: Dual-track updates
-    \node[update, below=3.5cm of proceed] (bayesian) {Bayesian Update};
-    \node[update, right=1.5cm of bayesian] (grounded) {Grounded Update};
+    \node[action, below right=1.2cm and 2cm of proceed, fill=blue!5] (noetic) {NOETIC};
+    \node[label, below=0.05cm of noetic] {(investigate)};
 
-    % === ARROWS ===
+    % === LOWER FLOW ===
+    \node[phase, below=3.8cm of proceed] (postflight) {POSTFLIGHT};
+    \node[label, left=0.3cm of postflight] {Learning delta};
 
-    % Top flow: PREFLIGHT -> CHECK -> POSTFLIGHT -> POST-TEST
+    \node[verify, right=3cm of postflight] (posttest) {POST-TEST};
+    \node[label, right=0.3cm of posttest] {Grounded verification};
+
+    % === DUAL-TRACK UPDATES ===
+    \node[update, below=1.2cm of postflight] (bayesian) {Bayesian Update};
+    \node[label, below=0.05cm of bayesian] {Track 1: Self-referential};
+
+    \node[update, below=1.2cm of posttest] (grounded) {Grounded Update};
+    \node[label, below=0.05cm of grounded] {Track 2: Evidence-grounded};
+
+    % === ARROWS (main flow) ===
     \draw[arrow] (preflight) -- (check);
-    \draw[arrow] (check) -- (postflight);
-    \draw[arrow] (postflight) -- (posttest);
-
-    % CHECK down to PROCEED
     \draw[arrow] (check) -- (proceed);
 
-    % PROCEED branches: YES->PRAXIC, NO->NOETIC
+    % Branch: YES -> PRAXIC, NO -> NOETIC
     \draw[arrow] (proceed) -- node[above left, font=\scriptsize] {YES} (praxic);
     \draw[arrow] (proceed) -- node[above right, font=\scriptsize] {NO} (noetic);
 
-    % PRAXIC -> POSTFLIGHT (curve up on left side)
-    \draw[arrow] (praxic.north) -- ++(0,0.5) -| (postflight.south);
+    % PRAXIC -> POSTFLIGHT (down and across, under the proceed diamond)
+    \draw[arrow] (praxic.south) -- ++(0,-0.8) -| (postflight.north);
 
-    % NOETIC -> CHECK (loop back on far right, outside everything)
-    \draw[arrow, gray!60] (noetic.east) -- ++(3.5,0) |- (check.east);
+    % NOETIC -> CHECK (loop back via right side, outside all nodes)
+    \draw[feedback] (noetic.east) -- ++(1.2,0) |- (check.east);
 
-    % POSTFLIGHT -> Bayesian Update (self-referential track)
-    \draw[arrow] (postflight.south) -- ++(0,-3.2) -| (bayesian.north);
+    % POSTFLIGHT -> POST-TEST
+    \draw[arrow] (postflight) -- (posttest);
 
-    % POST-TEST -> Grounded Update (grounded track)
-    \draw[arrow] (posttest.south) -- ++(0,-4.5) -| (grounded.north);
-
-    % Label the tracks
-    \node[label, below=0.1cm of bayesian] {Track 1: Self-referential};
-    \node[label, below=0.1cm of grounded] {Track 2: Evidence-grounded};
+    % Dual-track updates
+    \draw[arrow] (postflight) -- (bayesian);
+    \draw[arrow] (posttest) -- (grounded);
 
 \end{tikzpicture}
-\caption{The 4-phase CASCADE workflow. PREFLIGHT establishes baseline, CHECK gates action, POSTFLIGHT measures learning delta, and POST-TEST grounds self-assessment in objective evidence. Dual-track calibration updates run in parallel.}
+\caption{The 4-phase CASCADE workflow. PREFLIGHT establishes baseline, CHECK gates action, POSTFLIGHT measures learning delta, and POST-TEST grounds self-assessment in objective evidence. Dual-track calibration updates run in parallel. The NOETIC $\rightarrow$ CHECK feedback loop (gray) enables iterative investigation.}
 \label{fig:cascade-workflow}
 \end{figure}
 
