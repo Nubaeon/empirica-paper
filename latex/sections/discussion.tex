@@ -10,7 +10,9 @@ Our preferred interpretation: the delta measures the construction of a \textbf{g
 
 The PREFLIGHT $\rightarrow$ POSTFLIGHT delta is not the AI becoming more capable. It is the AI's interpretation becoming more complete and grounded. A model that acts on its initial interpretation of ``fix the authentication bug'' may misunderstand which bug, which authentication system, or what ``fix'' means in this codebase. The same model, after investigation, has replaced assumptions with evidence.
 
-This interpretation is supported by the structure of the CASCADE workflow. AI systems that reach POSTFLIGHT have necessarily engaged with the task---reading files, exploring code, synthesizing information. This engagement doesn't change the model's weights; it changes what the model \emph{knows about this specific task}. The 13 epistemic vectors measure the completeness of this task-specific interpretation, not the AI's general intelligence.
+This interpretation is supported by the structure of the CASCADE workflow. AI systems that reach POSTFLIGHT have necessarily engaged with the task---reading files, exploring code, synthesizing information. This engagement doesn't change the model's internal weights, but it changes what the model \emph{knows about this specific task}. The 13 epistemic vectors measure the completeness of this task-specific interpretation.
+
+Critically, this learning persists beyond the session. Empirica implements an external memory architecture that stores findings, patterns, dead-ends, and calibration data. Future sessions retrieve this context at PREFLIGHT, creating a closed-loop system where task-specific learning compounds over time. The model's weights are static; the model's effective knowledge---augmented by persistent external memory---grows with each session.
 
 \subsubsection{The Calibration Interpretation}
 
