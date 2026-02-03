@@ -56,9 +56,9 @@ uncertainty & 263 & 0.363 & 0.154 & $-$0.208 & $\downarrow$ Decrease \\
 
 \paragraph{Aggregate statistics:}
 \begin{itemize}
-    \item Mean capability vector delta: \textbf{+0.195} (across 12 capability vectors)
+    \item Mean non-uncertainty vector delta: \textbf{+0.195} (across 12 vectors)
     \item Uncertainty delta: \textbf{$-$0.208} (confidence growth on inverted scale: +0.208)
-    \item All 12 capability vectors show positive growth
+    \item All 12 non-uncertainty vectors show positive growth
     \item Cumulative Bayesian evidence: 479,686 observations across 4,184 belief updates
     \item Clean learning sessions: 267 (93.6\% showed knowledge improvement)
 \end{itemize}
@@ -81,9 +81,9 @@ uncertainty & 263 & 0.363 & 0.154 & $-$0.208 & $\downarrow$ Decrease \\
 
 A critical interpretive point: the data shows \textbf{unified confidence growth}, not asymmetry.
 
-The UNCERTAINTY vector operates on an inverted scale relative to capability vectors:
+The UNCERTAINTY vector operates on an inverted scale relative to the other 12 vectors:
 \begin{itemize}
-    \item Capability vectors: Higher value = more capability = more confidence
+    \item Non-uncertainty vectors: Higher value = more task-specific knowledge = more confidence
     \item Uncertainty: \emph{Lower} value = less doubt = more confidence
 \end{itemize}
 
@@ -95,11 +95,11 @@ When viewed correctly, \emph{all 13 vectors} show the same pattern:
 \toprule
 \textbf{Vector Type} & \textbf{Raw Delta} & \textbf{Confidence Interpretation} \\
 \midrule
-Capability (12) & +0.195 avg & Confidence increases \\
+Non-uncertainty (12) & +0.195 avg & Confidence increases \\
 Uncertainty (1) & $-$0.208 & Confidence increases (inverted) \\
 \bottomrule
 \end{tabular}
-\caption{Unified confidence growth across all vector types.}
+\caption{Unified confidence growth across all vector types. Note: these are \emph{learning trajectories} (within-session change), not estimates of stable capability.}
 \label{tab:unified-confidence}
 \end{table}
 
@@ -257,6 +257,8 @@ Several limitations constrain interpretation:
     \item \textbf{Temporal confounding}: Data spans framework development. Patterns may reflect evolution rather than stable AI properties.
 
     \item \textbf{Selection effects}: The 267 clean sessions (38\% of total) are those with complete PREFLIGHT$\rightarrow$POSTFLIGHT workflows and non-default priors. Sessions with incomplete workflows or default assessments were excluded for methodological reasons (learning delta requires both endpoints), not outcome-based selection. However, sessions that completed the full workflow may systematically differ from those that did not.
+
+    \item \textbf{Learning trajectory vs capability beliefs}: The learning delta measures task-specific epistemic change \emph{within} a single session (PREFLIGHT $\rightarrow$ POSTFLIGHT). This is fundamentally different from \emph{capability beliefs}---stable estimates of what the AI can generally accomplish across tasks. We measure how knowledge changes during task execution; we do not measure stable underlying capability. The ``capability vectors'' terminology used throughout this paper refers to the 12 non-uncertainty vectors (KNOW, DO, CONTEXT, etc.), not to claims about fixed AI capabilities. The Bayesian system tracks learning trajectories per-session; aggregating these into cross-session capability estimates would require different methodology and interpretation.
 \end{enumerate}
 
 \subsection{Implications}
