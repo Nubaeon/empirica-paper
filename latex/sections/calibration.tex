@@ -89,7 +89,7 @@ Uncertainty (1) & $-$0.208 & Confidence increases (inverted) \\
 \label{tab:unified-confidence}
 \end{table}
 
-This is not ``12:1 asymmetry.'' This is \textbf{unified confidence growth during learning}---exactly what we would expect from functional self-assessment that tracks actual epistemic state.
+This is not ``12:1 asymmetry.'' This is \textbf{unified confidence growth during learning}---exactly what we would expect from epistemic measurement that tracks actual information state.
 
 \begin{figure}[ht]
 \centering
@@ -172,50 +172,52 @@ The self-referential calibration track (PREFLIGHT $\rightarrow$ POSTFLIGHT) meas
 
 After each POSTFLIGHT, the POST-TEST phase automatically collects available evidence: goal/subtask completion ratios, artifact productivity (findings vs dead-ends), Sentinel gate decisions, and when available, test results and git metrics. Each evidence source has a quality weight (objective = 1.0, semi-objective = 0.7, inferred = 0.4) that modulates its influence on the grounded estimate.
 
-\subsubsection{Preliminary Results}
+\subsubsection{Results}
 
-With 7 grounded verifications across 25 evidence observations, results are preliminary but directionally informative:
+With 18 grounded verifications across 100 evidence observations, the grounded track reveals a pattern distinct from self-referential calibration:
 
 \begin{table}[h]
 \centering
-\begin{tabular}{lrrrl}
+\begin{tabular}{lrrrrl}
 \toprule
-\textbf{Vector} & \textbf{Self-Assessed} & \textbf{Grounded} & \textbf{Gap} & \textbf{Interpretation} \\
+\textbf{Vector} & \textbf{Self-Assessed} & \textbf{Grounded} & \textbf{Gap} & \textbf{N} & \textbf{Interpretation} \\
 \midrule
-do & 0.885 & 0.500 & +0.385 & Overestimates execution \\
-completion & 0.625 & 0.500 & +0.125 & Overestimates progress \\
-uncertainty & 0.134 & 0.091 & +0.043 & Well-calibrated \\
-context & 0.850 & 0.867 & $-$0.017 & Well-calibrated \\
-know & 0.866 & 0.900 & $-$0.034 & Well-calibrated \\
-signal & 0.774 & 1.000 & $-$0.226 & Underestimates signal \\
+signal & 0.800 & 0.976 & $-$0.176 & 16 & Underestimates signal \\
+context & 0.856 & 0.949 & $-$0.093 & 13 & Underestimates context \\
+uncertainty & 0.146 & 0.080 & +0.067 & 16 & Slight overestimate \\
+know & 0.854 & 0.906 & $-$0.052 & 16 & Well-calibrated \\
+do & 0.792 & 0.833 & $-$0.042 & 6 & Well-calibrated \\
+completion & 0.808 & 0.833 & $-$0.025 & 6 & Well-calibrated \\
 \bottomrule
 \end{tabular}
-\caption{Grounded calibration gaps: self-assessed POSTFLIGHT vs evidence-derived estimates (N=7 verifications, 25 evidence observations). Positive gaps indicate overestimation.}
+\caption{Grounded calibration gaps: self-assessed POSTFLIGHT vs evidence-derived estimates (N=18 verifications, 100 evidence observations). Positive gaps indicate overestimation. N column shows sessions where that vector had grounded evidence.}
 \label{tab:grounded-gaps}
 \end{table}
 
-Two patterns emerge even from this small sample:
+Two patterns emerge:
 
 \begin{enumerate}
-    \item \textbf{DO shows the largest overestimation} (+0.385). The AI assesses high execution capability, but objective evidence (goal completion ratios, artifact counts) indicates less was accomplished than claimed. This contrasts with the self-referential track, where DO underestimation dominates---the AI \emph{starts} conservative but \emph{finishes} overconfident.
+    \item \textbf{SIGNAL shows the largest underestimation} ($-$0.176). The AI consistently underestimates its signal quality---objective evidence (productive exploration ratios, artifact counts) indicates better performance than claimed. CONTEXT shows a similar pattern ($-$0.093). This systematic underestimation aligns with the self-referential track's finding of conservative PREFLIGHT priors, suggesting the conservatism persists partially even at POSTFLIGHT.
 
-    \item \textbf{KNOW and CONTEXT are well-calibrated} against grounded evidence (gaps $<$ 0.05), suggesting that for knowledge-related vectors, POSTFLIGHT self-assessment tracks objective outcomes accurately.
+    \item \textbf{DO and COMPLETION are well-calibrated} against grounded evidence (gaps $<$ 0.05). Early observations (N=7) had shown apparent DO overestimation (+0.39) and COMPLETION overestimation (+0.13), but this was a methodological artifact: unscoped artifacts (future research unknowns, general observations) were depressing evidence-derived scores. After implementing scope-aware weighting---where artifacts not linked to session goals contribute at reduced weight (0.3$\times$)---both vectors converged to near-zero divergence.
 \end{enumerate}
 
 \subsubsection{Track Divergence}
 
-The self-referential track reports COMPLETION correction of +0.82 (massive underestimation at PREFLIGHT). But the grounded track shows COMPLETION overestimation of +0.125 at POSTFLIGHT. This divergence reveals a calibration arc: the AI starts too pessimistic, then overcorrects to too optimistic. The grounded track catches the overcorrection that the self-referential track cannot see.
+The self-referential track reports COMPLETION correction of +0.83 (massive underestimation at PREFLIGHT). The grounded track shows COMPLETION divergence of only +0.01 at POSTFLIGHT. This means the self-referential correction is accurate: the AI genuinely starts too pessimistic about completion, and by POSTFLIGHT its self-assessment matches objective evidence. The two tracks are complementary---Track 1 captures the learning trajectory, Track 2 validates the endpoint.
 
-Mean grounded coverage across verifications is 0.27 (27\% of vectors grounded per session), constrained by evidence availability. Sessions with richer evidence (goals, artifacts, and Sentinel data) achieve coverage up to 0.46.
+Mean grounded coverage across verifications is 0.32 (32\% of vectors grounded per session), constrained by evidence availability. Sessions with richer evidence (goals, artifacts, and Sentinel data) achieve coverage up to 0.46.
 
 \subsubsection{Implications}
 
-Even with limited data, grounded verification shifts the epistemic landscape in two ways:
+Grounded verification shifts the epistemic landscape in three ways:
 
 \begin{enumerate}
     \item \textbf{Limitation \#2 is partially addressed}: Self-assessment is no longer purely self-referential. For vectors with objective correlates, we can now measure calibration accuracy against outcomes.
 
     \item \textbf{Dual-track corrections are more trustworthy}: Where grounded evidence exists, the lower observation variance ($\sigma^2 = 0.05$ vs $0.10$) gives it stronger pull on the posterior, anchoring corrections in what happened rather than what the AI said happened.
+
+    \item \textbf{Methodological self-correction is possible}: The scope-awareness fix illustrates how grounded verification enables the framework to detect and correct its own measurement flaws. The initial DO/COMPLETION overestimation was not a property of the AI---it was an artifact of the evidence methodology. The grounded track made this visible.
 \end{enumerate}
 
 As evidence accumulates across domains---particularly in domains with richer objective signals like legal verification (\Cref{sec:discussion})---the grounded track will provide increasingly reliable calibration corrections.
@@ -223,7 +225,7 @@ As evidence accumulates across domains---particularly in domains with richer obj
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/fig6_grounded_calibration_gap}
-\caption{Grounded calibration gap: self-assessed POSTFLIGHT values vs evidence-derived estimates. Positive gaps indicate overestimation. DO shows the largest overestimation (+0.385); SIGNAL shows the largest underestimation ($-$0.226); KNOW and CONTEXT are well-calibrated against objective evidence.}
+\caption{Grounded calibration gap: self-assessed POSTFLIGHT values vs evidence-derived estimates. Positive gaps indicate overestimation. SIGNAL shows the largest underestimation ($-$0.176); DO and COMPLETION are well-calibrated against objective evidence after scope-aware weighting correction.}
 \label{fig:grounded-gap}
 \end{figure}
 
@@ -234,7 +236,7 @@ Several limitations constrain interpretation:
 \begin{enumerate}
     \item \textbf{Observational design}: Data derives from naturally-occurring sessions, not controlled experiments with external ground truth.
 
-    \item \textbf{Self-referential measurement}: POSTFLIGHT assessments are self-reported, and the learning delta measures self-consistency rather than accuracy against external ground truth. The grounded verification track (\Cref{tab:grounded-gaps}) partially addresses this by anchoring POSTFLIGHT assessments in objective evidence, but coverage remains limited (27\% of vectors per session) and the evidence base is small (N=7 verifications). Full external validation---human evaluation, automated test suites, downstream task performance---remains an open priority.
+    \item \textbf{Self-referential measurement}: POSTFLIGHT assessments are self-reported, and the learning delta measures self-consistency rather than accuracy against external ground truth. The grounded verification track (\Cref{tab:grounded-gaps}) partially addresses this by anchoring POSTFLIGHT assessments in objective evidence, but coverage remains limited (32\% of vectors per session) and the evidence base is still growing (N=18 verifications, 100 evidence observations). Full external validation---human evaluation, automated test suites, downstream task performance---remains an open priority.
 
     \item \textbf{Model concentration}: 55\% of observations derive from Claude (Anthropic). Cross-model replication is needed.
 

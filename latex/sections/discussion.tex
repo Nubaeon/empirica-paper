@@ -18,7 +18,7 @@ An alternative interpretation: capability is fixed, but self-assessment improves
 
 Under this view, PREFLIGHT assessments are systematically conservative (perhaps due to RLHF training), and task engagement provides evidence that corrects this conservatism.
 
-Self-assessment data alone cannot definitively distinguish these interpretations. However, the grounded verification track (\Cref{tab:grounded-gaps}) provides initial evidence: KNOW shows a gap of only $-$0.034 between self-assessed and evidence-derived values, suggesting POSTFLIGHT self-assessment for knowledge tracks objective outcomes accurately. The magnitude of the learning delta (+0.200 average for KNOW, +0.704 for COMPLETION), the 93.6\% improvement rate across 267 clean sessions, and the 115$\times$ reduction in calibration variance (\Cref{sec:results}) collectively suggest more than mere assessment correction.
+Self-assessment data alone cannot definitively distinguish these interpretations. However, the grounded verification track (\Cref{tab:grounded-gaps}) provides evidence: KNOW shows a gap of only $-$0.052 between self-assessed and evidence-derived values, and DO and COMPLETION are both within 0.05 of grounded evidence, suggesting POSTFLIGHT self-assessment for capability vectors tracks objective outcomes accurately. The magnitude of the learning delta (+0.200 average for KNOW, +0.704 for COMPLETION), the 93.6\% improvement rate across 267 clean sessions, and the 115$\times$ reduction in calibration variance (\Cref{sec:results}) collectively suggest more than mere assessment correction.
 
 \subsubsection{The Pragmatic View}
 
@@ -161,17 +161,15 @@ This framing explains why all the subsystems must be coherent. An operating syst
 
 The implication for the broader AI ecosystem is that emerging agent frameworks (tool-use APIs, agent-to-agent protocols, orchestration layers) are building the equivalent of device drivers, network protocols, and hardware abstraction layers---but without a kernel. They assume the AI's cognitive resources are self-managing. Our data suggests otherwise: unmanaged AI cognition produces the overconfidence trap, calibration drift, and epistemic dark matter (unmeasured work).
 
-A cognitive operating system does not make AI ``conscious'' or ``self-aware'' any more than Linux makes a CPU conscious. It manages computational resources---in this case, epistemic resources---so that the system operates within its knowledge bounds. The contribution is infrastructure, not philosophy.
+A cognitive operating system manages computational resources---in this case, epistemic resources---so that the system operates within its knowledge bounds. The contribution is infrastructure: measuring information state, routing behavior based on those measurements, and calibrating over time.
 
 \subsection{Limitations}
 
-\subsubsection{Functional Measurement, Not Introspection}
+\subsubsection{Measurement Methodology}
 
-A clarification on what we measure: the epistemic vectors are \textbf{functional assessments}---responses to structured prompts like ``rate your knowledge of this task 0-1''---not phenomenological introspection. This is the same process as when an AI is asked to verify facts, estimate confidence, or perform any quantified evaluation. The AI follows instructions to produce a numeric output; no privileged access to internal states is required or claimed.
+The epistemic vectors are instruction-following outputs---responses to structured prompts like ``rate your knowledge of this task 0--1.'' This is the same mechanism as when an AI estimates confidence, verifies facts, or scores relevance. The limitation is that these outputs require empirical validation: do they correlate with actual capability?
 
-This distinction matters because critics may object that AI cannot ``truly know what it knows.'' We sidestep this entirely: a thermometer doesn't experience temperature, yet produces useful measurements. Similarly, an AI producing consistent, calibratable vector responses is performing functional measurement regardless of whether it has introspective access.
-
-The limitation is not that assessments are ``self-reported'' in the phenomenological sense, but rather that they are \textbf{instruction-following outputs} whose correlation with actual capability requires empirical validation. The Bayesian framework provides this: systematic patterns across 479,686 observations demonstrate that these instruction-following outputs track something real about epistemic state. Whether this constitutes ``self-knowledge'' in any deeper sense is orthogonal to the framework's utility.
+The Bayesian framework provides this validation. Systematic patterns across 479,686 observations demonstrate that these outputs track something real about the system's information state. The grounded verification track validates that self-assessed vectors correlate with objective outcomes for capability dimensions (DO, COMPLETION, KNOW within 0.05 of evidence-derived values). What these measurements reveal about the system's internal processes---and what they do not---is a question this framework is not designed to answer. We report what we observe across the evidence.
 
 \subsubsection{Model Concentration}
 
@@ -193,7 +191,7 @@ The epistemic vector framework opens numerous research directions across validat
 
 \subsubsection{External Validation (In Progress)}
 
-External validation---measuring task success against epistemic vectors without relying on self-report---is now partially underway through the grounded verification track (\Cref{tab:grounded-gaps}). Preliminary results from 7 verifications show that POST-TEST evidence collection can ground self-assessment in objective outcomes, though coverage remains limited to 27\% of vectors per session.
+External validation---measuring task success against epistemic vectors without relying on self-report---is now partially underway through the grounded verification track (\Cref{tab:grounded-gaps}). Results from 18 verifications and 100 evidence observations show that POST-TEST evidence collection can ground self-assessment in objective outcomes, with coverage averaging 32\% of vectors per session.
 
 The grounded track represents a first step, but deeper validation remains critical:
 
@@ -311,7 +309,7 @@ In software engineering, grounding relies on test results (pass/fail) and git me
     \item \textbf{Cost per verification is lower}: Checking a citation against a legal database is cheaper per claim than running a test suite against a codebase. More claims verified means higher grounded coverage per session.
 \end{enumerate}
 
-This suggests that the grounded verification track, currently at 27\% coverage in software engineering, could achieve substantially higher coverage in legal domains---potentially grounding 8+ of the 13 vectors with objective evidence.
+This suggests that the grounded verification track, currently at 32\% coverage in software engineering, could achieve substantially higher coverage in legal domains---potentially grounding 8+ of the 13 vectors with objective evidence.
 
 \paragraph{Other Domains}
 

@@ -31,12 +31,15 @@ conv_beliefs = [399, 390, 567, 618, 1180, 1043]
 conv_variance = [0.0477, 0.0099, 0.0042, 0.0016, 0.0008, 0.0004]
 conv_reduction = [1, 5, 11, 30, 60, 115]
 
-# Grounded calibration gap data
+# Grounded calibration gap data (updated Feb 2026, N=18 verifications, 100 evidence observations)
+# Per-session average of POSTFLIGHT self-assessed vs evidence-derived values
+# Previous data (N=7) showed DO/COMPLETION overestimation due to open-goal artifact;
+# scope-aware weighting fix corrected this — both now well-calibrated.
 grounded_vectors = ['do', 'completion', 'uncertainty', 'context', 'know', 'signal']
 grounded_display = ['DO', 'COMPLETION', 'CERTAINTY', 'CONTEXT', 'KNOW', 'SIGNAL']
-grounded_self = [0.885, 0.625, 0.134, 0.850, 0.866, 0.774]
-grounded_evidence = [0.500, 0.500, 0.091, 0.867, 0.900, 1.000]
-grounded_gap = [0.385, 0.125, 0.043, -0.017, -0.034, -0.226]
+grounded_self = [0.792, 0.808, 0.146, 0.856, 0.854, 0.800]
+grounded_evidence = [0.833, 0.833, 0.080, 0.949, 0.906, 0.976]
+grounded_gap = [-0.042, -0.025, 0.067, -0.093, -0.052, -0.176]
 
 plt.style.use('seaborn-v0_8-whitegrid')
 COLORS = {
@@ -262,7 +265,7 @@ def fig6_grounded_calibration_gap():
 
     ax.set_xlabel('Epistemic Vector', fontsize=11)
     ax.set_ylabel('Assessment Value (0-1)', fontsize=11)
-    ax.set_title('Grounded Calibration Gap: Self-Assessed vs Evidence-Derived\n(N=7 verifications, 25 evidence observations)',
+    ax.set_title('Grounded Calibration Gap: Self-Assessed vs Evidence-Derived\n(N=18 verifications, 100 evidence observations)',
                  fontsize=12, fontweight='bold')
     ax.set_xticks(x)
     ax.set_xticklabels(grounded_display, fontsize=10)

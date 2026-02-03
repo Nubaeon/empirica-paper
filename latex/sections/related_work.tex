@@ -4,7 +4,7 @@
 
 The problem of AI calibration---whether model confidence scores reflect actual accuracy---has received substantial attention. \citet{guo2017calibration} demonstrated that modern neural networks are poorly calibrated, often overconfident in incorrect predictions. Temperature scaling and other post-hoc calibration methods address this for classification tasks.
 
-For language models, calibration becomes more complex. \citet{kadavath2022language} showed that large language models can be trained to express calibrated uncertainty through verbalized confidence. However, this work focuses on \emph{reportive} confidence---telling humans how certain the model is---rather than \emph{functional} confidence that affects model behavior.
+For language models, calibration becomes more complex. \citet{kadavath2022language} showed that large language models can be trained to express calibrated uncertainty through verbalized confidence. However, this work focuses on \emph{reportive} confidence---telling humans how certain the model is---rather than \emph{behavioral} confidence that routes the model's own decision-making.
 
 Our work differs in treating self-assessment as a routing signal for the AI's own decision-making, not a report to external observers. The calibration we measure is between self-assessed epistemic state and subsequent task outcomes, not between verbalized confidence and answer correctness.
 
@@ -50,23 +50,13 @@ ReAct \citep{yao2023react} interleaves reasoning and acting, allowing models to 
 
 Our contribution is to make this pattern explicit and measurable. The CASCADE workflow operationalizes investigation-before-action as a gated loop with quantified epistemic state. The learning delta provides empirical evidence that the pattern produces genuine capability growth, not just more cautious outputs.
 
-\subsection{Self-Assessment Without Introspection}
+\subsection{Epistemic Measurement in AI}
 
-A philosophical objection to AI self-assessment is that it requires introspection---direct access to internal states---which AI systems arguably lack. Recent work on emergent introspective awareness \citep{bricken2025introspection} finds that models possess ``a limited, functional form of introspective awareness'' but that ``abilities observed are highly unreliable, and failures of introspection remain the norm.''
+A question for any AI self-assessment framework is whether the measurements track something real. Recent work on emergent introspective awareness \citep{bricken2025introspection} finds that models possess ``a limited, functional form of introspective awareness'' but that ``abilities observed are highly unreliable, and failures of introspection remain the norm.'' \citet{steyvers2025metacognition} note that LLM metacognitive abilities are ``limited in resolution, emerge in context-dependent manners, and seem qualitatively different from humans.''
 
-We sidestep the consciousness debate entirely by defining self-assessment \textbf{functionally}. The AI need not ``experience'' its epistemic state; it need only produce assessments that correlate with task-relevant outcomes. A thermostat ``assesses'' temperature without experiencing heat. Similarly, an AI can produce useful epistemic vectors without introspective access, as long as those vectors predict behavior and outcomes.
+Our framework is compatible with these findings because it does not require reliable introspection. We measure information state: what the system knows relative to a task, what it can do, how complete its context is. These are structured prompts that produce numeric outputs---the same mechanism as when an AI estimates confidence, verifies facts, or scores relevance. The outputs are useful when they correlate with task-relevant states and calibrate over time.
 
-\textbf{This is a critical distinction from work on AI consciousness or sentience.} We make no claims about subjective experience. We measure:
-\begin{itemize}
-    \item Self-reported vectors at PREFLIGHT
-    \item Self-reported vectors at POSTFLIGHT
-    \item The delta between them
-    \item Whether corrections based on deltas improve outcomes
-\end{itemize}
-
-This is measurement, not philosophy. The systematic calibration patterns we observe (\Cref{sec:results})---unified confidence growth across all 13 vectors---demonstrate that assessments track something real about the system's epistemic state. Whether the AI ``experiences'' this state is orthogonal to whether the measurement is useful.
-
-Recent work on metacognitive limitations \citep{steyvers2025metacognition} notes that LLM metacognitive abilities are ``limited in resolution, emerge in context-dependent manners, and seem qualitatively different from humans.'' Our calibration correction mechanism explicitly compensates for these limitations---we don't assume perfect self-assessment, we measure systematic biases and correct for them.
+The empirical evidence supports this: systematic calibration patterns across 479,686 observations (\Cref{sec:results}), 115$\times$ variance reduction with evidence accumulation, and grounded verification showing that self-assessed vectors track objective outcomes for capability dimensions. We don't assume perfect measurement---we measure systematic biases and correct for them through dual-track calibration. What these measurements reveal about the system's internal processes is a separate question this paper does not address.
 
 \subsection{Summary}
 

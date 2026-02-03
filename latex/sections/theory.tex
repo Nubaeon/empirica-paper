@@ -41,16 +41,16 @@ The 13 epistemic vectors are organized into four tiers:
     \item[UNCERTAINTY] Awareness of limitations and unknowns
 \end{description}
 
-\subsubsection{Functional Self-Assessment}
+\subsubsection{Measurement with Behavioral Consequences}
 
-A critical design principle: these vectors implement \emph{functional} self-assessment, not reportive self-assessment.
+A critical design principle: these vectors are \emph{behavioral} measurements, not reports. The distinction matters for calibration:
 
 \begin{description}
-    \item[Reportive:] AI tells a human ``I am 80\% confident.'' The human must trust the report; the AI has no stake in accuracy.
-    \item[Functional:] AI assesses itself to decide whether to proceed with a task. Bad assessment leads to bad outcomes, creating a feedback loop that enables calibration.
+    \item[Reportive measurement:] AI tells a human ``I am 80\% confident.'' The human must trust the report; the AI has no stake in accuracy.
+    \item[Behavioral measurement:] AI assesses its epistemic state to decide whether to proceed with a task. Bad assessment leads to bad outcomes, creating a feedback loop that enables calibration.
 \end{description}
 
-The epistemic vectors are routing signals for the AI's own decision-making. When an AI assesses KNOW = 0.4 and decides to investigate rather than proceed, the assessment directly affects behavior and outcomes. This requires no claim about consciousness or introspection---only that assessments correlate with task-relevant states.
+The epistemic vectors are routing signals for the AI's own decision-making. When an AI assesses KNOW = 0.4 and decides to investigate rather than proceed, the assessment directly affects behavior and outcomes. This is information-state measurement---analogous to how a search engine estimates result relevance, or a PID controller measures error---where the measurement has consequences that create a correction signal.
 
 \subsubsection{Confidence Calculation}
 
@@ -183,7 +183,7 @@ Regardless of the attention-mechanism hypothesis, the epistemic vector framework
     \item Learn from the outcomes of its decisions
 \end{enumerate}
 
-This includes biological agents. Humans experience epistemic states---the feeling of knowing, the sense of uncertainty, the quality of engagement---that map recognizably to the vector taxonomy. The framework does not anthropomorphize AI; it \emph{mechanizes} human epistemology, formalizing what philosophers call ``epistemic feelings'' into computable quantities.
+This includes biological agents. Humans track their own information state---what they know, what they're uncertain about, whether they have enough context---in ways that map recognizably to the vector taxonomy. The framework formalizes these epistemic dimensions into computable quantities that any information-processing system can measure and act upon.
 
 \subsubsection{Falsifiable Predictions}
 
