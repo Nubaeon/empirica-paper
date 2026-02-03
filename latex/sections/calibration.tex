@@ -4,6 +4,20 @@ A critical question for any self-assessment framework is \textbf{calibration acc
 
 \subsection{Methodology}
 
+\subsubsection{Data Filtering}
+
+The raw dataset contains 526,859 Bayesian belief observations across 697 sessions. We applied two principled filters:
+
+\begin{enumerate}
+    \item \textbf{Default Prior Exclusion}: Assessments where the AI used uninformative default priors ($\mu_0 = 0.5$) were excluded. Default priors indicate the AI skipped genuine self-assessment or the assessment was initialized but never populated with task-specific values. This removed 30,453 observations (5.8\% of total).
+
+    \item \textbf{Complete Workflow Filter}: Only sessions with both PREFLIGHT and POSTFLIGHT assessments were retained. Learning delta calculation requires both endpoints; incomplete workflows cannot contribute to trajectory analysis.
+\end{enumerate}
+
+After filtering: 479,686 observations from 267 sessions. \textbf{No sessions were excluded based on outcome}---both improving and non-improving sessions are included. The 267 sessions represent 38\% of total sessions; the remaining 62\% either used default priors or had incomplete PREFLIGHT$\rightarrow$POSTFLIGHT cycles.
+
+\subsubsection{Bayesian Belief Updating}
+
 For each vector, we maintain a Bayesian belief about the AI's epistemic state, updated via conjugate normal-normal inference. The prior ($\mu_0$) is set from PREFLIGHT self-assessment; observations accumulate through task execution; the posterior reflects the updated belief at POSTFLIGHT.
 
 The \textbf{learning delta} for each vector is:
@@ -241,6 +255,8 @@ Several limitations constrain interpretation:
     \item \textbf{Model concentration}: 55\% of observations derive from Claude (Anthropic). Cross-model replication is needed.
 
     \item \textbf{Temporal confounding}: Data spans framework development. Patterns may reflect evolution rather than stable AI properties.
+
+    \item \textbf{Selection effects}: The 267 clean sessions (38\% of total) are those with complete PREFLIGHT$\rightarrow$POSTFLIGHT workflows and non-default priors. Sessions with incomplete workflows or default assessments were excluded for methodological reasons (learning delta requires both endpoints), not outcome-based selection. However, sessions that completed the full workflow may systematically differ from those that did not.
 \end{enumerate}
 
 \subsection{Implications}
