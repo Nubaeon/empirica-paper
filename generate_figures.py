@@ -11,35 +11,38 @@ import os
 OUT_DIR = os.path.join(os.path.dirname(__file__), 'latex', 'figures')
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# Updated data from production (Feb 2026 extraction)
+# Updated data from production (Mar 2026 extraction, v2.0.0)
+# 792 clean sessions, 1,190,265 evidence observations, 5,759 beliefs
 vectors = [
-    'completion', 'change', 'state', 'know', 'context', 'do',
-    'clarity', 'density', 'signal', 'coherence', 'impact', 'engagement', 'uncertainty'
+    'completion', 'change', 'do', 'state', 'impact', 'know',
+    'density', 'clarity', 'signal', 'coherence', 'context', 'engagement', 'uncertainty'
 ]
-evidence = [203, 179, 174, 267, 251, 178, 192, 172, 172, 178, 188, 228, 263]
-prior = [0.204, 0.516, 0.645, 0.663, 0.705, 0.693, 0.734, 0.591, 0.703, 0.747, 0.704, 0.860, 0.363]
-posterior = [0.909, 0.754, 0.851, 0.863, 0.860, 0.843, 0.879, 0.732, 0.839, 0.874, 0.826, 0.882, 0.154]
+evidence = [98935, 52294, 61074, 48196, 60844, 191823, 48505, 65987, 52324, 52643, 174912, 93984, 188744]
+prior = [0.207, 0.422, 0.658, 0.703, 0.669, 0.706, 0.596, 0.746, 0.710, 0.750, 0.746, 0.855, 0.298]
+posterior = [0.808, 0.715, 0.833, 0.836, 0.787, 0.820, 0.706, 0.852, 0.812, 0.845, 0.833, 0.865, 0.191]
 delta = [p - q for p, q in zip(posterior, prior)]
 
 # Display labels: uncertainty shown as CERTAINTY for visual clarity
 # (all bars grow consistently, no inverted semantics)
 display_labels = [v.upper() if v != 'uncertainty' else 'CERTAINTY' for v in vectors]
 
-# Convergence data
-conv_evidence = ['1-5', '6-15', '16-40', '41-87', '88-175', '176+']
-conv_beliefs = [399, 390, 567, 618, 1180, 1043]
-conv_variance = [0.0477, 0.0099, 0.0042, 0.0016, 0.0008, 0.0004]
-conv_reduction = [1, 5, 11, 30, 60, 115]
+# Convergence data (v2.0.0 extraction)
+conv_evidence = ['1-5', '6-15', '16-40', '41-87', '88-175+']
+conv_beliefs = [208, 260, 484, 611, 4196]
+conv_variance = [0.049755, 0.009903, 0.004054, 0.001628, 0.000466]
+conv_reduction = [1, 5, 12, 31, 107]
 
-# Grounded calibration gap data (updated Feb 2026, N=18 verifications, 100 evidence observations)
-# Per-session average of POSTFLIGHT self-assessed vs evidence-derived values
-# Previous data (N=7) showed DO/COMPLETION overestimation due to open-goal artifact;
-# scope-aware weighting fix corrected this — both now well-calibrated.
-grounded_vectors = ['do', 'completion', 'uncertainty', 'context', 'know', 'signal']
-grounded_display = ['DO', 'COMPLETION', 'CERTAINTY', 'CONTEXT', 'KNOW', 'SIGNAL']
-grounded_self = [0.792, 0.808, 0.146, 0.856, 0.854, 0.800]
-grounded_evidence = [0.833, 0.833, 0.080, 0.949, 0.906, 0.976]
-grounded_gap = [-0.042, -0.025, 0.067, -0.093, -0.052, -0.176]
+# Grounded calibration gap data (Mar 2026, N=1190 beliefs, 288 verifications)
+# Per-vector averages from grounded_beliefs table
+# Gap = divergence (self_ref - grounded); positive = overestimation
+grounded_vectors = ['impact', 'uncertainty', 'do', 'completion', 'know', 'state', 'context', 'signal', 'change']
+grounded_display = ['IMPACT', 'CERTAINTY', 'DO', 'COMPLETION', 'KNOW', 'STATE', 'CONTEXT', 'SIGNAL', 'CHANGE']
+# Self-assessed values (self_referential_mean from grounded_beliefs)
+grounded_self = [0.669, 0.162, 0.849, 0.789, 0.839, 0.850, 0.843, 0.789, 0.673]
+# Evidence-grounded values (mean from grounded_beliefs)
+grounded_evidence = [0.045, 0.077, 0.777, 0.752, 0.832, 0.897, 0.893, 0.937, 0.930]
+# Divergence values (positive = overestimation, negative = underestimation)
+grounded_gap = [0.625, 0.086, 0.067, 0.038, 0.008, -0.045, -0.051, -0.139, -0.256]
 
 plt.style.use('seaborn-v0_8-whitegrid')
 COLORS = {
@@ -233,16 +236,16 @@ def fig5_calibration_convergence():
 
 def fig6_grounded_calibration_gap():
     """Grounded calibration gap visualization."""
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(12, 6))
 
-    # Invert uncertainty to certainty for consistency
+    # Invert uncertainty to certainty for consistency (index 1 in grounded_vectors)
     disp_self = grounded_self.copy()
     disp_evidence = grounded_evidence.copy()
     disp_gap = grounded_gap.copy()
-    unc_idx = 2  # 'uncertainty' is at index 2
-    disp_self[unc_idx] = 1 - disp_self[unc_idx]          # 0.134 -> 0.866
-    disp_evidence[unc_idx] = 1 - disp_evidence[unc_idx]  # 0.091 -> 0.909
-    disp_gap[unc_idx] = -disp_gap[unc_idx]               # +0.043 -> -0.043
+    unc_idx = 1  # 'uncertainty' is at index 1
+    disp_self[unc_idx] = 1 - disp_self[unc_idx]
+    disp_evidence[unc_idx] = 1 - disp_evidence[unc_idx]
+    disp_gap[unc_idx] = -disp_gap[unc_idx]
 
     x = np.arange(len(grounded_vectors))
     width = 0.35
@@ -259,17 +262,17 @@ def fig6_grounded_calibration_gap():
         color = COLORS['overest'] if gap > 0.05 else (COLORS['underest'] if gap < -0.05 else COLORS['neutral'])
         y_pos = max(disp_self[i], disp_evidence[i]) + 0.03
         label = 'overest.' if gap > 0.05 else ('underest.' if gap < -0.05 else 'calibrated')
-        ax.annotate(f'gap: {sign}{gap:.3f}\n({label})',
+        ax.annotate(f'gap: {sign}{gap:.2f}\n({label})',
                     xy=(x[i], y_pos), fontsize=8, ha='center', va='bottom',
                     color=color, fontweight='bold')
 
     ax.set_xlabel('Epistemic Vector', fontsize=11)
     ax.set_ylabel('Assessment Value (0-1)', fontsize=11)
-    ax.set_title('Grounded Calibration Gap: Self-Assessed vs Evidence-Derived\n(N=18 verifications, 100 evidence observations)',
+    ax.set_title('Grounded Calibration Gap: Self-Assessed vs Evidence-Derived\n(N=1,190 beliefs, 288 verifications, 9 vectors)',
                  fontsize=12, fontweight='bold')
     ax.set_xticks(x)
     ax.set_xticklabels(grounded_display, fontsize=10)
-    ax.set_ylim(0, 1.25)
+    ax.set_ylim(0, 1.15)
     ax.legend(fontsize=10, loc='upper right')
 
     # Add horizontal line at 0 gap reference

@@ -169,10 +169,10 @@ Each vector has independent calibration. From our data (\Cref{sec:results}):
 \toprule
 \textbf{Vector} & \textbf{Learned Correction} \\
 \midrule
-know & +0.200 \\
-uncertainty & $-$0.208 \\
-completion & +0.704 \\
-engagement & +0.022 (near-calibrated) \\
+know & +0.114 \\
+uncertainty & $-$0.106 \\
+completion & +0.601 \\
+engagement & +0.010 (near-calibrated) \\
 \bottomrule
 \end{tabular}
 \caption{Per-vector calibration corrections.}
@@ -214,7 +214,7 @@ For flexibility, Sentinel supports overrides (logged for audit):
 
 \subsection{Empirical Performance}
 
-From production deployment (638 sessions):
+From production deployment (792 sessions):
 
 \begin{table}[h]
 \centering
@@ -222,11 +222,11 @@ From production deployment (638 sessions):
 \toprule
 \textbf{Metric} & \textbf{Value} \\
 \midrule
-Total CHECK submissions & 381 \\
-Total cascades & 392 \\
-Clean learning pairs & 267 \\
-Knowledge improvement rate & 93.6\% \\
-Uncertainty reduction rate & 94.3\% \\
+Total CHECK submissions & 683 \\
+Total cascades & 616 \\
+Clean learning pairs & 456 \\
+Knowledge improvement rate & 83.3\% \\
+Uncertainty reduction rate & 83.3\% \\
 \bottomrule
 \end{tabular}
 \caption{Sentinel gate statistics.}
@@ -288,6 +288,8 @@ The access control is enforced through pre-tool-use hooks that execute before ea
 \end{enumerate}
 
 This creates a security boundary between knowing and doing. The AI's epistemic state determines its permissions, and permissions determine what outcomes are possible. Miscalibrated self-assessment can still occur, but it cannot bypass the capability gate---the AI must convince the Sentinel, not just itself.
+
+The capability gate operates within a larger epistemic ecosystem: at PREFLIGHT, semantic retrieval surfaces relevant lessons and prior findings; during the noetic phase, the cognitive immune system challenges stale knowledge; intent edges track which investigation produced which action. The Sentinel is the enforcement mechanism, but the knowledge infrastructure surrounding it---the learning pipeline described in \Cref{sec:learning-pipeline}---is what makes the gate decisions meaningful.
 
 \subsection{Earned Agency}
 

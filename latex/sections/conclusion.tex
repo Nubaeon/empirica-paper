@@ -8,15 +8,15 @@ This paper presents Empirica, a framework for AI epistemic self-assessment, and 
 
 \paragraph{Theoretical contribution:} We propose a 13-dimensional epistemic vector representation capturing what AI systems know, what they can do, and how ready they are to act. This constitutes a computational epistemology applicable to any information-processing system managing its own knowledge state.
 
-\paragraph{Empirical contribution:} We present 479,686 evidence observations from 638 production sessions demonstrating:
+\paragraph{Empirical contribution:} We present 1,190,265 evidence observations from 792 production sessions demonstrating:
 \begin{itemize}
     \item Unified confidence growth across all 13 vectors during task execution
-    \item Average learning delta of +0.200 (KNOW vector) with 93.6\% of sessions showing improvement
-    \item Calibration convergence: 115$\times$ variance reduction as evidence accumulates
+    \item Mean learning delta of +0.162 across 12 capability vectors (+0.114 for KNOW) with 83.3\% of learning pairs showing improvement
+    \item Calibration convergence: 107$\times$ variance reduction as evidence accumulates
     \item Systematic patterns supporting functional validity of self-assessment
 \end{itemize}
 
-\paragraph{Practical contribution:} We release Empirica as open-source infrastructure for epistemic gating, dual-track calibration, and the 4-phase CASCADE workflow (PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST). The framework implements an external memory architecture where POSTFLIGHT stores findings, patterns, and calibration data for retrieval at future PREFLIGHT, creating a closed-loop system where learning persists and compounds across sessions---without modifying model weights.
+\paragraph{Practical contribution:} We release Empirica as open-source infrastructure for epistemic gating, dual-track calibration, and the 4-phase CASCADE workflow (PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST). The framework implements a seven-layer artifact taxonomy (noetic artifacts, epistemic intent, procedural knowledge, praxic artifacts, epistemic state, grounded evidence, context), a four-layer memory architecture (HOT/WARM/SEARCH/COLD), and a learning pipeline where seven interlocking mechanisms produce compound capability growth across sessions---without modifying model weights. The epistemic intent layer tracks assumptions with urgency decay and decisions with provenance. The lesson system accumulates procedural knowledge subject to a cognitive immune system that decays stale procedures when contradicted by new findings.
 
 \subsection{The Core Claim}
 
@@ -42,10 +42,10 @@ We close with the finding that motivated this work:
 \toprule
 \textbf{Phase} & \textbf{Mean Assessment} \\
 \midrule
-PREFLIGHT & 0.663 \\
-POSTFLIGHT & 0.863 \\
-\textbf{Delta} & \textbf{+0.200} \\
-\textbf{Improvement Rate} & \textbf{93.6\%} \\
+PREFLIGHT & 0.647 \\
+POSTFLIGHT & 0.809 \\
+\textbf{Delta} & \textbf{+0.162} \\
+\textbf{Improvement Rate} & \textbf{83.3\%} \\
 \bottomrule
 \end{tabular}
 \caption{The learning delta: capability growth through investigation.}
@@ -54,10 +54,10 @@ POSTFLIGHT & 0.863 \\
 
 This is the learning that happens when AI systems are allowed---and required---to investigate before acting. It is the capability growth that execution-layer deployments forfeit. It is the empirical signature of noetic-before-praxic.
 
-The delta is real. The learning is real. The framework calibrates---variance drops 115$\times$ as evidence accumulates. The framework works.
+The delta is real. The learning is real. The framework calibrates---variance drops 107$\times$ as evidence accumulates. The framework works.
 
 \medskip
-\noindent\textbf{Data Availability}: Full dataset (479,686 evidence observations across 638 sessions) available at Zenodo: \url{https://doi.org/10.5281/zenodo.18237263}. Empirica framework and analysis code: \url{https://github.com/Nubaeon/empirica}.
+\noindent\textbf{Data Availability}: Full dataset (1,190,265 evidence observations across 792 sessions) available at Zenodo: \url{https://doi.org/10.5281/zenodo.18237263}. Empirica framework and analysis code: \url{https://github.com/Nubaeon/empirica}.
 
 \medskip
 \noindent\textbf{Acknowledgments}: This paper was developed in collaboration with Claude (Anthropic), which contributed to drafting, analysis framing, and iterative refinement across the research process.

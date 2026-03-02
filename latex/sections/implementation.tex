@@ -4,14 +4,17 @@ Empirica is an open-source framework implementing the epistemic vector theory. I
 
 \subsection{Architecture Overview}
 
-The framework consists of five core components:
+The framework consists of eight core components:
 
 \begin{enumerate}
     \item \textbf{Sessions Database}: Persistent storage for session state, including AI identity, timestamps, and metadata.
     \item \textbf{Cascades}: Complete PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST loops that capture epistemic state evolution and ground self-assessment in objective evidence.
     \item \textbf{Bayesian Belief Manager}: Maintains dual-track calibration state---self-referential corrections from learning deltas and grounded corrections from post-test evidence.
-    \item \textbf{Sentinel Protocol}: The epistemic gate that enforces noetic-before-praxic.
+    \item \textbf{Sentinel Protocol}: The epistemic gate that enforces noetic-before-praxic via capability-based access control.
     \item \textbf{Post-Test Verification}: Collects objective evidence after task completion to ground self-assessment in measurable outcomes.
+    \item \textbf{Epistemic Intent Layer}: Tracks assumptions (unverified beliefs with urgency decay), decisions (audit-trail choice points), and intent edges (noetic-to-praxic provenance).
+    \item \textbf{Procedural Knowledge (Lessons)}: Executable procedures extracted from successful patterns, subject to the cognitive immune system.
+    \item \textbf{Semantic Memory}: Four-layer architecture (HOT/WARM/SEARCH/COLD) with Qdrant-backed retrieval for contextual injection at PREFLIGHT.
 \end{enumerate}
 
 \subsection{The CASCADE Workflow}
@@ -82,8 +85,11 @@ CASCADE (Calibrated Assessment of State, Context, and Domain Epistemics) is the 
     \draw[arrow] (postflight) -- (bayesian);
     \draw[arrow] (posttest) -- (grounded);
 
+    % Calibration feedback loop (to next transaction)
+    \draw[feedback, dashed] (bayesian.west) -- ++(-2.5,0) |- node[pos=0.25, left, font=\scriptsize, text=gray] {next txn} (check.west);
+
 \end{tikzpicture}
-\caption{The 4-phase CASCADE workflow. PREFLIGHT establishes baseline, CHECK gates action, POSTFLIGHT measures learning delta, and POST-TEST grounds self-assessment in objective evidence. Dual-track calibration updates run in parallel. The NOETIC $\rightarrow$ CHECK feedback loop (gray) enables iterative investigation.}
+\caption{The 4-phase CASCADE workflow. PREFLIGHT establishes baseline, CHECK gates action, POSTFLIGHT measures learning delta, and POST-TEST grounds self-assessment in objective evidence. Dual-track calibration updates run in parallel. The NOETIC $\rightarrow$ CHECK feedback loop (gray solid) enables iterative investigation within a transaction. The calibration $\rightarrow$ CHECK feedback loop (gray dashed) shows how learned bias corrections inform future transactions' Sentinel decisions.}
 \label{fig:cascade-workflow}
 \end{figure}
 
@@ -176,6 +182,49 @@ Six git-derived evidence sources are currently implemented. Of particular note:
 \end{itemize}
 
 Because git records accumulate passively during normal development, these evidence sources require no additional instrumentation---the epistemic trajectory is already being recorded.
+
+\paragraph{Phase-Aware Evidence Collection}
+
+The POST-TEST phase separates evidence collection into noetic and praxic phases when a CHECK boundary exists within the transaction:
+
+\begin{itemize}
+    \item \textbf{Noetic evidence} (PREFLIGHT $\rightarrow$ CHECK): Measures investigation quality---unknowns surfaced, dead-ends identified before action, findings logged during exploration, and Sentinel gate iterations. This grounds self-assessment of what the AI \emph{learned} during investigation.
+    \item \textbf{Praxic evidence} (CHECK $\rightarrow$ POSTFLIGHT): Measures execution quality---goal completion, test results, git metrics, artifact ratios. This grounds self-assessment of what the AI \emph{accomplished} during action.
+\end{itemize}
+
+When no CHECK boundary exists (legacy sessions or single-phase transactions), evidence is collected in combined mode for backward compatibility. Phase-aware collection enables more precise calibration: an AI may be well-calibrated on investigation (noetic) but poorly calibrated on execution (praxic), or vice versa. Aggregate calibration would mask these patterns.
+
+\paragraph{Scope-Weighted Artifact Metrics}
+
+Not all artifacts contribute equally to calibration. Unknowns logged without connection to session goals (e.g., forward-looking research questions, general observations) are weighted at 0.3$\times$ when computing resolution ratios:
+
+\begin{equation}
+\text{resolution\_ratio} = \frac{\text{scoped\_resolved} + 0.3 \cdot \text{unscoped\_resolved}}{\text{scoped\_total} + 0.3 \cdot \text{unscoped\_total}}
+\end{equation}
+
+This prevents unscoped unknowns---which are deliberately left open for future investigation---from artificially depressing KNOW grounding. Logging unknowns \emph{is} epistemic work; leaving them intentionally unresolved should not penalize calibration. A floor of 0.3 is applied: even fully unresolved unknowns contribute base epistemic value (knowing what you don't know is itself knowledge).
+
+\paragraph{Evidence Quality and Observation Variance}
+
+Evidence sources have different reliability levels, encoded in observation variance during Bayesian updating:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llr}
+\toprule
+\textbf{Quality} & \textbf{Sources} & \textbf{Obs.\ Variance} \\
+\midrule
+Objective & pytest, git metrics & 0.05 \\
+Semi-objective & goal completion, artifacts, Sentinel & 0.07 \\
+Inferred & derived ratios, indirect signals & 0.10 \\
+Self-referential & POSTFLIGHT vectors (Track 1) & 0.10 \\
+\bottomrule
+\end{tabular}
+\caption{Evidence quality hierarchy. Lower variance = higher trust = stronger pull on posterior. Objective evidence (tests, git) cannot be influenced by the AI and thus receives highest trust.}
+\label{tab:evidence-quality}
+\end{table}
+
+The grounded calibration track (Track~2) uses observation variance $\sigma^2 = 0.05$ for objective evidence, compared to $\sigma^2 = 0.10$ for self-referential updates (Track~1). This gives objective evidence twice the ``pull'' on the posterior belief, anchoring calibration in what happened rather than what the AI reported.
 
 \subsection{The Sentinel Protocol}
 
@@ -270,7 +319,7 @@ The divergence between tracks reveals self-assessment quality:
 \text{divergence}_{\text{vector}} = |\mu_{\text{self-ref}} - \mu_{\text{grounded}}|
 \end{equation}
 
-Low divergence indicates well-calibrated self-assessment. High divergence signals that the AI's self-reports are systematically disconnected from outcomes. Preliminary data (\Cref{sec:results}) shows the largest divergence on COMPLETION (+0.31 overestimation in grounded track vs.\ +0.82 in self-referential), suggesting AIs overestimate completion progress even after task execution.
+Low divergence indicates well-calibrated self-assessment. High divergence signals that the AI's self-reports are systematically disconnected from outcomes. Production data (\Cref{sec:results}) shows the largest divergence on IMPACT (+0.625 overestimation), with COMPLETION showing only +0.038 divergence after scope-aware evidence weighting. This suggests IMPACT self-assessment is particularly susceptible to overestimation.
 
 \subsection{Data Model}
 
@@ -287,6 +336,14 @@ The framework persists state in SQLite with the following schema:
 \paragraph{Grounded Beliefs} Per-vector grounded calibration state (Track~2): evidence-derived corrections with lower observation variance, updated from POST-TEST evidence.
 
 \paragraph{Verification Evidence} Raw post-test evidence records per session, linking objective signals to vector estimates.
+
+\paragraph{Assumptions} Unverified beliefs with confidence scores and urgency that increases with age. Urgency is computed as $\min(1.0,\; \frac{\text{age\_days}}{30} \times (1 - \text{confidence}))$, ensuring that low-confidence assumptions surface with increasing priority at each PREFLIGHT.
+
+\paragraph{Decisions} Permanent audit-trail records of choice points: what was chosen, the rationale, reversibility classification (exploratory, committal, or forced), and optional outcome assessment with regret scoring.
+
+\paragraph{Intent Edges} Provenance links from noetic artifacts to praxic outcomes, recording which findings and unknowns informed which goals and subtasks. These enable post-hoc analysis of what investigation led to what action.
+
+\paragraph{Lessons} Executable procedures extracted from successful patterns: structured steps, prerequisites, corrections, and expected epistemic deltas (the vector changes a lesson should produce when applied). Lessons track replay history for reliability estimation and are subject to confidence decay via the cognitive immune system.
 
 \subsection{CLI Interface}
 
@@ -322,21 +379,60 @@ Empirica integrates with development environments via hooks that trigger CASCADE
 
 For autonomous agents, Empirica provides epistemic checkpoints that gate action based on assessed knowledge state, implementing the noetic-before-praxic principle programmatically.
 
-\subsection{Semantic Calibration Retrieval}
+\subsection{Semantic Memory and Retrieval}
 
-At PREFLIGHT, before the AI has investigated the current task, the framework retrieves calibration-relevant context from a vector database (Qdrant). This serves three functions:
+\subsubsection{Four-Layer Memory Architecture}
+
+Empirica organizes memory across four layers with distinct latency and persistence characteristics:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+\textbf{Layer} & \textbf{Storage} & \textbf{Latency} & \textbf{Persistence} \\
+\midrule
+HOT & In-context window & Nanosecond & Session-scoped \\
+WARM & SQLite per-project & Microsecond & Permanent (structured) \\
+SEARCH & Qdrant semantic index & Millisecond & Permanent (embeddings) \\
+COLD & Git notes + YAML & Millisecond & Versioned, portable \\
+\bottomrule
+\end{tabular}
+\caption{Four-layer memory architecture.}
+\label{tab:memory-layers}
+\end{table}
+
+HOT memory is the AI's active context window---ephemeral and lost on compaction. WARM memory stores structured data (sessions, cascades, beliefs, goals, findings) in per-project SQLite databases. SEARCH memory provides semantic retrieval across four Qdrant collections: \emph{docs} (reference documentation), \emph{memory} (project artifacts), \emph{eidetic} (facts with confidence scores), and \emph{episodic} (session narratives with temporal decay). COLD memory archives artifacts in git notes and YAML files, making them version-controlled, portable, and accessible without a running database.
+
+\subsubsection{Contextual Injection at PREFLIGHT}
+
+At PREFLIGHT, before the AI has investigated the current task, the framework retrieves calibration-relevant context from the SEARCH layer. Retrieval is ranked by:
+
+\begin{equation}
+\text{rank} = \text{impact} \times \text{type\_confidence} \times \text{recency\_decay}
+\end{equation}
+
+\noindent where recency follows a 24-hour half-life, ensuring critical recent knowledge surfaces first while older context decays naturally. This serves four functions:
 
 \begin{enumerate}
     \item \textbf{Pattern warnings}: Prior sessions with similar tasks and poor calibration scores surface as warnings (e.g., ``In session X with a similar task, you overestimated COMPLETION by +0.30'').
     \item \textbf{Dead-end avoidance}: Previously logged dead-ends matching the current task context appear at PREFLIGHT, preventing re-exploration of known failures.
-    \item \textbf{Lesson retrieval}: Relevant lessons and findings from prior sessions inform the baseline assessment.
+    \item \textbf{Lesson retrieval}: Relevant procedural knowledge from prior sessions informs the baseline assessment.
+    \item \textbf{Assumption surfacing}: Unresolved assumptions with high urgency appear at PREFLIGHT, ensuring unverified beliefs cannot be indefinitely deferred.
 \end{enumerate}
 
-POSTFLIGHT vectors, findings, and calibration outcomes are automatically embedded into the vector store, creating a growing corpus of episodic calibration memory. This enables the system to learn not just aggregate bias corrections (Bayesian beliefs) but also \emph{context-sensitive} corrections---recognizing that calibration accuracy varies by task type, domain, and complexity.
+POSTFLIGHT vectors, findings, and calibration outcomes are automatically embedded into the SEARCH layer, creating a growing corpus of episodic calibration memory. Cross-project global learnings can also be retrieved, enabling knowledge transfer between distinct projects. This enables the system to learn not just aggregate bias corrections (Bayesian beliefs) but also \emph{context-sensitive} corrections---recognizing that calibration accuracy varies by task type, domain, and complexity.
+
+\subsubsection{Compaction Recovery}
+
+When the AI's context window is compressed (a routine event in long-running sessions), the framework recovers context using epistemically weighted selection rather than chronological ordering. The recovery process detects whether the previous transaction completed (full loop) or was interrupted (mid-transaction), then reconstructs the most valuable context: high-impact findings, unresolved unknowns, active goals, and the transaction file needed for Sentinel continuity. This enables sessions that span compaction boundaries without catastrophic knowledge loss.
+
+\subsubsection{Cognitive Immune System}
+
+The lesson system includes a built-in challenge mechanism: when a new finding is logged, semantically similar lessons have their confidence reduced by 0.05 per match, with a floor at 0.3. This is domain-scoped---findings in one domain do not decay lessons in another. The metaphor is immunological: lessons encode successful procedures (antibodies); findings may invalidate them (antigens). The floor ensures lessons degrade gracefully rather than disappearing entirely, preserving potentially valuable procedures even when challenged.
 
 \subsection{Production Deployment}
 
-The framework has been deployed in production for 6+ months:
+The framework has been deployed in production for 5 months (November 2025 -- March 2026):
 
 \begin{table}[h]
 \centering
@@ -344,11 +440,11 @@ The framework has been deployed in production for 6+ months:
 \toprule
 \textbf{Metric} & \textbf{Value} \\
 \midrule
-Sessions completed & 638 \\
-Evidence observations & 479,686 \\
-Full CASCADE cycles & 392 \\
-Clean learning pairs & 267 \\
-Findings logged & 2,690+ \\
+Sessions completed & 792 \\
+Evidence observations & 1,190,265 \\
+Full CASCADE cycles & 616 \\
+Clean learning pairs & 456 \\
+Findings logged & 2,102 \\
 Primary AI & Claude (Anthropic) \\
 \bottomrule
 \end{tabular}
@@ -357,3 +453,23 @@ Primary AI & Claude (Anthropic) \\
 \end{table}
 
 Cross-validation has been performed on GPT, Gemini, and Qwen models. The data presented in \Cref{sec:results} derives from this production deployment.
+
+\subsection{Extended Subsystems}
+
+Several subsystems extend the core framework to address practical deployment challenges.
+
+\subsubsection{Skill Extraction}
+
+Reference documentation for tools and frameworks consumes substantial context window space, much of which is irrelevant to the current task. Empirica addresses this through \emph{skill extraction}: verbose reference documents are distilled into structured skill cards that preserve decision-relevant knowledge (when to use, anti-patterns, cost models, key commands) while achieving 80--90\% token reduction. Skills are stored as markdown cards parsed into YAML runtime objects, and loaded into context only when semantically relevant to the current task.
+
+\subsubsection{Emerged Personas}
+
+Rather than prescribing fixed behavioral profiles, Empirica extracts \emph{emerged personas} from data: patterns of initial vectors, delta trajectories, and convergence thresholds observed in successful session branches. Each persona captures a working style---initial epistemic configuration, expected learning trajectory, and convergence threshold---with reputation tracking (uses count, success count). Personas are descriptive, not prescriptive: they represent observed modes of effective operation, not constraints on behavior.
+
+\subsubsection{Attention Budget}
+
+To prevent unbounded exploration, the framework implements an \emph{attention budget}: an information gain estimator using Shannon entropy of uncertainty, a knowledge gap multiplier, and diminishing returns decay. The budget is domain-scoped---investigation in one domain does not exhaust the budget for another. For multi-agent configurations, the budget gates subagent spawning: if the parent's attention budget is exhausted, a strong warning is issued before creating new subagents. Tool calls from subagents are added to the parent's budget consumption as delegated work.
+
+\subsubsection{Blindspot Detection}
+
+The grounded verification track reveals not just calibration errors but \emph{systematic blindspots}: dimensions the AI consistently fails to assess accurately. Blindspot detection performs negative space analysis on grounded calibration gaps---patterns of persistent divergence between self-assessed and evidence-derived vectors. Critical blindspots can override the CHECK gate: even if the AI's self-assessed vectors meet the PROCEED threshold, the Sentinel may force investigation if a historically ungrounded vector is critical to the current task.

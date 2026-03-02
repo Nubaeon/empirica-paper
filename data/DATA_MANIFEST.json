@@ -1,159 +1,216 @@
 {
-  "extracted_at": "2026-02-01T13:00:00Z",
+  "extraction_date": "2026-03-02T11:47:39.224130",
   "source_db": "/home/yogapad/empirical-ai/empirica/.empirica/sessions/sessions.db",
-  "empirica_version": "1.5.0",
-  "datasets": {
-    "calibration": {
-      "bayesian_beliefs.csv": {
-        "records": 4184,
-        "description": "Bayesian calibration observations per vector (self-referential track)",
-        "columns": ["belief_id", "cascade_id", "vector_name", "mean", "variance", "evidence_count", "prior_mean", "prior_variance", "last_updated"]
-      },
-      "cascades.csv": {
-        "records": 392,
-        "description": "CASCADE workflow executions"
-      },
-      "calibration_convergence.csv": {
-        "records": 4184,
-        "description": "Calibration convergence data sorted by vector and evidence count"
-      },
-      "calibration_convergence_summary.csv": {
-        "records": 13,
-        "description": "Summary statistics per vector (count, avg mean, avg variance, max evidence)"
-      }
+  "empirica_version": "1.6.0",
+  "dataset_version": "2.0.0",
+  "collection_period": {
+    "start": "2025-11-28 11:13:24",
+    "end": "2026-03-01 19:56:27"
+  },
+  "excluded_ai_ids": [
+    "default",
+    "default-agent",
+    "demo",
+    "demo-agent",
+    "test-ai",
+    "test-ai-agent",
+    "test-goal-agent",
+    "test_agent"
+  ],
+  "statistics": {
+    "total_sessions": 792,
+    "clean_sessions": 234,
+    "total_evidence_observations": 1190265,
+    "bayesian_beliefs": 5759,
+    "improvement_rate_pct": 83.3,
+    "mean_know_delta": 0.148,
+    "grounded_verifications": 288,
+    "calibration_trajectory_points": 2157
+  },
+  "per_vector_statistics": {
+    "completion": {
+      "count": 476,
+      "total_evidence": 98935,
+      "avg_prior": 0.207,
+      "avg_posterior": 0.808,
+      "avg_delta": 0.601,
+      "avg_variance": 0.002912,
+      "max_evidence": 446
     },
-    "sessions": {
-      "sessions.csv": {
-        "records": 638,
-        "description": "AI sessions with project associations"
-      },
-      "learning_deltas_clean.csv": {
-        "records": 266,
-        "description": "Clean PREFLIGHT→POSTFLIGHT learning deltas derived from POSTFLIGHT snapshots with non-null deltas"
-      },
-      "epistemic_snapshots.csv": {
-        "records": 381,
-        "description": "Epistemic vector snapshots (CHECK + POSTFLIGHT phases) with deltas"
-      },
-      "goals.csv": {
-        "records": 331,
-        "description": "Tracked goals with scope, status, and completion"
-      },
-      "subtasks.csv": {
-        "records": 1026,
-        "description": "Goal subtasks with dependencies and importance"
-      },
-      "handoff_reports.csv": {
-        "records": 5784,
-        "description": "Session handoff reports for epistemic continuity"
-      },
-      "lessons.csv": {
-        "records": 9,
-        "description": "Procedural knowledge lessons (cognitive immune system)"
-      }
+    "change": {
+      "count": 354,
+      "total_evidence": 52294,
+      "avg_prior": 0.422,
+      "avg_posterior": 0.715,
+      "avg_delta": 0.293,
+      "avg_variance": 0.003625,
+      "max_evidence": 324
     },
-    "findings": {
-      "project_findings.csv": {
-        "records": 1949,
-        "description": "Project-scoped high-impact learnings"
-      },
-      "session_findings.csv": {
-        "records": 747,
-        "description": "Session-specific findings"
-      },
-      "dead_ends.csv": {
-        "records": 56,
-        "description": "Documented failed approaches"
-      },
-      "mistakes.csv": {
-        "records": 39,
-        "description": "Logged mistakes with root cause vectors and prevention strategies"
-      },
-      "session_mistakes.csv": {
-        "records": 7,
-        "description": "Session-scoped mistakes"
-      },
-      "reflexes.csv": {
-        "records": 1957,
-        "description": "Reflexive learning patterns (edit confidence, tool patterns)"
-      }
+    "do": {
+      "count": 381,
+      "total_evidence": 61074,
+      "avg_prior": 0.658,
+      "avg_posterior": 0.833,
+      "avg_delta": 0.175,
+      "avg_variance": 0.003575,
+      "max_evidence": 350
     },
-    "unknowns": {
-      "project_unknowns.csv": {
-        "records": 285,
-        "description": "Unresolved questions at project scope"
-      },
-      "session_unknowns.csv": {
-        "records": 143,
-        "description": "Session-specific unknowns"
-      }
+    "state": {
+      "count": 341,
+      "total_evidence": 48196,
+      "avg_prior": 0.703,
+      "avg_posterior": 0.836,
+      "avg_delta": 0.133,
+      "avg_variance": 0.003751,
+      "max_evidence": 311
     },
-    "grounded": {
-      "grounded_beliefs.csv": {
-        "records": 16,
-        "description": "Grounded calibration beliefs (Track 2: objective evidence-based)"
-      },
-      "grounded_verifications.csv": {
-        "records": 5,
-        "description": "Post-test grounded verification records"
-      },
-      "verification_evidence.csv": {
-        "records": 16,
-        "description": "Objective evidence items (pytest, git metrics, goal completion)"
-      },
-      "calibration_trajectory.csv": {
-        "records": 50,
-        "description": "POSTFLIGHT-to-POSTFLIGHT calibration evolution (closing/widening/stable)"
-      }
+    "impact": {
+      "count": 379,
+      "total_evidence": 60844,
+      "avg_prior": 0.669,
+      "avg_posterior": 0.787,
+      "avg_delta": 0.118,
+      "avg_variance": 0.003404,
+      "max_evidence": 350
+    },
+    "know": {
+      "count": 653,
+      "total_evidence": 191823,
+      "avg_prior": 0.706,
+      "avg_posterior": 0.82,
+      "avg_delta": 0.114,
+      "avg_variance": 0.002393,
+      "max_evidence": 621
+    },
+    "density": {
+      "count": 342,
+      "total_evidence": 48505,
+      "avg_prior": 0.596,
+      "avg_posterior": 0.706,
+      "avg_delta": 0.11,
+      "avg_variance": 0.003741,
+      "max_evidence": 312
+    },
+    "clarity": {
+      "count": 395,
+      "total_evidence": 65987,
+      "avg_prior": 0.746,
+      "avg_posterior": 0.852,
+      "avg_delta": 0.106,
+      "avg_variance": 0.003459,
+      "max_evidence": 364
+    },
+    "signal": {
+      "count": 354,
+      "total_evidence": 52324,
+      "avg_prior": 0.71,
+      "avg_posterior": 0.812,
+      "avg_delta": 0.102,
+      "avg_variance": 0.003625,
+      "max_evidence": 324
+    },
+    "coherence": {
+      "count": 356,
+      "total_evidence": 52643,
+      "avg_prior": 0.75,
+      "avg_posterior": 0.845,
+      "avg_delta": 0.094,
+      "avg_variance": 0.003806,
+      "max_evidence": 325
+    },
+    "context": {
+      "count": 624,
+      "total_evidence": 174912,
+      "avg_prior": 0.746,
+      "avg_posterior": 0.833,
+      "avg_delta": 0.086,
+      "avg_variance": 0.002382,
+      "max_evidence": 593
+    },
+    "engagement": {
+      "count": 456,
+      "total_evidence": 93984,
+      "avg_prior": 0.855,
+      "avg_posterior": 0.865,
+      "avg_delta": 0.01,
+      "avg_variance": 0.002942,
+      "max_evidence": 435
+    },
+    "uncertainty": {
+      "count": 648,
+      "total_evidence": 188744,
+      "avg_prior": 0.298,
+      "avg_posterior": 0.191,
+      "avg_delta": -0.106,
+      "avg_variance": 0.00241,
+      "max_evidence": 616
     }
   },
-  "key_metrics": {
-    "clean_learning_sessions": 266,
-    "total_calibration_evidence": 4184,
-    "total_grounded_evidence": 16,
-    "calibration_vectors": ["know", "uncertainty", "context", "engagement", "completion", "impact", "change", "state", "signal", "coherence", "clarity", "do", "density"],
-    "converged_calibration_per_vector": {
-      "know": {"mean": 0.822, "variance": 0.000252, "evidence": 396},
-      "uncertainty": {"mean": 0.186, "variance": 0.000255, "evidence": 392},
-      "context": {"mean": 0.834, "variance": 0.000269, "evidence": 371},
-      "engagement": {"mean": 0.874, "variance": 0.000357, "evidence": 280},
-      "completion": {"mean": 0.823, "variance": 0.000392, "evidence": 255},
-      "clarity": {"mean": 0.851, "variance": 0.000446, "evidence": 224},
-      "impact": {"mean": 0.790, "variance": 0.000466, "evidence": 214},
-      "change": {"mean": 0.697, "variance": 0.000512, "evidence": 195},
-      "do": {"mean": 0.819, "variance": 0.000517, "evidence": 193},
-      "coherence": {"mean": 0.850, "variance": 0.000534, "evidence": 187},
-      "signal": {"mean": 0.814, "variance": 0.000539, "evidence": 185},
-      "density": {"mean": 0.728, "variance": 0.000542, "evidence": 184},
-      "state": {"mean": 0.836, "variance": 0.000545, "evidence": 183}
+  "convergence_analysis": [
+    {
+      "evidence_level": "5",
+      "beliefs": 208,
+      "avg_variance": 0.049755,
+      "reduction_factor": "1x (baseline)"
     },
-    "observed_biases": {
-      "underestimates": ["completion (+0.77)", "change (+0.40)", "density (+0.23)", "do (+0.12)", "know (+0.07)"],
-      "overestimates": ["uncertainty (-0.06)"],
-      "well_calibrated": ["engagement (~0)", "coherence (~0)", "clarity (~0.05)", "context (~0.03)"]
+    {
+      "evidence_level": "15",
+      "beliefs": 260,
+      "avg_variance": 0.009903,
+      "reduction_factor": "5x"
     },
-    "noetic_artifact_totals": {
-      "findings": 2696,
-      "unknowns": 428,
-      "dead_ends": 56,
-      "mistakes": 46,
-      "lessons": 9,
-      "reflexes": 1957
+    {
+      "evidence_level": "40",
+      "beliefs": 484,
+      "avg_variance": 0.004054,
+      "reduction_factor": "12x"
+    },
+    {
+      "evidence_level": "87",
+      "beliefs": 611,
+      "avg_variance": 0.001628,
+      "reduction_factor": "31x"
+    },
+    {
+      "evidence_level": "175+",
+      "beliefs": 4196,
+      "avg_variance": 0.000466,
+      "reduction_factor": "107x"
     }
+  ],
+  "artifact_counts": {
+    "artifact_goals": 469,
+    "artifact_project_findings": 2102,
+    "artifact_dead_ends": 51,
+    "artifact_mistakes": 38,
+    "artifact_project_unknowns": 419,
+    "artifact_reflexes": 2357,
+    "artifact_cascades": 616,
+    "artifact_epistemic_snapshots": 683
   },
-  "growth_since_last_extraction": {
-    "previous_date": "2026-01-13",
-    "bayesian_beliefs": "+2346 (1838 → 4184, +128%)",
-    "cascades": "+176 (216 → 392, +81%)",
-    "epistemic_snapshots": "+330 (51 → 381, +647%)",
-    "project_findings": "+575 (1374 → 1949, +42%)",
-    "goals": "+53 (278 → 331)",
-    "new_tables": ["subtasks (1026)", "reflexes (1957)", "grounded_beliefs (16)", "grounded_verifications (5)", "verification_evidence (16)", "calibration_trajectory (50)", "session_mistakes (7)"],
-    "note": "Session count decreased (849→638) likely due to DB cleanup of orphaned/test sessions"
-  },
-  "dual_track_calibration": {
-    "track1_self_referential": "bayesian_beliefs (4184 observations) — PREFLIGHT→POSTFLIGHT learning trajectory",
-    "track2_grounded": "grounded_beliefs (16 observations) — POSTFLIGHT vs objective post-test evidence",
-    "note": "Track 2 is new in v1.5.0 and has limited data so far"
+  "file_row_counts": {
+    "sessions/sessions.csv": 792,
+    "calibration/cascades.csv": 616,
+    "calibration/bayesian_beliefs.csv": 5759,
+    "calibration/calibration_convergence.csv": 5759,
+    "calibration/calibration_convergence_summary.csv": 13,
+    "sessions/epistemic_snapshots.csv": 683,
+    "sessions/learning_deltas_clean.csv": 456,
+    "sessions/goals.csv": 469,
+    "sessions/subtasks.csv": 831,
+    "sessions/handoff_reports.csv": 39,
+    "sessions/lessons.csv": 9,
+    "findings/reflexes.csv": 2357,
+    "findings/project_findings.csv": 2102,
+    "findings/session_findings.csv": 2102,
+    "findings/dead_ends.csv": 51,
+    "findings/mistakes.csv": 27,
+    "findings/session_mistakes.csv": 11,
+    "unknowns/project_unknowns.csv": 419,
+    "unknowns/session_unknowns.csv": 419,
+    "grounded/grounded_beliefs.csv": 1190,
+    "grounded/grounded_verifications.csv": 288,
+    "grounded/verification_evidence.csv": 1498,
+    "grounded/calibration_trajectory.csv": 2157
   }
 }

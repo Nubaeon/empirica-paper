@@ -20,7 +20,7 @@ An alternative interpretation: capability is fixed, but self-assessment improves
 
 Under this view, PREFLIGHT assessments are systematically conservative (perhaps due to RLHF training), and task engagement provides evidence that corrects this conservatism.
 
-Self-assessment data alone cannot definitively distinguish these interpretations. However, the grounded verification track (\Cref{tab:grounded-gaps}) provides evidence: KNOW shows a gap of only $-$0.052 between self-assessed and evidence-derived values, and DO and COMPLETION are both within 0.05 of grounded evidence, suggesting POSTFLIGHT self-assessment for capability vectors tracks objective outcomes accurately. The magnitude of the learning delta (+0.200 average for KNOW, +0.704 for COMPLETION), the 93.6\% improvement rate across 267 clean sessions, and the 115$\times$ reduction in calibration variance (\Cref{sec:results}) collectively suggest more than mere assessment correction.
+Self-assessment data alone cannot definitively distinguish these interpretations. However, the grounded verification track (\Cref{tab:grounded-gaps}) provides evidence: KNOW shows a gap of only +0.008 between self-assessed and evidence-derived values, suggesting POSTFLIGHT self-assessment for the central knowledge vector tracks objective outcomes accurately. DO and COMPLETION show slight overestimation (+0.067 and +0.038 respectively), while IMPACT shows substantial overestimation (+0.625), indicating that self-assessment quality varies by vector. The magnitude of the learning delta (+0.114 average for KNOW, +0.601 for COMPLETION), the 83.3\% improvement rate across 456 clean learning pairs, and the 107$\times$ reduction in calibration variance (\Cref{sec:results}) collectively suggest more than mere assessment correction.
 
 \subsubsection{The Pragmatic View}
 
@@ -77,7 +77,7 @@ This objection assumes the wrong incentive structure. In the Empirica framework,
 
     \item \textbf{Measurement, not prediction}: The framework measures what happened (learning delta, grounded calibration gap), not what the AI predicted would happen. Even if the AI inflates assessments, the delta and gap computations reveal the true calibration state.
 
-    \item \textbf{No optimization target}: Unlike RLHF, which provides an explicit reward signal the model can learn to exploit, the CASCADE workflow does not train the model. Vectors are instruction-following outputs, not gradient-optimized parameters. The model has no mechanism to strategically distort assessments across sessions.
+    \item \textbf{No optimization target}: Unlike RLHF, which provides an explicit reward signal the model can learn to exploit, the CASCADE workflow does not train the model. Vectors are instruction-following outputs, not gradient-optimized parameters. Critically, the AI \emph{never sees its previous calibration state}---each transaction begins fresh with the AI measuring its current epistemic state, unaware of historical biases or corrections. Calibration adjustments are applied by the Sentinel, not shown to the AI. The model has no mechanism to strategically distort assessments across sessions because it cannot observe the pattern it would need to game.
 \end{enumerate}
 
 The deeper point is that this framework sidesteps the honesty question entirely. We do not ask the AI to be honest; we measure what it does and compare it to what it said. The grounded track makes gaming detectable even if not preventable.
@@ -109,7 +109,7 @@ This reframes the AI safety question from ``how do we make AI safe?'' to ``how d
 
 \subsubsection{The Engagement Dimension}
 
-The ENGAGEMENT vector---capturing collaborative quality---emerges as potentially important for alignment. Our data shows engagement is already well-calibrated (lowest learning delta at +0.022), suggesting AI systems accurately perceive collaboration quality from the start.
+The ENGAGEMENT vector---capturing collaborative quality---emerges as potentially important for alignment. Our data shows engagement is already well-calibrated (lowest learning delta at +0.010), suggesting AI systems accurately perceive collaboration quality from the start.
 
 This raises an intriguing possibility: engagement could serve as an alignment signal. High engagement correlates with productive human-AI collaboration; low engagement may indicate misalignment, confusion, or adversarial interaction. Further research could explore whether engagement patterns distinguish aligned from misaligned interactions.
 
@@ -137,6 +137,11 @@ Filesystem & Storage layers (SQLite, Qdrant, git notes, YAML) \\
 Boot sequence & SessionStart $\rightarrow$ bootstrap $\rightarrow$ PREFLIGHT \\
 sysctl & Human-tunable thresholds (know\_min, uncertainty\_max) \\
 /proc, sysfs & System dashboard (cognitive subsystem telemetry) \\
+Audit subsystem & Epistemic intent (assumptions, decisions, provenance) \\
+Package manager & Lesson system (installable procedures with prerequisites) \\
+Watchdog timer & Assumption urgency (escalating alerts for unresolved beliefs) \\
+Module loader & Skill extraction (compressed runtime knowledge) \\
+User profiles & Emerged personas (data-driven capability configurations) \\
 \bottomrule
 \end{tabular}
 \caption{Structural mapping between POSIX and Empirica subsystems.}
@@ -157,7 +162,7 @@ The system dashboard implements \texttt{/proc}-equivalent telemetry. Seven subsy
 
 The core architectural principle is separating investigation from action. Stochastic reasoning flows freely during the noetic phase---the AI explores, hypothesizes, and acquires knowledge without constraint. But modification of external state (writing code, editing files, deploying changes) requires passing through a deterministic gate calibrated by objective evidence. This preserves the AI's generative capacity while ensuring that actions are grounded in measured knowledge. The analogy to user/kernel separation is structural: untrusted computation runs in user space; system-modifying operations require a transition through a controlled interface.
 
-This mapping describes deployed infrastructure, not a proposed architecture. The subsystems have been in production for over six months, processing 479,686 observations across 638 sessions (\Cref{tab:deployment-stats}). The framework operates as middleware: it sits between the AI model and the task environment, requiring no modifications to the underlying model or hosting infrastructure. It integrates through standard interfaces (CLI, MCP tool-use server, event hooks) that attach to existing agent frameworks---providing the epistemic management layer that those frameworks currently lack.
+This mapping describes deployed infrastructure, not a proposed architecture. The subsystems have been in production for over six months, processing 1,190,265 observations across 792 sessions (\Cref{tab:deployment-stats}). The framework operates as middleware: it sits between the AI model and the task environment, requiring no modifications to the underlying model or hosting infrastructure. It integrates through standard interfaces (CLI, MCP tool-use server, event hooks) that attach to existing agent frameworks---providing the epistemic management layer that those frameworks currently lack.
 
 This framing explains why all the subsystems must be coherent. An operating system without a memory manager runs until it crashes. An AI framework without context management runs until it hallucinates. An operating system without a security module lets any process access any resource. An AI framework without epistemic gating lets any confidence level trigger any action.
 
@@ -165,17 +170,21 @@ The implication for the broader AI ecosystem is that emerging agent frameworks (
 
 A cognitive operating system manages computational resources---in this case, epistemic resources---so that the system operates within its knowledge bounds. The contribution is infrastructure: measuring information state, routing behavior based on those measurements, and calibrating over time.
 
+\paragraph{Compound Learning Effects}
+
+The learning delta reported in \Cref{sec:results} is not produced by any single mechanism. It is the compound effect of seven interlocking processes (\Cref{sec:learning-pipeline}): contextual injection surfaces prior knowledge at PREFLIGHT, the noetic investigation loop builds understanding under Sentinel enforcement, the cognitive immune system keeps procedural knowledge fresh, lessons accumulate across sessions through persistent storage, epistemic intent tracking maintains belief provenance, grounded verification validates learning against objective evidence, and compaction recovery preserves critical knowledge across context boundaries. These mechanisms reinforce each other: grounded verification improves contextual injection quality; the immune system improves lesson reliability; intent tracking improves provenance for post-hoc analysis. The result is a system where learning compounds across transactions and sessions---without modifying model weights.
+
 \subsection{Limitations}
 
 \subsubsection{Measurement Methodology}
 
 The epistemic vectors are instruction-following outputs---responses to structured prompts like ``rate your knowledge of this task 0--1.'' This is the same mechanism as when an AI estimates confidence, verifies facts, or scores relevance. The limitation is that these outputs require empirical validation: do they correlate with actual capability?
 
-The Bayesian framework provides this validation. Systematic patterns across 479,686 observations demonstrate that these outputs track something real about the system's information state. The grounded verification track validates that self-assessed vectors correlate with objective outcomes for capability dimensions (DO, COMPLETION, KNOW within 0.05 of evidence-derived values). What these measurements reveal about the system's internal processes---and what they do not---is a question this framework is not designed to answer. We report what we observe across the evidence.
+The Bayesian framework provides this validation. Systematic patterns across 1,190,265 observations demonstrate that these outputs track something real about the system's information state. The grounded verification track validates that self-assessed vectors correlate with objective outcomes for some capability dimensions (KNOW within 0.008 of evidence-derived values), though others show persistent bias (IMPACT +0.625 overestimation). What these measurements reveal about the system's internal processes---and what they do not---is a question this framework is not designed to answer. We report what we observe across the evidence.
 
 \subsubsection{Model Concentration}
 
-55\% of our evidence derives from Claude (Anthropic). While we observe consistent directional effects across GPT, Gemini, and Qwen, the magnitude of effects may be model-specific.
+The majority of our evidence derives from Claude (Anthropic). While we observe consistent directional effects across GPT, Gemini, and Qwen, the magnitude of effects may be model-specific.
 
 The calibration corrections we report should be treated as Claude-specific pending cross-model replication.
 
@@ -193,7 +202,7 @@ The epistemic vector framework opens numerous research directions across validat
 
 \subsubsection{External Validation (In Progress)}
 
-External validation---measuring task success against epistemic vectors without relying on self-report---is now partially underway through the grounded verification track (\Cref{tab:grounded-gaps}). Results from 18 verifications and 100 evidence observations show that POST-TEST evidence collection can ground self-assessment in objective outcomes, with coverage averaging 32\% of vectors per session.
+External validation---measuring task success against epistemic vectors without relying on self-report---is now substantially underway through the grounded verification track (\Cref{tab:grounded-gaps}). Results from 1,190 grounded beliefs with 288 post-test verifications show that POST-TEST evidence collection can ground self-assessment in objective outcomes, with 9 of 13 vectors now grounded.
 
 The grounded track represents a first step, but deeper validation remains critical:
 
@@ -253,9 +262,9 @@ Systematic comparison across model families could reveal whether calibration pat
 
 \subsubsection{Multi-Agent Epistemic Coordination (Implemented, Open Research)}
 
-The framework includes multi-agent coordination primitives: goal discovery via git notes (agents can find and resume goals created by other agents), inter-agent messaging, and a parallel orchestrator that spawns domain-specific agents (security, architecture, performance, UX). Goal lineage tracking records which agents touched a goal and when.
+The framework includes multi-agent coordination primitives: goal discovery via git notes (agents can find and resume goals created by other agents), inter-agent messaging, and a parallel orchestrator that spawns domain-specific agents (security, architecture, performance, UX). Goal lineage tracking records which agents touched a goal and when. Subagent governance enforces bounded autonomy: subagents bypass the parent's Sentinel gates (the parent's CHECK already authorized the spawn) but their tool calls are counted as delegated work and added to the parent's transaction budget. An attention budget is checked before spawning, and all agents have configurable turn ceilings to prevent unbounded exploration.
 
-However, these primitives expose unresolved research questions about epistemic coordination:
+Despite these governance mechanisms, unresolved research questions remain about epistemic coordination:
 
 \begin{itemize}
     \item How should epistemic state propagate between collaborating agents? Current goal handoff transfers context but not calibration state.
@@ -313,7 +322,7 @@ In software engineering, grounding relies on test results (pass/fail) and git me
     \item \textbf{Cost per verification is lower}: Checking a citation against a legal database is cheaper per claim than running a test suite against a codebase. More claims verified means higher grounded coverage per session.
 \end{enumerate}
 
-This suggests that the grounded verification track, currently at 32\% coverage in software engineering, could achieve substantially higher coverage in legal domains---potentially grounding 8+ of the 13 vectors with objective evidence.
+This suggests that the grounded verification track, currently grounding 9 of 13 vectors in software engineering, could achieve even higher coverage in legal domains---potentially grounding 10+ of the 13 vectors with objective evidence.
 
 \paragraph{Other Domains}
 
@@ -414,4 +423,4 @@ Production deployment may require lower-latency epistemic assessment:
 
 The epistemic vector framework and its empirical validation suggest that AI self-assessment is meaningful, measurable, and practically useful. The learning delta demonstrates that AI capability genuinely changes during task engagement---supporting the noetic-before-praxic principle.
 
-The limitations are real: limited grounded verification coverage, model concentration, domain specificity. The dual-track calibration system partially addresses the self-referential measurement concern, but full external validation remains incomplete. The framework provides a foundation for systematic investigation of AI epistemic state. We release all data for replication and extension.
+The limitations are real: grounded verification coverage varies by vector (IMPACT less grounded than KNOW), model concentration, domain specificity. The dual-track calibration system partially addresses the self-referential measurement concern, but full external validation remains incomplete. The framework provides a foundation for systematic investigation of AI epistemic state. We release all data for replication and extension.

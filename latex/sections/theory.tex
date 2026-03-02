@@ -116,7 +116,7 @@ The evidence for this principle is the learning delta: systematic capability gro
 
 \subsection{Artifact Taxonomy}
 
-The noetic-praxic distinction extends beyond phases of cognition to the \emph{artifacts} each phase produces. We identify five artifact layers, organized by their role in the epistemic lifecycle:
+The noetic-praxic distinction extends beyond phases of cognition to the \emph{artifacts} each phase produces. We identify seven artifact layers, organized by their role in the epistemic lifecycle:
 
 \begin{table}[h]
 \centering
@@ -124,27 +124,36 @@ The noetic-praxic distinction extends beyond phases of cognition to the \emph{ar
 \toprule
 \textbf{Layer} & \textbf{Term} & \textbf{Contents} \\
 \midrule
-Investigation outputs & Noetic artifacts & findings, unknowns, dead-ends, mistakes, blindspots, lessons \\
+Investigation outputs & Noetic artifacts & findings, unknowns, dead-ends, mistakes, blindspots \\
+Belief management & Epistemic intent & assumptions, decisions, intent edges \\
+Procedural knowledge & Lessons & procedures, prerequisites, corrections, epistemic deltas \\
 Action outputs & Praxic artifacts & goals, subtasks, commits \\
 State measurements & Epistemic state & vectors, calibration, drift, snapshots, deltas \\
 Verification outputs & Grounded evidence & test results, git metrics, artifact ratios \\
 Inputs / reference & Context & sources, documentation, prior knowledge \\
 \bottomrule
 \end{tabular}
-\caption{Artifact taxonomy: five layers organized by role in the epistemic lifecycle.}
+\caption{Artifact taxonomy: seven layers organized by role in the epistemic lifecycle.}
 \label{tab:artifact-taxonomy}
 \end{table}
 
 This taxonomy matters because different artifacts serve different epistemic functions:
 
 \begin{itemize}
-    \item \textbf{Noetic artifacts} are breadcrumbs left during investigation. Six types capture the full investigation record: what was learned (findings), what remains unclear (unknowns), what failed (dead-ends), what went wrong (mistakes), what was consistently missed (blindspots, identified through grounded verification gaps), and what endures across sessions (lessons, durable insights subject to decay when contradicted by new evidence). These persist across sessions and accumulate into institutional memory.
+    \item \textbf{Noetic artifacts} are breadcrumbs left during investigation. Five types capture the investigation record: what was learned (findings), what remains unclear (unknowns), what failed (dead-ends), what went wrong (mistakes), and what was consistently missed (blindspots, identified through grounded verification gaps). These persist across sessions and accumulate into institutional memory.
+
+    \item \textbf{Epistemic intent} captures the belief layer that mediates between investigation and action. Three artifact types serve this role. \emph{Assumptions} are unverified beliefs logged with confidence scores; their urgency increases with age ($\text{urgency} = \min(1.0,\; \frac{\text{age\_days}}{30} \times (1 - \text{confidence}))$), ensuring that unresolved beliefs surface with increasing priority at each PREFLIGHT. \emph{Decisions} are permanent audit-trail choice points recording what was chosen, why, and with what reversibility (exploratory, committal, or forced). \emph{Intent edges} track provenance---which noetic artifacts informed which praxic outcomes---enabling post-hoc analysis of what investigation actually led to what action.
+
+    \item \textbf{Lessons} constitute the procedural knowledge layer. Unlike noetic artifacts (which record what happened), lessons are executable procedures extracted from successful patterns: structured as steps with prerequisites, corrections, and expected epistemic deltas (the vector changes a lesson should produce when applied). Lessons persist across sessions through the COLD storage layer (git notes, YAML) and are retrievable via semantic search at PREFLIGHT. They are subject to the \emph{cognitive immune system}: when new findings contradict existing lessons, the lesson's confidence is reduced by 0.05 per semantically similar finding (floor at 0.3). Lessons are antibodies; findings are antigens. This prevents stale procedural knowledge from dominating decision-making.
+
     \item \textbf{Praxic artifacts} are the products of action---code committed, goals completed, subtasks resolved. They serve dual purposes: as task deliverables and as objective evidence for grounded verification. The separation from noetic artifacts is deliberate: noetic artifacts record the process of understanding, praxic artifacts record the products of action. This enables the framework to measure learning independently of output.
+
     \item \textbf{Epistemic state} is the measurement layer---vectors captured at PREFLIGHT and POSTFLIGHT, calibration corrections, drift detection. These are transient snapshots that enable delta computation.
+
     \item \textbf{Grounded evidence} is collected automatically at POST-TEST. It anchors self-assessment in objective outcomes, providing the calibration signal that closes the feedback loop.
 \end{itemize}
 
-The complete measurement cycle---an \textbf{epistemic transaction}---produces artifacts from all layers: PREFLIGHT captures epistemic state, investigation produces noetic artifacts, execution produces praxic artifacts, POSTFLIGHT captures updated state, and POST-TEST collects grounded evidence. The transaction is the atomic unit of calibration.
+The complete measurement cycle---an \textbf{epistemic transaction}---produces artifacts from all seven layers: PREFLIGHT captures epistemic state, investigation produces noetic artifacts and epistemic intent, lessons are retrieved and may be updated, execution produces praxic artifacts, POSTFLIGHT captures updated state, and POST-TEST collects grounded evidence. The transaction is the atomic unit of calibration.
 
 \subsection{Computational Epistemology}
 
@@ -235,4 +244,4 @@ The theoretical framework rests on three claims:
     \item \textbf{Learning is measurable}: The delta between PREFLIGHT and POSTFLIGHT assessments captures genuine knowledge acquisition during task execution.
 \end{enumerate}
 
-These claims are empirically testable. \Cref{sec:results} presents evidence from 479,686 observations across 638 sessions.
+These claims are empirically testable. \Cref{sec:results} presents evidence from 1,190,265 observations across 792 sessions.

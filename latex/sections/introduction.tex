@@ -41,7 +41,7 @@ If noetic precedes praxic---if investigation precedes action---then a measurable
 
 An AI that begins a task with partial knowledge, investigates, and builds understanding will assess its own epistemic state differently at task-end than at task-start. The difference between these assessments---the \emph{learning delta}---measures genuine knowledge acquisition.
 
-We present evidence from 479,686 observations across 638 sessions showing exactly this pattern. Across all 13 epistemic dimensions we track, AI systems show systematic confidence growth during task execution:
+We present evidence from 1,190,265 observations across 792 sessions showing exactly this pattern. Across all 13 epistemic dimensions we track, AI systems show systematic confidence growth during task execution:
 
 \begin{table}[h]
 \centering
@@ -49,32 +49,32 @@ We present evidence from 479,686 observations across 638 sessions showing exactl
 \toprule
 \textbf{Phase} & \textbf{Mean Capability Assessment} \\
 \midrule
-Pre-task (PREFLIGHT) & 0.663 \\
-Post-task (POSTFLIGHT) & 0.863 \\
-\textbf{Learning Delta} & \textbf{+0.200} \\
+Pre-task (PREFLIGHT) & 0.647 \\
+Post-task (POSTFLIGHT) & 0.809 \\
+\textbf{Learning Delta} & \textbf{+0.162} \\
 \bottomrule
 \end{tabular}
-\caption{Learning delta across 267 clean sessions.}
+\caption{Learning delta across 456 clean learning pairs (mean of 12 capability vectors).}
 \label{tab:learning-delta-intro}
 \end{table}
 
-Filtering to 267 clean sessions (excluding default assessments and incomplete workflows), \textbf{93.6\% showed knowledge improvement}. This is not calibration error being corrected. This is learning being measured.
+Filtering to 456 clean learning pairs (excluding default assessments and incomplete workflows), \textbf{83.3\% showed knowledge improvement}. This is not calibration error being corrected. This is learning being measured.
 
 \subsection{Empirica: Epistemic Infrastructure for AI}
 
 We introduce \textbf{Empirica}, a framework that operationalizes noetic-before-praxic through four mechanisms:
 
 \begin{enumerate}
-    \item \textbf{Epistemic Vectors}: A 13-dimensional representation of AI self-assessed cognitive state, covering knowledge (KNOW), uncertainty (UNCERTAINTY), engagement (ENGAGEMENT), and 10 additional dimensions derived from computational epistemology.
+    \item \textbf{Epistemic Vectors}: A 13-dimensional representation of AI self-assessed cognitive state organized into four tiers. \emph{Foundation Knowledge} (KNOW, DO, CONTEXT) captures what the AI knows, what it can execute, and what environment it operates in. \emph{Comprehension} (CLARITY, COHERENCE, SIGNAL, DENSITY) captures how well it understands the task. \emph{Execution Readiness} (STATE, CHANGE, COMPLETION, IMPACT) captures how prepared it is to act. A \emph{Meta-Layer} (ENGAGEMENT, UNCERTAINTY) captures collaborative quality and awareness of limitations. Together, these tiers measure the completeness and quality of the AI's task-specific interpretation---not raw capability, but grounded understanding.
 
-    \item \textbf{Epistemic Gates}: Decision points that evaluate whether the AI has sufficient knowledge to proceed. Gates enforce investigation when knowledge is low, preventing premature action.
+    \item \textbf{Epistemic Gates}: Decision points that evaluate the full vector space to determine whether the AI has sufficient knowledge to proceed. Gates enforce investigation when knowledge is incomplete, preventing premature action. The gate is calibration-aware: learned bias corrections adjust raw self-assessments before evaluation.
 
-    \item \textbf{The CASCADE Workflow}: A 4-phase loop---PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST---that captures epistemic state before and after task execution, measures learning, and calibrates future assessments through dual-track Bayesian updates.
+    \item \textbf{The CASCADE Workflow}: A 4-phase loop---PREFLIGHT $\rightarrow$ CHECK $\rightarrow$ POSTFLIGHT $\rightarrow$ POST-TEST---that captures epistemic state before and after task execution, measures learning across all vectors, and calibrates future assessments through dual-track Bayesian updates.
 
-    \item \textbf{Grounded Verification}: Post-test evidence collection that compares self-assessed epistemic state against objective outcomes (test results, git metrics, goal completion), anchoring calibration in what actually happened rather than further self-report.
+    \item \textbf{Grounded Verification}: Post-test evidence collection that compares self-assessed epistemic state against objective outcomes (test results, git metrics, goal completion), anchoring calibration in what actually happened rather than further self-report. Currently 9 of 13 vectors are grounded in objective evidence.
 \end{enumerate}
 
-Together, these mechanisms transform AI from an execution layer into a \textbf{learning system}---one that investigates before acting, measures its own knowledge acquisition, and improves through epistemic feedback.
+Together, these mechanisms transform AI from an execution layer into a \textbf{learning system}---one that investigates before acting, measures its own knowledge acquisition across all epistemic dimensions, and improves through feedback grounded in objective outcomes.
 
 \subsection{Contributions}
 
@@ -83,9 +83,9 @@ This paper makes the following contributions:
 \begin{enumerate}
     \item \textbf{Conceptual}: We articulate the noetic-before-praxic principle and argue that treating AI as an execution layer is a category error that produces systematic failures.
 
-    \item \textbf{Empirical}: We present 479,686 observations demonstrating that AI capability genuinely increases during task execution through investigation---the learning delta is real, not an artifact of assessment correction. 93.6\% of clean sessions show knowledge improvement.
+    \item \textbf{Empirical}: We present 1,190,265 observations demonstrating that AI capability genuinely increases during task execution---not through any single mechanism, but through a pipeline of seven interlocking processes: contextual injection, structured investigation, a cognitive immune system, persistent procedural knowledge, epistemic intent tracking, grounded verification, and compaction recovery. 83.3\% of clean learning pairs show knowledge improvement.
 
-    \item \textbf{Practical}: We introduce Empirica, an open-source framework implementing epistemic gates, self-assessment vectors, and calibration loops. The framework is production-tested across 638 sessions.
+    \item \textbf{Practical}: We introduce Empirica, an open-source framework implementing epistemic gates, a 7-layer artifact taxonomy, four-layer memory architecture (HOT/WARM/SEARCH/COLD), semantic retrieval, procedural knowledge (lessons), and dual-track calibration. The framework is production-tested across 792 sessions. Importantly, this is a \emph{living system that calibrates through its own operation}---the data we report reflects a production calibration loop, not a static benchmark.
 
     \item \textbf{Theoretical}: We develop a computational epistemology for AI systems---a formal theory of how information-processing agents can assess and manage their own knowledge state.
 \end{enumerate}
