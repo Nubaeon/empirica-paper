@@ -6,13 +6,15 @@ The central empirical finding---unified confidence growth across all 13 epistemi
 
 \subsubsection{The Grounded Interpretation}
 
-Our preferred interpretation: the delta measures the construction of a \textbf{grounded interpretation}. When an AI receives a complex prompt, its initial interpretation may be superficial, ambiguous, or wrong. Investigation doesn't make the AI ``smarter''---it grounds the AI's understanding in actual evidence: the code that actually exists, the context that actually applies, the requirements the user actually has.
+Our preferred interpretation: the delta measures the construction of a \textbf{grounded interpretation} through \textbf{externalized epistemic scaffolding}. When an AI receives a complex prompt, its initial interpretation may be superficial, ambiguous, or wrong. Investigation doesn't change the model's weights or make it inherently ``smarter''---it externalizes the noetic process into structured artifacts (findings, unknowns, dead-ends, assumptions, decisions) that ground the AI's understanding in actual evidence: the code that actually exists, the context that actually applies, the requirements the user actually has.
 
-The PREFLIGHT $\rightarrow$ POSTFLIGHT delta is not the AI becoming more capable. It is the AI's interpretation becoming more complete and grounded. A model that acts on its initial interpretation of ``fix the authentication bug'' may misunderstand which bug, which authentication system, or what ``fix'' means in this codebase. The same model, after investigation, has replaced assumptions with evidence.
+The PREFLIGHT $\rightarrow$ POSTFLIGHT delta is not the model becoming more capable. It is the \emph{scaffolding} becoming more complete. A model that acts on its initial interpretation of ``fix the authentication bug'' may misunderstand which bug, which authentication system, or what ``fix'' means in this codebase. The same model, after investigation, has replaced assumptions with evidence---but that evidence lives in the external epistemic layer (findings logged, unknowns resolved, context retrieved), not in changed model weights. The 13 epistemic vectors measure the completeness of this externalized interpretation, not the model's internal state.
 
-This interpretation is supported by the structure of the CASCADE workflow. AI systems that reach POSTFLIGHT have necessarily engaged with the task---reading files, exploring code, synthesizing information. This engagement doesn't change the model's internal weights, but it changes what the model \emph{knows about this specific task}. The 13 epistemic vectors measure the completeness of this task-specific interpretation.
+This distinction is critical. When we report that ``AI capability genuinely increases during task execution,'' we mean \emph{effective capability}---the compound of static model weights plus the growing external knowledge infrastructure. The model's latent capability is fixed; what changes is the scaffolding's accumulated knowledge about \emph{this specific task in this specific context}. The framework externalizes the noesis (investigation process) and its epistemic artifacts (what was discovered, what failed, what remains uncertain) so that the scaffolding---not the model---does the heavy lifting of knowledge management.
 
-Critically, this learning persists beyond the session. Empirica implements an external memory architecture that stores findings, patterns, dead-ends, and calibration data. Future sessions retrieve this context at PREFLIGHT, creating a closed-loop system where task-specific learning compounds over time. The model's weights are static; the model's effective knowledge---augmented by persistent external memory---grows with each session.
+This interpretation is supported by the structure of the CASCADE workflow. AI systems that reach POSTFLIGHT have necessarily engaged with the task---reading files, exploring code, synthesizing information---and those engagements are captured as persistent artifacts. The learning pipeline (\Cref{sec:learning-pipeline}) ensures these artifacts compound: findings decay stale lessons, intent edges track provenance, semantic retrieval surfaces prior knowledge. The result is that \emph{effective capability} grows with each session, even though model weights remain fixed.
+
+Critically, this learning persists beyond the session through the four-layer memory architecture (HOT/WARM/SEARCH/COLD). Future sessions retrieve accumulated context at PREFLIGHT, creating a closed-loop system where externalized knowledge compounds over time. The model contributes stochastic reasoning; the scaffolding contributes structured memory, calibration corrections, and epistemic gating. Neither is sufficient alone.
 
 \subsubsection{The Calibration Interpretation}
 
@@ -32,9 +34,9 @@ The framework produces value regardless of which interpretation is correct.
 
 \subsubsection{Against the Execution-Layer Model}
 
-The data argues against treating AI systems as stateless execution layers. The significant learning delta suggests that task engagement fundamentally changes the AI's effective capability. Systems that skip investigation---that proceed directly from task specification to output---forfeit this capability growth.
+The data argues against treating AI systems as stateless execution layers. The significant learning delta suggests that task engagement---mediated by external epistemic scaffolding---fundamentally changes the AI's effective capability even though model weights remain static. Systems that skip investigation forfeit the externalized knowledge that scaffolding accumulates during exploration.
 
-For complex tasks, the execution-layer model may be fundamentally unsuited. AI systems may need to be designed as \emph{learning systems} that investigate before acting.
+For complex tasks, the execution-layer model may be fundamentally unsuited. AI systems may need to be designed as \emph{scaffolded learning systems} where the model provides stochastic reasoning and the framework provides structured knowledge management, calibration, and epistemic gating.
 
 \subsubsection{Epistemic Gating as Safety Mechanism}
 
@@ -54,7 +56,7 @@ The dual-track calibration system creates a reinforcing cycle between self-asses
 
 \begin{enumerate}
     \item The AI assesses its epistemic state (PREFLIGHT)
-    \item Investigation produces genuine capability growth (noetic phase)
+    \item Investigation produces genuine effective capability growth (noetic phase)
     \item Self-assessment captures the learning (POSTFLIGHT)
     \item Objective evidence grounds the self-assessment (POST-TEST)
     \item Calibration corrections improve future assessments
@@ -184,9 +186,7 @@ The Bayesian framework provides this validation. Systematic patterns across 1,19
 
 \subsubsection{Model Concentration}
 
-The majority of our evidence derives from Claude (Anthropic). While we observe consistent directional effects across GPT, Gemini, and Qwen, the magnitude of effects may be model-specific.
-
-The calibration corrections we report should be treated as Claude-specific pending cross-model replication.
+Our evidence derives almost exclusively from Claude (Anthropic). While the framework is model-agnostic by design---any model capable of structured self-assessment can participate in the CASCADE workflow---the calibration corrections, bias patterns, and quantitative results reported here should be treated as Claude-specific. Whether other models exhibit similar conservatism patterns, learning deltas, or calibration convergence rates is an open empirical question requiring systematic cross-model replication.
 
 \subsubsection{Task Distribution}
 
@@ -421,6 +421,6 @@ Production deployment may require lower-latency epistemic assessment:
 
 \subsection{Summary}
 
-The epistemic vector framework and its empirical validation suggest that AI self-assessment is meaningful, measurable, and practically useful. The learning delta demonstrates that AI capability genuinely changes during task engagement---supporting the noetic-before-praxic principle.
+The epistemic vector framework and its empirical validation suggest that AI self-assessment is meaningful, measurable, and practically useful. The learning delta demonstrates that effective AI capability---model weights plus externalized epistemic scaffolding---genuinely changes during task engagement, supporting the noetic-before-praxic principle.
 
 The limitations are real: grounded verification coverage varies by vector (IMPACT less grounded than KNOW), model concentration, domain specificity. The dual-track calibration system partially addresses the self-referential measurement concern, but full external validation remains incomplete. The framework provides a foundation for systematic investigation of AI epistemic state. We release all data for replication and extension.

@@ -16,16 +16,27 @@ The raw dataset contains 5,759 Bayesian belief updates across 792 sessions with 
 
 After filtering: 1,190,265 evidence observations across 456 clean learning pairs from 234 sessions. \textbf{No pairs were excluded based on outcome}---both improving and non-improving pairs are included. The 234 sessions represent 30\% of total sessions; the remaining either used default priors or had incomplete PREFLIGHT$\rightarrow$POSTFLIGHT cycles.
 
-\subsubsection{Bayesian Belief Updating}
+\subsubsection{Two Measurement Systems}
 
-For each vector, we maintain a Bayesian belief about the AI's epistemic state, updated via conjugate normal-normal inference. The prior ($\mu_0$) is set from PREFLIGHT self-assessment; observations accumulate through task execution; the posterior reflects the updated belief at POSTFLIGHT.
+The framework maintains two distinct measurement systems that serve different purposes:
 
-The \textbf{learning delta} for each vector is:
+\paragraph{Learning Delta (per-session):} For each epistemic transaction, the \textbf{learning delta} measures raw vector change within a single session:
+
 \begin{equation}
-\Delta_i = \mu_{\text{posterior}} - \mu_{\text{prior}}
+\Delta_i = V_{i,\text{POSTFLIGHT}} - V_{i,\text{PREFLIGHT}}
 \end{equation}
 
-Positive delta indicates the vector value \emph{increased} during task execution (confidence growth). For UNCERTAINTY, which operates on an inverted scale, a \emph{negative} delta (uncertainty decreasing) also indicates confidence growth.
+This is a direct comparison of the AI's self-assessed vectors before and after task execution. Positive delta indicates confidence growth; for UNCERTAINTY (inverted scale), negative delta indicates confidence growth. The learning delta answers: \emph{how much did the AI's self-assessed knowledge change during this transaction?}
+
+\paragraph{Bayesian Calibration (cross-session):} Separately, the framework maintains Bayesian beliefs about each vector's typical behavior, updated via conjugate normal-normal inference at each POSTFLIGHT. The prior is initialized from the AI's historical belief state; the POSTFLIGHT self-assessment serves as a new observation. The posterior reflects the updated belief incorporating this latest evidence.
+
+\begin{equation}
+\mu_{\text{posterior}} = \frac{\sigma^2_{\text{obs}} \cdot \mu_{\text{prior}} + \sigma^2_{\text{prior}} \cdot V_{\text{POSTFLIGHT}}}{\sigma^2_{\text{prior}} + \sigma^2_{\text{obs}}}
+\end{equation}
+
+The Bayesian system answers a different question: \emph{what are the systematic biases in self-assessment, and how should future assessments be corrected?} As evidence accumulates across sessions, belief variance decreases, producing tighter calibration corrections (\Cref{tab:calibration-convergence}).
+
+\paragraph{Relationship:} The learning delta feeds the Bayesian system---each POSTFLIGHT observation updates the beliefs---but they measure different things. The delta captures within-session change; the beliefs capture cross-session calibration. Table~\ref{tab:learning-analysis} reports Bayesian belief means (prior and posterior) aggregated across all clean learning pairs, with the delta column representing the difference between these aggregated beliefs. These values closely approximate the mean per-session learning deltas because the Bayesian priors are anchored by PREFLIGHT assessments.
 
 \subsection{Results}
 
@@ -50,7 +61,7 @@ engagement & 456 & 0.855 & 0.865 & +0.010 & $\approx$ Stable \\
 uncertainty & 648 & 0.298 & 0.191 & $-$0.106 & $\downarrow$ Decrease \\
 \bottomrule
 \end{tabular}
-\caption{PREFLIGHT $\rightarrow$ POSTFLIGHT Learning Analysis (N=456 clean learning pairs, 1,190,265 cumulative evidence observations)}
+\caption{Bayesian belief means across 456 clean learning pairs (1,190,265 cumulative evidence observations). Prior reflects belief state anchored by PREFLIGHT assessments; Posterior reflects updated beliefs incorporating POSTFLIGHT observations. Delta approximates mean per-session learning.}
 \label{tab:learning-analysis}
 \end{table}
 
@@ -329,7 +340,7 @@ Several limitations constrain interpretation:
 
     \item \textbf{Selection effects}: The 456 clean learning pairs (from 234 sessions, 30\% of total) are those with complete PREFLIGHT$\rightarrow$POSTFLIGHT workflows and non-default priors. Sessions with incomplete workflows or default assessments were excluded for methodological reasons (learning delta requires both endpoints), not outcome-based selection. However, sessions that completed the full workflow may systematically differ from those that did not.
 
-    \item \textbf{Learning trajectory vs capability beliefs}: The learning delta measures task-specific epistemic change \emph{within} a single session (PREFLIGHT $\rightarrow$ POSTFLIGHT). This is fundamentally different from \emph{capability beliefs}---stable estimates of what the AI can generally accomplish across tasks. We measure how knowledge changes during task execution; we do not measure stable underlying capability. The ``capability vectors'' terminology used throughout this paper refers to the 12 non-uncertainty vectors (KNOW, DO, CONTEXT, etc.), not to claims about fixed AI capabilities. The Bayesian system tracks learning trajectories per-session; aggregating these into cross-session capability estimates would require different methodology and interpretation.
+    \item \textbf{Learning trajectory vs Bayesian calibration}: The framework maintains two separate measurement systems (\Cref{sec:results}). The \emph{learning delta} measures raw vector change within a single transaction (POSTFLIGHT $-$ PREFLIGHT). The \emph{Bayesian belief system} maintains cross-session calibration by treating each POSTFLIGHT as an observation that updates a running belief state. Table~\ref{tab:learning-analysis} reports Bayesian belief means, which closely approximate mean per-session deltas but are not identical to them. The ``capability vectors'' terminology used throughout this paper refers to the 12 non-uncertainty vectors (KNOW, DO, CONTEXT, etc.), not to claims about fixed AI capabilities. These vectors measure task-specific interpretation quality---how complete and grounded the AI's understanding is for a given task---not stable underlying model capability. Model weights remain fixed; what changes is the external scaffolding's accumulated knowledge about systematic biases.
 \end{enumerate}
 
 \subsection{Implications}

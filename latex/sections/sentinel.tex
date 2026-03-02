@@ -183,9 +183,9 @@ The COMPLETION vector shows the largest correction---AI systems dramatically und
 
 \subsection{Configuration}
 
-\subsubsection{Threshold Tuning}
+\subsubsection{Domain-Specific Configuration}
 
-Gate thresholds can be adjusted for different risk tolerances:
+The thresholds reported in this paper (KNOW $\geq$ 0.70, UNCERTAINTY $\leq$ 0.35) are our production defaults for software engineering tasks. These are not universal constants---they are domain-dependent parameters that must be tuned to the risk profile and feedback characteristics of each application domain:
 
 \begin{table}[h]
 \centering
@@ -199,9 +199,13 @@ Exploration & 0.50 & 0.50 & Learning is the goal \\
 Safety-critical & 0.90 & 0.15 & Cannot afford errors \\
 \bottomrule
 \end{tabular}
-\caption{Domain-specific threshold configurations.}
+\caption{Domain-specific threshold configurations. Production defaults (KNOW $\geq$ 0.70, UNCERTAINTY $\leq$ 0.35) are for software engineering; other domains require calibration to local risk profiles.}
 \label{tab:domain-thresholds}
 \end{table}
+
+\paragraph{Extensible Vector Space}
+
+The 13 epistemic vectors described in this paper constitute a base set validated for software engineering. Different domains may require \emph{extended vectors} that capture domain-specific epistemic dimensions. For example, legal domains might add PRECEDENT\_COVERAGE and JURISDICTIONAL\_CONFIDENCE; medical domains might add CONTRAINDICATION\_AWARENESS. The framework's architecture supports additional vectors---the Sentinel evaluates whatever vectors are present in the submitted assessment, and the Bayesian calibration system tracks each vector independently. Domain-specific vectors would accumulate their own calibration history and correction terms.
 
 \subsubsection{Override Mechanisms}
 
@@ -316,11 +320,28 @@ Well-calibrated ($>$ 10) & Extended & Full corrections, relaxed thresholds \\
 
 An AI system that consistently demonstrates accurate self-assessment---where grounded verification confirms that self-reports match outcomes---earns the right to more autonomous operation. An AI whose self-reports diverge from evidence has its autonomy tightened.
 
-\subsubsection{Auto-POSTFLIGHT}
+\subsubsection{Adaptive Autonomy Nudges}
 
-In the current workflow, POSTFLIGHT is explicitly triggered. As the system matures, automatic triggers become possible: when COMPLETION and IMPACT vectors exceed thresholds (indicating the AI judges its work complete and significant), the system can auto-trigger POSTFLIGHT without human intervention. The grounded verification track then validates whether this self-assessed completion matches objective evidence.
+An earlier version of the framework experimented with automatic POSTFLIGHT triggers (auto-POSTFLIGHT) and automatic CHECK submissions (auto-CHECK). Both were removed because they create perverse incentives: if the AI knows that high COMPLETION triggers automatic measurement, it can game the vector to control when measurement occurs. More fundamentally, automatic PREFLIGHT and POSTFLIGHT would break the calibration system---these are measurement boundaries that must reflect genuine self-assessment, not automated triggers.
 
-This creates a path toward safe autonomous operation: the AI manages its own epistemic lifecycle (PREFLIGHT $\rightarrow$ work $\rightarrow$ auto-POSTFLIGHT $\rightarrow$ POST-TEST), with the grounded track serving as an automated supervisor that detects miscalibration.
+Instead, the Sentinel implements \textbf{adaptive nudges}: informational signals that suggest POSTFLIGHT based on transaction length relative to the AI's historical patterns. The system tracks the AI's average tool-call count across its last 20 POSTFLIGHT records and computes nudge thresholds:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Ratio to Average} & \textbf{Nudge Level} & \textbf{Message} \\
+\midrule
+$\geq 1.0\times$ & Info & ``Past average. Natural POSTFLIGHT point.'' \\
+$\geq 1.5\times$ & Warning & ``Consider POSTFLIGHT soon.'' \\
+$\geq 2.0\times$ & Strong & ``POSTFLIGHT strongly recommended.'' \\
+\bottomrule
+\end{tabular}
+\caption{Adaptive POSTFLIGHT nudge thresholds. Nudges are informational---the AI decides when to close the transaction based on work coherence, not the nudge level.}
+\label{tab:nudge-thresholds}
+\end{table}
+
+These nudges are advisory, not enforced. The AI retains agency over when to close a transaction, preserving the integrity of the measurement boundary. Delegated subagent tool calls are counted toward the parent's total, ensuring that heavy delegation also triggers appropriate nudges. This approach balances autonomy with measurement discipline: transactions that run too long lose measurement fidelity, but the decision to close remains with the AI.
 
 \subsubsection{Bootstrap-Before-CHECK}
 
@@ -342,4 +363,4 @@ The Sentinel protocol implements epistemic gating:
     \item \textbf{Configurable}: Thresholds adjustable for different domains and risk tolerances.
 \end{enumerate}
 
-The empirical result: calibrated gating reduces error rates by more than 50\% compared to raw self-assessment. The learning delta (\Cref{sec:results}) shows that investigation produces genuine capability growth---the gate doesn't just prevent bad outputs; it enables good ones.
+The empirical result: calibrated gating reduces error rates by more than 50\% compared to raw self-assessment. The learning delta (\Cref{sec:results}) shows that investigation produces genuine growth in effective capability---the externalized scaffolding captures and compounds what the AI discovers. The gate doesn't just prevent bad outputs; it enables good ones.

@@ -359,14 +359,15 @@ empirica preflight-submit -    # Baseline assessment
 empirica check-submit -        # Sentinel gate: PROCEED or INVESTIGATE
 empirica postflight-submit -   # Learning delta + auto POST-TEST
 
-# Knowledge management
-empirica finding-log --session-id ... --finding "..." --impact 0.8
-empirica unknown-log --session-id ... --unknown "..."
+# Knowledge management (session_id auto-derived from active transaction)
+empirica finding-log --finding "..." --impact 0.8
+empirica unknown-log --unknown "..."
+empirica deadend-log --approach "..." --why-failed "..."
+empirica assumption-log --assumption "..." --confidence 0.6
 
-# Dual-track calibration
-empirica calibration-report --ai-id claude-code            # Track 1
-empirica calibration-report --ai-id claude-code --grounded  # Track 2
-empirica calibration-report --ai-id claude-code --trajectory # Trend
+# Calibration (default: grounded = POSTFLIGHT vs objective evidence)
+empirica calibration-report                     # Grounded (Track 2)
+empirica calibration-report --learning-trajectory  # Deltas (Track 1)
 \end{lstlisting}
 
 \subsection{Integration Patterns}
@@ -403,15 +404,17 @@ COLD & Git notes + YAML & Millisecond & Versioned, portable \\
 
 HOT memory is the AI's active context window---ephemeral and lost on compaction. WARM memory stores structured data (sessions, cascades, beliefs, goals, findings) in per-project SQLite databases. SEARCH memory provides semantic retrieval across four Qdrant collections: \emph{docs} (reference documentation), \emph{memory} (project artifacts), \emph{eidetic} (facts with confidence scores), and \emph{episodic} (session narratives with temporal decay). COLD memory archives artifacts in git notes and YAML files, making them version-controlled, portable, and accessible without a running database.
 
-\subsubsection{Contextual Injection at PREFLIGHT}
+\subsubsection{Contextual Injection at PREFLIGHT and CHECK}
 
-At PREFLIGHT, before the AI has investigated the current task, the framework retrieves calibration-relevant context from the SEARCH layer. Retrieval is ranked by:
+Context retrieval occurs at two points in the CASCADE workflow, using different strategies.
+
+\paragraph{PREFLIGHT retrieval} surfaces prior knowledge before the AI has investigated the current task. The framework queries both the SEARCH layer (Qdrant vector embeddings for semantic similarity) and the WARM layer (SQLite structured queries for goals, assumptions, and decisions). Semantic retrieval is ranked by:
 
 \begin{equation}
 \text{rank} = \text{impact} \times \text{type\_confidence} \times \text{recency\_decay}
 \end{equation}
 
-\noindent where recency follows a 24-hour half-life, ensuring critical recent knowledge surfaces first while older context decays naturally. This serves four functions:
+\noindent where recency follows a 24-hour half-life. This serves four functions:
 
 \begin{enumerate}
     \item \textbf{Pattern warnings}: Prior sessions with similar tasks and poor calibration scores surface as warnings (e.g., ``In session X with a similar task, you overestimated COMPLETION by +0.30'').
@@ -420,11 +423,25 @@ At PREFLIGHT, before the AI has investigated the current task, the framework ret
     \item \textbf{Assumption surfacing}: Unresolved assumptions with high urgency appear at PREFLIGHT, ensuring unverified beliefs cannot be indefinitely deferred.
 \end{enumerate}
 
-POSTFLIGHT vectors, findings, and calibration outcomes are automatically embedded into the SEARCH layer, creating a growing corpus of episodic calibration memory. Cross-project global learnings can also be retrieved, enabling knowledge transfer between distinct projects. This enables the system to learn not just aggregate bias corrections (Bayesian beliefs) but also \emph{context-sensitive} corrections---recognizing that calibration accuracy varies by task type, domain, and complexity.
+\paragraph{CHECK retrieval} (NOETIC RAG) occurs when the AI submits to the Sentinel gate. Unlike PREFLIGHT, CHECK retrieval includes \emph{calibration corrections}---bias adjustments from the Bayesian belief system---alongside patterns, findings, and goals. This enriches the proceed/investigate decision with calibration-aware context: the gate evaluates not just the AI's current self-assessment but how that assessment compares to historical accuracy for similar tasks.
+
+\paragraph{Embedding and persistence.} POSTFLIGHT vectors, findings, and calibration outcomes are automatically embedded into the SEARCH layer, creating a growing corpus of episodic calibration memory. Cross-project global learnings can also be retrieved, enabling knowledge transfer between distinct projects. This enables the system to learn not just aggregate bias corrections (Bayesian beliefs) but also \emph{context-sensitive} corrections---recognizing that calibration accuracy varies by task type, domain, and complexity.
 
 \subsubsection{Compaction Recovery}
 
-When the AI's context window is compressed (a routine event in long-running sessions), the framework recovers context using epistemically weighted selection rather than chronological ordering. The recovery process detects whether the previous transaction completed (full loop) or was interrupted (mid-transaction), then reconstructs the most valuable context: high-impact findings, unresolved unknowns, active goals, and the transaction file needed for Sentinel continuity. This enables sessions that span compaction boundaries without catastrophic knowledge loss.
+Context compression is routine in long-running AI sessions and represents a critical threat to epistemic continuity. Without recovery, a compacted session loses its accumulated knowledge---findings, unknowns, calibration state, transaction boundaries---and the AI effectively starts from zero.
+
+Empirica's compaction recovery uses epistemically weighted selection rather than chronological ordering. The process has three stages:
+
+\begin{enumerate}
+    \item \textbf{Phase detection}: The framework determines whether the previous transaction completed (full PREFLIGHT $\rightarrow$ POSTFLIGHT loop) or was interrupted mid-transaction. Mid-transaction recovery must reconstruct the transaction file so the Sentinel can resume gating correctly.
+
+    \item \textbf{Artifact selection}: Artifacts are ranked by epistemic weight ($\text{impact} \times \text{type\_confidence} \times \text{recency\_decay}$) and selected within a token budget. High-impact findings, unresolved unknowns, active goals, and open assumptions are prioritized. Low-impact context is shed. This ensures the AI resumes with its most valuable epistemic state, not merely its most recent context.
+
+    \item \textbf{State reconstruction}: The active transaction file, Sentinel phase state, and calibration corrections are reconstructed from the WARM layer, restoring the AI's position in the CASCADE workflow. Without this, the Sentinel would lose track of whether the AI is in a noetic or praxic phase.
+\end{enumerate}
+
+This is particularly critical for autonomous workflows where sessions may span multiple compaction boundaries without human intervention. Each compaction cycle is an opportunity for epistemic degradation; recovery transforms it into a natural pruning event that preserves critical knowledge while shedding noise.
 
 \subsubsection{Cognitive Immune System}
 
@@ -452,7 +469,7 @@ Primary AI & Claude (Anthropic) \\
 \label{tab:deployment-stats}
 \end{table}
 
-Cross-validation has been performed on GPT, Gemini, and Qwen models. The data presented in \Cref{sec:results} derives from this production deployment.
+The data presented in \Cref{sec:results} derives almost exclusively from Claude (Anthropic). Initial cross-validation sessions have been performed on GPT, Gemini, and Qwen models, confirming framework compatibility but not generating sufficient data for independent analysis. Model concentration is a known limitation (\Cref{sec:discussion}).
 
 \subsection{Extended Subsystems}
 
