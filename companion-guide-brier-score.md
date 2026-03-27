@@ -80,7 +80,7 @@ The question is no longer "Is this AI aligned?" but "Has this AI demonstrated ac
 
 ---
 
-**Citation:** Van Assche, D. S. L., & Schwinger, P. (2026). *Empirica: Epistemic Measurement for AI Agents.* Zenodo. https://doi.org/10.5281/zenodo.XXXXXXX
+**Citation:** Van Assche, D. S. L., & Schwinger, P. (2026). *Empirica: Epistemic Measurement for AI Agents.* Zenodo. https://doi.org/10.5281/zenodo.19252052
 
 **Code:** https://github.com/Nubaeon/empirica (MIT License)
 
